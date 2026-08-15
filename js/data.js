@@ -93,7 +93,6 @@ const portfolioData = {
 
   experience: [
     {
-      company: "NIC ASIA BANK LTD.",
       role: "Officer – Digital Transformation / Internal Developer",
       period: "June 2020 – Present",
       location: "Kathmandu, Nepal",
@@ -109,16 +108,15 @@ const portfolioData = {
       tags: ["Digital Banking", "Payment Gateway", "Core Switch", "Audit Automation", "Government Revenue"]
     },
     {
-      company: "URANUS TECH NEPAL PVT. LTD.",
       role: "Senior ASP.NET Developer / Team Leader",
       period: "2017 – 2020",
       location: "Kathmandu, Nepal",
       technologies: ["ASP.NET", "C#", "SQL Server", "Xamarin", "SQLite", "Web APIs"],
       highlights: [
         "Led engineering team through full software lifecycle: solution design, technical research, development documentation, and sprint delivery.",
-        "Architected Uranus Microfinance, delivering complete loan origination, ledger accounting, and branch reconciliation modules.",
-        "Engineered Uranus 2FA (Two-Factor Authentication) security system to safeguard enterprise transactions.",
-        "Developed Uranus Customer App & Uranus BLB (Branchless Banking) mobile applications using Xamarin and SQLite local caching.",
+        "Architected Microfinance Banking Solutions, delivering complete loan origination, ledger accounting, and branch reconciliation modules.",
+        "Engineered Enterprise 2FA (Two-Factor Authentication) security system to safeguard enterprise transactions.",
+        "Developed Customer Banking & Branchless Banking (BLB) mobile applications using Xamarin and SQLite local caching.",
         "Engineered scalable Web APIs connecting distributed mobile field devices to centralized SQL Server databases."
       ],
       tags: ["Microfinance", "Team Leadership", "2FA Security", "Mobile Banking", "Branchless Banking"]

@@ -157,18 +157,6 @@
   .modal-header {
     padding: 1rem 1.25rem;
   }
-
-  .cv-header-layout {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .cv-header-main h2,
-  .cv-header-main .cv-titles,
-  .cv-header-main .cv-contact-row {
-    text-align: center;
-    justify-content: center;
-  }
 }
 
 /* Small Phones (Max-width: 480px) */
@@ -214,7 +202,7 @@
   }
 }
 
-/* Print Media Styles (Optimized for Download CV / Printing) */
+/* Print Media Styles */
 @media print {
   body {
     background: #FFFFFF !important;
@@ -252,21 +240,5 @@
     max-width: 100% !important;
     max-height: none !important;
     overflow: visible !important;
-  }
-
-  .cv-viewer-container {
-    color: #000000 !important;
-  }
-
-  .cv-avatar-photo {
-    width: 80px !important;
-    height: 80px !important;
-    border: 2px solid #000000 !important;
-    box-shadow: none !important;
-  }
-
-  .cv-section-title {
-    color: #0284C7 !important;
-    border-bottom: 1px solid #CCCCCC !important;
   }
 }

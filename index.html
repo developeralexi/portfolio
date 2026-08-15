@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
+  <!-- Force HTTPS and upgrade insecure requests -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <script>
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https:' + window.location.href.substring(window.location.protocol.length));
+    }
+  </script>
+  
   <!-- Primary SEO Meta Tags -->
   <title>Alexi Dhungel | Computer Engineer | Software Developer | Java Instructor</title>
   <meta name="title" content="Alexi Dhungel | Computer Engineer | Software Developer | Java Instructor" />
   <meta name="description" content="Portfolio of Alexi Dhungel, Computer Engineer, Software Developer, Java Instructor and Digital Banking Technology Professional specializing in software development, APIs, integrations, automation and financial technology." />
-  <meta name="keywords" content="Alexi Dhungel, Computer Engineer Nepal, Digital Banking Developer, Java Instructor, Code With Alexi, NIC ASIA Bank Developer, Uranus Tech Nepal, .NET Developer, FinTech Engineer, Software Architecture Nepal" />
+  <meta name="keywords" content="Alexi Dhungel, Computer Engineer Nepal, Digital Banking Developer, Java Instructor, Code With Alexi, .NET Developer, FinTech Engineer, Software Architecture Nepal" />
   <meta name="author" content="Alexi Dhungel, Er." />
   <meta name="robots" content="index, follow" />
 
@@ -44,10 +52,6 @@
     "name": "Alexi Dhungel",
     "honorificPrefix": "Er.",
     "jobTitle": "Computer Engineer & Digital Banking Technology Professional",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "NIC ASIA BANK LTD."
-    },
     "hasCredential": [
       {
         "@type": "EducationalOccupationalCredential",
@@ -111,27 +115,14 @@
         <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
-      <!-- Action Buttons (Theme Toggle, CV, Mobile Hamburger) -->
+      <!-- Action Buttons (Theme Toggle, Mobile Hamburger) -->
       <div class="nav-actions">
         <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
           <span id="theme-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </span>
-        </button>
-
-        <button class="btn btn-cv btn-sm" onclick="ModalController.showCvModal()" aria-label="View Printable CV">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <span>View CV</span>
         </button>
 
         <button id="mobile-menu-toggle" class="menu-toggle-btn" aria-label="Open Navigation Menu">
@@ -184,10 +175,6 @@
               <span>Contact Me</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             </a>
-            <button class="btn btn-cv btn-lg" onclick="ModalController.showCvModal()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              <span>Download CV</span>
-            </button>
           </div>
         </div>
 
@@ -353,7 +340,7 @@
             I am a licensed <strong>Computer Engineer (Er.)</strong> with more than <strong>8 years of experience</strong> in software development, Java programming, digital financial services, enterprise banking systems, API integrations, automation, and academic instruction.
           </p>
           <p>
-            Throughout my career at premier institutions like <strong>NIC ASIA BANK LTD.</strong> and <strong>URANUS TECH NEPAL</strong>, I have spearheaded the design and implementation of mission-critical systems including Loan Management Systems, Automated Auditing engines, Dynamic QR settlement gateways, SSA payment switches, and multi-tier microfinance platforms.
+            Throughout my career across premier commercial banking and enterprise software environments, I have spearheaded the design and implementation of mission-critical systems including Loan Management Systems, Automated Auditing engines, Dynamic QR settlement gateways, SSA payment switches, and multi-tier microfinance platforms.
           </p>
           <p>
             Beyond architecting banking infrastructure, I am deeply committed to education through my platform <strong>Code With Alexi</strong>, delivering comprehensive instruction and mentorship in Advanced Java, OOP, and enterprise architectures.
@@ -437,10 +424,10 @@
                 </div>
               </div>
               <div class="about-card-actions">
-                <button class="btn btn-primary btn-sm" onclick="ModalController.showCvModal()" style="width: 100%;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                  <span>View Complete Curriculum Vitae</span>
-                </button>
+                <a href="#contact" class="btn btn-primary btn-sm" style="width: 100%;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>Get In Touch</span>
+                </a>
               </div>
             </div>
           </div>
@@ -755,7 +742,6 @@
           <ul class="footer-links-list">
             <li><a href="#articles">Code With Alexi Hub</a></li>
             <li><a href="#education">Engineering License</a></li>
-            <li><a href="javascript:void(0)" onclick="ModalController.showCvModal()">Curriculum Vitae</a></li>
             <li><a href="mailto:ingr.alexi@gmail.com">Direct Consultation</a></li>
           </ul>
         </div>
@@ -801,21 +787,6 @@
         </button>
       </div>
       <div id="article-modal-body" class="modal-body">
-        <!-- Injected dynamically -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Full Formatted Printable CV Modal -->
-  <div id="cv-viewer-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title">
-    <div class="modal-content-container" style="max-width: 900px;">
-      <div class="modal-header">
-        <h3 id="cv-modal-title" style="font-size: 1.3rem; font-weight: 800;">Curriculum Vitae — Alexi Dhungel, Er.</h3>
-        <button class="modal-close-btn" onclick="ModalController.close()" aria-label="Close dialog">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div id="cv-modal-body" class="modal-body">
         <!-- Injected dynamically -->
       </div>
     </div>

@@ -36,15 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function initTheme() {
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
   const storedTheme = localStorage.getItem("theme");
-  const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   
-  const initialTheme = storedTheme || (systemPrefersDark ? "dark" : "dark");
+  const initialTheme = storedTheme || "light";
   document.documentElement.setAttribute("data-theme", initialTheme);
   updateThemeIcon(initialTheme);
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener("click", () => {
-      const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+      const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
       const newTheme = currentTheme === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
@@ -205,10 +204,6 @@ function renderExperience() {
           <div class="timeline-header">
             <div class="timeline-role-info">
               <h3>${exp.role}</h3>
-              <div class="company-badge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 3l9 7H3z"/></svg>
-                ${exp.company}
-              </div>
             </div>
             <div class="timeline-period">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
