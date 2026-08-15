@@ -1,0 +1,20 @@
+{
+  "name": "alexi-dhungel-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio of Alexi Dhungel, Er. - Computer Engineer & Digital Banking Technology Professional",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "portfolio",
+    "alexi-dhungel",
+    "computer-engineer",
+    "fintech",
+    "java"
+  ],
+  "author": "Alexi Dhungel, Er.",
+  "license": "MIT"
+}

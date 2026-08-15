@@ -1,0 +1,272 @@
+/* ==========================================================================
+   RESPONSIVE STYLES & PRINT MEDIA
+   Alexi Dhungel, Er. — Portfolio
+   ========================================================================== */
+
+/* Tablet & Smaller Desktops (Max-width: 1024px) */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-badge-container {
+    justify-content: center;
+  }
+
+  .hero-subtitle-role {
+    justify-content: center;
+  }
+
+  .hero-cta-group {
+    justify-content: center;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .expertise-grid,
+  .teaching-grid,
+  .articles-grid,
+  .education-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .stat-card:nth-child(2) {
+    border-right: none;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Tablets & Mobile Screens (Max-width: 768px) */
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 68px;
+    --container-padding: 1.25rem;
+  }
+
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    background: var(--bg-glass-heavy);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-medium);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.25rem;
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform var(--transition-normal), opacity var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-links.mobile-active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .menu-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expertise-grid,
+  .teaching-grid,
+  .articles-grid,
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group-row {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-item {
+    padding-left: 50px;
+  }
+
+  .timeline-line {
+    left: 18px;
+  }
+
+  .timeline-node {
+    left: 7px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.25rem;
+  }
+
+  .stat-card:last-child {
+    border-bottom: none;
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+  }
+
+  .modal-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .cv-header-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cv-header-main h2,
+  .cv-header-main .cv-titles,
+  .cv-header-main .cv-contact-row {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Small Phones (Max-width: 480px) */
+@media (max-width: 480px) {
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .about-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .about-photo-wrapper {
+    height: 250px;
+  }
+
+  .avatar-card-wrapper {
+    padding: 1.5rem 1rem;
+  }
+
+  .avatar-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .contact-form-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .toast-container {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .toast {
+    max-width: 100%;
+  }
+}
+
+/* Print Media Styles (Optimized for Download CV / Printing) */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  body::before,
+  .navbar,
+  .theme-toggle-btn,
+  .menu-toggle-btn,
+  .hero-cta-group,
+  .terminal-container,
+  .projects-filter-tabs,
+  .skills-filter-container,
+  .contact-form-card,
+  .footer,
+  .toast-container,
+  .back-to-top-btn,
+  .modal-header .modal-close-btn,
+  .no-print {
+    display: none !important;
+  }
+
+  .modal-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .modal-content-container {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .cv-viewer-container {
+    color: #000000 !important;
+  }
+
+  .cv-avatar-photo {
+    width: 80px !important;
+    height: 80px !important;
+    border: 2px solid #000000 !important;
+    box-shadow: none !important;
+  }
+
+  .cv-section-title {
+    color: #0284C7 !important;
+    border-bottom: 1px solid #CCCCCC !important;
+  }
+}
