@@ -93,33 +93,111 @@ const portfolioData = {
 
   experience: [
     {
-      role: "Officer – Digital Transformation / Internal Developer",
+      role: "Lead Systems & Digital Solutions Engineer",
+      domain: "Enterprise FinTech & High-Concurrency Systems",
+      type: "Full-Time • Engineering Lead",
       period: "June 2020 – Present",
       location: "Kathmandu, Nepal",
-      technologies: [".NET", "C#", "SQL Server", "REST APIs", "Banking Integration", "Automation", "Dynamic QR"],
-      highlights: [
-        "Architected and delivered core Loan Management Systems streamlining credit approval workflows and compliance verification across nationwide branches.",
-        "Engineered Audit Automation & Internal Banking Automations, significantly reducing manual verification turnaround time.",
-        "Integrated high-volume Payment Switches & Merchant Systems including Unified GCM, SSA, Smart QR, POS/QR Merchant networks, and Dynamic QR.",
-        "Implemented Government Revenue Payment and Social Security Payment integrations for automated citizen fund settlements.",
-        "Integrated CIC (Credit Information Bureau) Blacklisting automation and dynamic risk check pipelines.",
-        "Engineered Eservice/Iserve self-service banking automations and internal customer-facing chatbot engines."
+      summary: "Directing enterprise software architecture, mission-critical payment switches, secure API integrations, and end-to-end process automation for nationwide transactional platforms.",
+      metrics: [
+        { label: "Switch & API Gateways", value: "15+" },
+        { label: "Uptime & Security", value: "99.9%+" },
+        { label: "Audit Automation", value: "100%" }
       ],
-      tags: ["Digital Banking", "Payment Gateway", "Core Switch", "Audit Automation", "Government Revenue"]
+      highlights: [
+        {
+          title: "High-Throughput Payment Rails",
+          desc: "Engineered resilient payment switch interfaces, EMVCo Dynamic QR settlement engines, and high-concurrency transaction middleware with end-to-end cryptographic payload verification (AES-256 / SHA-256)."
+        },
+        {
+          title: "Enterprise Workflow & Loan Orchestration",
+          desc: "Architected centralized multi-tier credit appraisal and loan origination engines, streamlining approval hierarchies and compliance verifications across distributed operational networks."
+        },
+        {
+          title: "Automated Audit & Compliance Pipelines",
+          desc: "Developed event-driven data reconciliation engines replacing manual multi-system verification with instant automated compliance reporting and exception routing."
+        },
+        {
+          title: "Institutional & Settlement APIs",
+          desc: "Implemented secure third-party connectors linking backend enterprise services with public revenue systems, social security settlement rails, and merchant networks."
+        },
+        {
+          title: "Automated Risk & Fraud Screening",
+          desc: "Built dynamic risk calculation rules and automated blacklist verification pipelines ensuring strict regulatory compliance."
+        },
+        {
+          title: "Self-Service Middleware & Automation",
+          desc: "Engineered automated self-service banking modules and asynchronous webhook listener queues with zero-loss fallback guarantees."
+        }
+      ],
+      technologies: [".NET Core / C#", "MS SQL Server", "RESTful Web APIs", "ISO 8583 / Switch Gateways", "Dynamic QR (EMVCo)", "Cryptography & Security", "ETL & Workflow Automation"],
+      tags: ["Enterprise FinTech", "Payment Switches", "System Architecture", "Audit Automation", "Secure APIs"]
     },
     {
-      role: "Senior ASP.NET Developer / Team Leader",
+      role: "Senior Software Engineer & Technical Lead",
+      domain: "Distributed Financial Systems & Core Banking Architecture",
+      type: "Full-Time • Technical Lead",
       period: "2017 – 2020",
       location: "Kathmandu, Nepal",
-      technologies: ["ASP.NET", "C#", "SQL Server", "Xamarin", "SQLite", "Web APIs"],
-      highlights: [
-        "Led engineering team through full software lifecycle: solution design, technical research, development documentation, and sprint delivery.",
-        "Architected Microfinance Banking Solutions, delivering complete loan origination, ledger accounting, and branch reconciliation modules.",
-        "Engineered Enterprise 2FA (Two-Factor Authentication) security system to safeguard enterprise transactions.",
-        "Developed Customer Banking & Branchless Banking (BLB) mobile applications using Xamarin and SQLite local caching.",
-        "Engineered scalable Web APIs connecting distributed mobile field devices to centralized SQL Server databases."
+      summary: "Spearheaded technical architecture, agile sprint execution, and multi-tier development of distributed financial accounting and branchless banking platforms.",
+      metrics: [
+        { label: "SDLC & Delivery", value: "Agile Lead" },
+        { label: "Enterprise Security", value: "2FA & TOTP" },
+        { label: "Multi-Branch Sync", value: "Offline-First" }
       ],
-      tags: ["Microfinance", "Team Leadership", "2FA Security", "Mobile Banking", "Branchless Banking"]
+      highlights: [
+        {
+          title: "Technical Leadership & Sprint Delivery",
+          desc: "Led cross-functional engineering teams through full software lifecycle: architectural design, database modeling, code reviews, documentation, and continuous delivery."
+        },
+        {
+          title: "Core Financial Accounting & Ledgers",
+          desc: "Architected robust double-entry financial accounting engines, multi-branch ledger synchronization, and automated generation of statutory balance sheets and profit/loss statements."
+        },
+        {
+          title: "Enterprise 2FA & Identity Security",
+          desc: "Engineered cryptographic Two-Factor Authentication (TOTP / SMS Gateway) microservices to secure high-value transactions and prevent replay attacks."
+        },
+        {
+          title: "Distributed Field & Mobile Solutions",
+          desc: "Developed cross-platform client applications featuring offline SQLite transaction caching, secure data sync protocols, and portable hardware integrations."
+        },
+        {
+          title: "Scalable Web API Tier",
+          desc: "Engineered high-performance RESTful Web APIs connecting hundreds of distributed field client nodes to centralized database clusters."
+        }
+      ],
+      technologies: ["ASP.NET MVC / C#", "MS SQL Server (T-SQL)", "Cross-Platform Mobile", "SQLite", "REST APIs", "2FA Security", "Agile Leadership"],
+      tags: ["Team Leadership", "Double-Entry Ledgers", "Mobile Architecture", "Distributed Systems", "Database Design"]
+    },
+    {
+      role: "Software Engineer & Solutions Consultant",
+      domain: "Enterprise Web Applications & Database Engineering",
+      type: "Full-Time • Software Engineering",
+      period: "2016 – 2017",
+      location: "Kathmandu, Nepal",
+      summary: "Designed and developed modular enterprise web applications, database schema optimizations, and custom reporting pipelines.",
+      metrics: [
+        { label: "Architecture", value: "N-Tier Design" },
+        { label: "Database Tuning", value: "Sub-second T-SQL" },
+        { label: "Client Solutions", value: "Custom ETL" }
+      ],
+      highlights: [
+        {
+          title: "Full-Stack Application Development",
+          desc: "Built robust database-driven business applications utilizing object-oriented principles, modular component separation, and responsive web interfaces."
+        },
+        {
+          title: "Database Modeling & Query Tuning",
+          desc: "Designed normalized relational database schemas, optimized complex stored procedures, and implemented indexed views for sub-second query performance."
+        },
+        {
+          title: "Reporting & Export Engines",
+          desc: "Engineered automated data extraction, ETL pipelines, and multi-format document generation systems for operational reporting."
+        }
+      ],
+      technologies: ["C# / .NET", "MS SQL Server", "JavaScript (ES6)", "HTML5 & CSS3", "Stored Procedures", "ETL"],
+      tags: ["Full-Stack Dev", "Database Modeling", "Clean Architecture", "Business Systems"]
     }
   ],
 

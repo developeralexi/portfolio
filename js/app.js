@@ -198,32 +198,104 @@ function renderExperience() {
   container.innerHTML = `
     <div class="timeline-line"></div>
     ${portfolioData.experience.map((exp, index) => `
-      <div class="timeline-item reveal reveal-delay-${index + 1}">
-        <div class="timeline-node"></div>
+      <div class="timeline-item reveal reveal-delay-${(index % 3) + 1}">
+        <div class="timeline-node">
+          <span class="timeline-node-inner"></span>
+        </div>
         <div class="timeline-card">
+          <!-- Card Top Bar: Role & Meta -->
           <div class="timeline-header">
             <div class="timeline-role-info">
-              <h3>${exp.role}</h3>
+              <div class="timeline-badges-row">
+                <span class="timeline-domain-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                  ${exp.domain || "Enterprise Systems"}
+                </span>
+                ${exp.type ? `<span class="timeline-type-badge">${exp.type}</span>` : ''}
+              </div>
+              <h3 class="timeline-role-title">${exp.role}</h3>
             </div>
-            <div class="timeline-period">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              ${exp.period}
+            
+            <div class="timeline-meta-group">
+              <div class="timeline-period">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                ${exp.period}
+              </div>
+              ${exp.location ? `
+                <div class="timeline-location">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  ${exp.location}
+                </div>
+              ` : ''}
             </div>
           </div>
 
+          <!-- Executive Summary / Scope -->
+          ${exp.summary ? `
+            <div class="timeline-summary">
+              <p>${exp.summary}</p>
+            </div>
+          ` : ''}
+
+          <!-- Impact Metrics Strip -->
+          ${exp.metrics && exp.metrics.length > 0 ? `
+            <div class="timeline-metrics-grid">
+              ${exp.metrics.map(m => `
+                <div class="timeline-metric-item">
+                  <span class="metric-val">${m.value}</span>
+                  <span class="metric-lbl">${m.label}</span>
+                </div>
+              `).join("")}
+            </div>
+          ` : ''}
+
+          <!-- Key Deliverables & Systems Engineered -->
           <div class="timeline-highlights">
-            <h4>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Key Deliverables & Systems Engineered
+            <h4 class="timeline-highlights-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Key Deliverables & Architectural Solutions
             </h4>
-            <div class="highlight-chips">
-              ${exp.highlights.map(h => `<div class="highlight-chip">✔ ${h}</div>`).join("")}
+            <div class="deliverables-grid">
+              ${exp.highlights.map(h => typeof h === 'object' ? `
+                <div class="deliverable-card">
+                  <div class="deliverable-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div class="deliverable-body">
+                    <strong>${h.title}:</strong>
+                    <span>${h.desc}</span>
+                  </div>
+                </div>
+              ` : `
+                <div class="deliverable-card">
+                  <div class="deliverable-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div class="deliverable-body">
+                    <span>${h}</span>
+                  </div>
+                </div>
+              `).join("")}
             </div>
           </div>
 
-          <div class="timeline-tech-stack">
-            <span class="tech-stack-label">Core Technologies:</span>
-            ${exp.technologies.map(t => `<span class="tech-tag">${t}</span>`).join("")}
+          <!-- Core Technologies & Domain Tags -->
+          <div class="timeline-footer">
+            <div class="timeline-tech-stack">
+              <span class="tech-stack-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Core Technologies:
+              </span>
+              <div class="tech-tags-list">
+                ${exp.technologies.map(t => `<span class="tech-tag">${t}</span>`).join("")}
+              </div>
+            </div>
+
+            ${exp.tags && exp.tags.length > 0 ? `
+              <div class="timeline-domain-tags">
+                ${exp.tags.map(tag => `<span class="domain-pill">#${tag}</span>`).join("")}
+              </div>
+            ` : ''}
           </div>
         </div>
       </div>
