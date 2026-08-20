@@ -1,9 +1,82 @@
 /**
- * PORTFOLIO STRUCTURED DATA
- * Alexi Dhungel, Er. — "Code With Alexi"
+ * PORTFOLIO & CMS STRUCTURED DATA
+ * Alexi Dhungel, Er. — "Code With Alexi" Dynamic Content Platform
  */
 
 const portfolioData = {
+  activeProfession: "engineer",
+
+  heroBanner: {
+    coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
+    avatarPhoto: "assets/images/alexi-dhungel.jpg",
+    avatarStyle: "glow",
+    badgeText: "Er. Registered Computer Engineer (2017)",
+    brandBadge: "⚡ Code With Alexi",
+    name: "Alexi Dhungel, Er.",
+    brandName: "Code With Alexi",
+    titles: [
+      "Computer Engineer",
+      "Software Developer",
+      "Digital Banking & FinTech Professional",
+      "Java Instructor",
+      "API & System Integration Developer"
+    ],
+    bioShort: "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge.",
+    bioLong: "Alexi Dhungel is an experienced Computer Engineer with more than 8 years of hands-on expertise in software development, Java programming, digital financial services, enterprise banking systems, API integrations, automation, and academic instruction. Operating at the nexus of high-security banking infrastructure and modern software engineering, he architects resilient systems while empowering the next generation of engineers through rigorous mentorship.",
+    ctaPrimaryText: "View Solutions & Tech",
+    ctaPrimaryLink: "#projects",
+    ctaSecondaryText: "Contact Me",
+    ctaSecondaryLink: "#contact"
+  },
+
+  sectionVisibility: {
+    hero: true,
+    stats: true,
+    videos: true,
+    whatIBuild: true,
+    about: true,
+    experience: true,
+    teaching: true,
+    skills: true,
+    projects: true,
+    articles: true,
+    education: true,
+    contact: true
+  },
+
+  youtubeVideos: [
+    {
+      id: "vid-1",
+      title: "Java Enterprise Architecture & DAO Pattern Deep Dive",
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      youtubeId: "dQw4w9WgXcQ",
+      category: "Java & Architecture",
+      description: "Learn how to build decoupled database access layers in Java using the Data Access Object (DAO) pattern and connection pooling.",
+      customThumbnail: "",
+      active: true
+    },
+    {
+      id: "vid-2",
+      title: "Building Secure Payment Switches & EMVCo Dynamic QR Engines",
+      videoUrl: "https://www.youtube.com/watch?v=L_LUpnjgPso",
+      youtubeId: "L_LUpnjgPso",
+      category: "FinTech & Payments",
+      description: "A technical overview of high-throughput financial switches, AES-256 payload signing, and EMVCo Dynamic QR invoice generators.",
+      customThumbnail: "",
+      active: true
+    },
+    {
+      id: "vid-3",
+      title: "Automating Financial Audits & SQL Server Performance Tuning",
+      videoUrl: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
+      youtubeId: "3JZ_D3ELwOQ",
+      category: "Database & Automation",
+      description: "How to engineer zero-discrepancy reconciliation pipelines for high-volume banking transaction databases.",
+      customThumbnail: "",
+      active: true
+    }
+  ],
+
   personal: {
     name: "Alexi Dhungel, Er.",
     titles: [
@@ -19,30 +92,43 @@ const portfolioData = {
     linkedin: "https://www.linkedin.com/in/alexi-dhungel-01b65b146/",
     github: "https://github.com/",
     youtube: "https://youtube.com/",
+    twitter: "https://x.com/",
+    instagram: "https://instagram.com/",
+    facebook: "https://facebook.com/",
+    whatsapp: "+9779800000000",
+    location: "Kathmandu, Nepal",
     bioShort: "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge.",
     bioLong: "Alexi Dhungel is an experienced Computer Engineer with more than 8 years of hands-on expertise in software development, Java programming, digital financial services, enterprise banking systems, API integrations, automation, and academic instruction. Operating at the nexus of high-security banking infrastructure and modern software engineering, he architects resilient systems while empowering the next generation of engineers through rigorous mentorship."
   },
 
   stats: [
     {
+      id: "stat-1",
       value: "8+",
       label: "Years Engineering Experience",
-      icon: "code"
+      icon: "code",
+      active: true
     },
     {
+      id: "stat-2",
       value: "15+",
       label: "Banking & Payment Integrations",
-      icon: "bank"
+      icon: "bank",
+      active: true
     },
     {
+      id: "stat-3",
       value: "3+",
       label: "Instruction Domains & Curriculums",
-      icon: "graduation"
+      icon: "graduation",
+      active: true
     },
     {
+      id: "stat-4",
       value: "100%",
       label: "Enterprise Reliability Focus",
-      icon: "shield"
+      icon: "shield",
+      active: true
     }
   ],
 
@@ -52,47 +138,54 @@ const portfolioData = {
       title: "Enterprise Applications",
       description: "Scalable, mission-critical software architectures designed for complex real-world business operations and regulatory compliance.",
       icon: "layers",
-      tags: [".NET", "C#", "SQL Server", "Architecture"]
+      tags: [".NET", "C#", "SQL Server", "Architecture"],
+      active: true
     },
     {
       id: "banking-technology",
       title: "Banking Technology",
       description: "High-security digital banking switches, loan management workflows, merchant POS systems, and dynamic payment settlement solutions.",
       icon: "landmark",
-      tags: ["Dynamic QR", "Switch Integrations", "Security", "FinTech"]
+      tags: ["Dynamic QR", "Switch Integrations", "Security", "FinTech"],
+      active: true
     },
     {
       id: "api-integrations",
       title: "API & System Integration",
       description: "Resilient RESTful APIs and secure third-party connectors linking banking backends to government, utility, and switch networks.",
       icon: "network",
-      tags: ["REST APIs", "OAuth2", "Webhooks", "JSON/XML"]
+      tags: ["REST APIs", "OAuth2", "Webhooks", "JSON/XML"],
+      active: true
     },
     {
       id: "system-automation",
       title: "System Automation",
       description: "Transforming manual, repetitive business processes and compliance audits into efficient, event-driven digital workflows.",
       icon: "cpu",
-      tags: ["Audit Automation", "Workflow Engines", "ETL", "Cron Services"]
+      tags: ["Audit Automation", "Workflow Engines", "ETL", "Cron Services"],
+      active: true
     },
     {
       id: "java-applications",
       title: "Java Applications",
       description: "Core Java, Advanced Java, multi-tier enterprise systems, JDBC data layers, Servlets, and modular object-oriented components.",
       icon: "coffee",
-      tags: ["Core Java", "JDBC", "Design Patterns", "JavaFX"]
+      tags: ["Core Java", "JDBC", "Design Patterns", "JavaFX"],
+      active: true
     },
     {
       id: "technical-education",
       title: "Technical Education",
       description: "Demystifying complex software engineering concepts, OOP, and data access through practical real-world lab demonstrations.",
       icon: "book-open",
-      tags: ["OOP", "Mentoring", "Clean Code", "Workshops"]
+      tags: ["OOP", "Mentoring", "Clean Code", "Workshops"],
+      active: true
     }
   ],
 
   experience: [
     {
+      id: "exp-1",
       role: "Lead Systems & Digital Solutions Engineer",
       domain: "Enterprise FinTech & High-Concurrency Systems",
       type: "Full-Time • Engineering Lead",
@@ -116,24 +209,14 @@ const portfolioData = {
         {
           title: "Automated Audit & Compliance Pipelines",
           desc: "Developed event-driven data reconciliation engines replacing manual multi-system verification with instant automated compliance reporting and exception routing."
-        },
-        {
-          title: "Institutional & Settlement APIs",
-          desc: "Implemented secure third-party connectors linking backend enterprise services with public revenue systems, social security settlement rails, and merchant networks."
-        },
-        {
-          title: "Automated Risk & Fraud Screening",
-          desc: "Built dynamic risk calculation rules and automated blacklist verification pipelines ensuring strict regulatory compliance."
-        },
-        {
-          title: "Self-Service Middleware & Automation",
-          desc: "Engineered automated self-service banking modules and asynchronous webhook listener queues with zero-loss fallback guarantees."
         }
       ],
       technologies: [".NET Core / C#", "MS SQL Server", "RESTful Web APIs", "ISO 8583 / Switch Gateways", "Dynamic QR (EMVCo)", "Cryptography & Security", "ETL & Workflow Automation"],
-      tags: ["Enterprise FinTech", "Payment Switches", "System Architecture", "Audit Automation", "Secure APIs"]
+      tags: ["Enterprise FinTech", "Payment Switches", "System Architecture", "Audit Automation", "Secure APIs"],
+      active: true
     },
     {
+      id: "exp-2",
       role: "Senior Software Engineer & Technical Lead",
       domain: "Distributed Financial Systems & Core Banking Architecture",
       type: "Full-Time • Technical Lead",
@@ -153,24 +236,14 @@ const portfolioData = {
         {
           title: "Core Financial Accounting & Ledgers",
           desc: "Architected robust double-entry financial accounting engines, multi-branch ledger synchronization, and automated generation of statutory balance sheets and profit/loss statements."
-        },
-        {
-          title: "Enterprise 2FA & Identity Security",
-          desc: "Engineered cryptographic Two-Factor Authentication (TOTP / SMS Gateway) microservices to secure high-value transactions and prevent replay attacks."
-        },
-        {
-          title: "Distributed Field & Mobile Solutions",
-          desc: "Developed cross-platform client applications featuring offline SQLite transaction caching, secure data sync protocols, and portable hardware integrations."
-        },
-        {
-          title: "Scalable Web API Tier",
-          desc: "Engineered high-performance RESTful Web APIs connecting hundreds of distributed field client nodes to centralized database clusters."
         }
       ],
       technologies: ["ASP.NET MVC / C#", "MS SQL Server (T-SQL)", "Cross-Platform Mobile", "SQLite", "REST APIs", "2FA Security", "Agile Leadership"],
-      tags: ["Team Leadership", "Double-Entry Ledgers", "Mobile Architecture", "Distributed Systems", "Database Design"]
+      tags: ["Team Leadership", "Double-Entry Ledgers", "Mobile Architecture", "Distributed Systems", "Database Design"],
+      active: true
     },
     {
+      id: "exp-3",
       role: "Software Engineer & Solutions Consultant",
       domain: "Enterprise Web Applications & Database Engineering",
       type: "Full-Time • Software Engineering",
@@ -186,23 +259,17 @@ const portfolioData = {
         {
           title: "Full-Stack Application Development",
           desc: "Built robust database-driven business applications utilizing object-oriented principles, modular component separation, and responsive web interfaces."
-        },
-        {
-          title: "Database Modeling & Query Tuning",
-          desc: "Designed normalized relational database schemas, optimized complex stored procedures, and implemented indexed views for sub-second query performance."
-        },
-        {
-          title: "Reporting & Export Engines",
-          desc: "Engineered automated data extraction, ETL pipelines, and multi-format document generation systems for operational reporting."
         }
       ],
       technologies: ["C# / .NET", "MS SQL Server", "JavaScript (ES6)", "HTML5 & CSS3", "Stored Procedures", "ETL"],
-      tags: ["Full-Stack Dev", "Database Modeling", "Clean Architecture", "Business Systems"]
+      tags: ["Full-Stack Dev", "Database Modeling", "Clean Architecture", "Business Systems"],
+      active: true
     }
   ],
 
   teaching: [
     {
+      id: "teach-1",
       expertise: "Java Enterprise & Component Architecture",
       subject: "Object & Component Technology (JavaBeans / GUI / Multi-Tier)",
       period: "Specialized Instruction",
@@ -213,9 +280,11 @@ const portfolioData = {
         "Multi-Tier Enterprise Application Models",
         "Event Delegation Models & Component Lifecycle",
         "Enterprise System Patterns & Industry Best Practices"
-      ]
+      ],
+      active: true
     },
     {
+      id: "teach-2",
       expertise: "Core Java & Object-Oriented Architecture",
       subject: "OOP Design Principles, JDBC Transactions & Servlets",
       period: "Engineering Instruction",
@@ -226,9 +295,11 @@ const portfolioData = {
         "Java Servlets & Web Container Execution Models",
         "Software Design Patterns (Factory, Singleton, DAO)",
         "Production-Grade Java Component Implementation"
-      ]
+      ],
+      active: true
     },
     {
+      id: "teach-3",
       expertise: "Advanced Java & Systems Concurrency",
       subject: "Multi-Threading, Streams, Network & Robust Systems",
       period: "Advanced Instruction",
@@ -239,43 +310,25 @@ const portfolioData = {
         "Socket Programming & Network Communications",
         "Clean Architecture & Defensive Coding Standards",
         "Automated Unit Testing & Robust Exception Handling"
-      ]
+      ],
+      active: true
     }
   ],
 
   skills: [
-    // Programming
-    { name: "Java", category: "programming", level: "Senior / Instructor", icon: "coffee" },
-    { name: "C#", category: "programming", level: "Senior / 8+ Yrs", icon: "code" },
-    { name: ".NET Framework / Core", category: "programming", level: "Senior", icon: "layers" },
-    { name: "JavaScript (ES6+)", category: "programming", level: "Proficient", icon: "terminal" },
-    
-    // Web Development
-    { name: "ASP.NET & MVC", category: "web", level: "Senior", icon: "globe" },
-    { name: "Web API / RESTful Services", category: "web", level: "Expert", icon: "network" },
-    { name: "HTML5 & CSS3", category: "web", level: "Proficient", icon: "layout" },
-    { name: "Modern Vanilla JS", category: "web", level: "Proficient", icon: "code" },
-    
-    // Database
-    { name: "Microsoft SQL Server", category: "database", level: "Senior / DBA Level", icon: "database" },
-    { name: "MySQL", category: "database", level: "Proficient", icon: "database" },
-    { name: "SQLite", category: "database", level: "Proficient", icon: "database" },
-    { name: "T-SQL / Stored Procedures / Indexes", category: "database", level: "Expert", icon: "database" },
-
-    // Enterprise & Integration
-    { name: "Banking System Integration", category: "enterprise", level: "Specialist", icon: "landmark" },
-    { name: "Payment Switch & Dynamic QR", category: "enterprise", level: "Specialist", icon: "qr-code" },
-    { name: "Third-party API Integration", category: "enterprise", level: "Expert", icon: "cpu" },
-    { name: "Authentication & Authorization (OAuth2/JWT)", category: "enterprise", level: "Expert", icon: "shield" },
-    { name: "Cryptography & Data Encryption", category: "enterprise", level: "Senior", icon: "lock" },
-    { name: "Government Revenue / SSA Integrations", category: "enterprise", level: "Specialist", icon: "check-circle" },
-
-    // Development Practices
-    { name: "Git Version Control", category: "practices", level: "Proficient", icon: "git-branch" },
-    { name: "SVN (Subversion)", category: "practices", level: "Experienced", icon: "folder" },
-    { name: "Agile & Scrum Methodology", category: "practices", level: "Team Lead", icon: "users" },
-    { name: "Software Architecture & Design Patterns", category: "practices", level: "Architect", icon: "box" },
-    { name: "System Automation & ETL", category: "practices", level: "Senior", icon: "zap" }
+    { id: "sk-1", name: "Java", category: "programming", level: "Senior / Instructor", icon: "coffee", active: true },
+    { id: "sk-2", name: "C#", category: "programming", level: "Senior / 8+ Yrs", icon: "code", active: true },
+    { id: "sk-3", name: ".NET Framework / Core", category: "programming", level: "Senior", icon: "layers", active: true },
+    { id: "sk-4", name: "JavaScript (ES6+)", category: "programming", level: "Proficient", icon: "terminal", active: true },
+    { id: "sk-5", name: "ASP.NET & MVC", category: "web", level: "Senior", icon: "globe", active: true },
+    { id: "sk-6", name: "Web API / RESTful Services", category: "web", level: "Expert", icon: "network", active: true },
+    { id: "sk-7", name: "HTML5 & CSS3", category: "web", level: "Proficient", icon: "layout", active: true },
+    { id: "sk-8", name: "Microsoft SQL Server", category: "database", level: "Senior / DBA Level", icon: "database", active: true },
+    { id: "sk-9", name: "T-SQL / Stored Procedures / Indexes", category: "database", level: "Expert", icon: "database", active: true },
+    { id: "sk-10", name: "Banking System Integration", category: "enterprise", level: "Specialist", icon: "landmark", active: true },
+    { id: "sk-11", name: "Payment Switch & Dynamic QR", category: "enterprise", level: "Specialist", icon: "qr-code", active: true },
+    { id: "sk-12", name: "Git Version Control", category: "practices", level: "Proficient", icon: "git-branch", active: true },
+    { id: "sk-13", name: "Agile & Scrum Methodology", category: "practices", level: "Team Lead", icon: "users", active: true }
   ],
 
   projects: [
@@ -284,6 +337,7 @@ const portfolioData = {
       title: "Digital Banking & Payment Switch Solutions",
       category: "banking",
       domain: "FinTech Architecture",
+      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop",
       shortDesc: "Resilient middleware and payment switch integration architecture for secure high-concurrency transaction processing and automated reconciliation.",
       fullDesc: "Enterprise-grade digital banking middleware engineered for high-availability transaction processing. Incorporates ISO 8583 and REST switch communication, hardware-backed payload encryption, automated multi-ledger reconciliation, and real-time audit logging.",
       technologies: [".NET Core", "C#", "MS SQL Server", "REST APIs", "ISO 8583", "Dynamic QR", "AES-256", "OAuth2"],
@@ -291,13 +345,15 @@ const portfolioData = {
         "Engineered mission-critical transaction flows with end-to-end cryptographic integrity",
         "Automated multi-system settlement reconciliation and anomaly detection",
         "High-throughput microservices layer connecting banking core to external payment switches"
-      ]
+      ],
+      active: true
     },
     {
       id: "sol-loan-automation",
       title: "Enterprise Workflow & Loan Management Solutions",
       category: "enterprise",
       domain: "Process Automation",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop",
       shortDesc: "End-to-end digital appraisal, configurable multi-tier approval hierarchies, and automated credit bureau inquiry pipelines.",
       fullDesc: "A generalized enterprise workflow and credit lifecycle automation platform. Features configurable role-based approval matrices, credit scoring calculation engines, document verification audit trails, and automated collateral tracking.",
       technologies: [".NET", "C#", "MS SQL Server", "Web API", "Workflow Engines", "ETL Services"],
@@ -305,13 +361,15 @@ const portfolioData = {
         "Streamlined credit origination and approval workflows across nationwide networks",
         "Configurable role-based approval matrices adhering to central bank regulatory standards",
         "Integrated real-time credit bureau and automated risk screening connectors"
-      ]
+      ],
+      active: true
     },
     {
       id: "sol-dynamic-qr",
       title: "Dynamic QR & Merchant Settlement Infrastructure",
       category: "banking",
       domain: "Payment Gateway",
+      image: "https://images.unsplash.com/photo-1556742049-0a67568d049f?q=80&w=1200&auto=format&fit=crop",
       shortDesc: "Payload-driven Dynamic QR generation, asynchronous webhook listeners, and merchant POS settlement integrations.",
       fullDesc: "High-security backend APIs for instant generation and validation of EMVCo-compliant Dynamic QR codes. Supports dynamic invoice binding, cryptographic HMAC signature verification, zero-drop webhook listener queues, and automated batch settlements.",
       technologies: ["C#", "ASP.NET Web API", "EMVCo Standard", "Webhooks", "SHA-256", "MS SQL Server"],
@@ -319,13 +377,15 @@ const portfolioData = {
         "Sub-200ms QR payload generation with SHA-256 digital signature validation",
         "Zero-drop webhook listener architecture with automated exponential retry queues",
         "Direct integration with merchant billing systems and national payment rails"
-      ]
+      ],
+      active: true
     },
     {
       id: "sol-audit-recon",
       title: "Automated Audit & Compliance Reconciliation Engines",
       category: "enterprise",
       domain: "System Automation",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
       shortDesc: "Automated scheduled ingestion, rule-based verification, and zero-discrepancy compliance reporting pipelines.",
       fullDesc: "High-volume data reconciliation architecture engineered to eliminate manual financial auditing. Ingests end-of-day transaction logs from disparate banking subsystems, executes deterministic matching rules, and generates instant compliance dossiers.",
       technologies: ["T-SQL", "MS SQL Server", "C#", "Scheduled Background Services", "ETL Pipelines"],
@@ -333,63 +393,8 @@ const portfolioData = {
         "100% automated audit coverage replacing manual sampling procedures",
         "Sub-minute execution across hundreds of thousands of daily financial records",
         "Automated discrepancy exception routing and compliance audit trails"
-      ]
-    },
-    {
-      id: "sol-security-2fa",
-      title: "Enterprise 2FA & Identity Security Microservices",
-      category: "fintech",
-      domain: "Identity & Cryptography",
-      shortDesc: "Time-based token verification (TOTP), SMS gateways, encryption at rest, and audit tracing to safeguard sensitive operations.",
-      fullDesc: "A dedicated authentication and cryptographic security microservice providing multi-factor authentication, time-window validation, rate limiting, and replay attack prevention for mission-critical financial transactions.",
-      technologies: ["ASP.NET", "C#", "MS SQL Server", "TOTP / SMS Gateway", "OAuth2", "JWT", "AES-256"],
-      highlights: [
-        "Time-window token validation with cryptographic replay prevention",
-        "Multi-channel authentication delivery with fallback mechanisms",
-        "Comprehensive security audit logging satisfying regulatory standards"
-      ]
-    },
-    {
-      id: "sol-mobile-fintech",
-      title: "Mobile FinTech & Offline Data Sync Architecture",
-      category: "fintech",
-      domain: "Mobile Systems",
-      shortDesc: "Distributed field client applications featuring local SQLite caching, offline transactional queuing, and secure API sync.",
-      fullDesc: "Cross-platform mobile client architecture enabling field operations with offline transaction caching, local database synchronization, biometric security, and portable hardware device integration.",
-      technologies: ["Xamarin / Cross-Platform", "C#", "SQLite Local DB", "RESTful Web APIs", "Bluetooth Hardware"],
-      highlights: [
-        "Offline transaction caching with automatic conflict-free synchronization on reconnect",
-        "Thermal printer hardware integration for immediate physical receipts",
-        "Optimized resource footprint with robust local SQLite database encryption"
-      ]
-    },
-    {
-      id: "sol-financial-ledger",
-      title: "Core Financial Accounting & Double-Entry Ledger Systems",
-      category: "fintech",
-      domain: "Ledger Architecture",
-      shortDesc: "High-integrity multi-branch financial accounting engines supporting real-time transaction reconciliation and balance sheet reporting.",
-      fullDesc: "Comprehensive financial accounting core engineered for strict double-entry bookkeeping, multi-branch ledger synchronization, compulsory savings accounting, and automated generation of statutory balance sheets and profit/loss statements.",
-      technologies: ["ASP.NET", "C#", "MS SQL Server", "Stored Procedures", "T-SQL", "Data Replication"],
-      highlights: [
-        "Strict double-entry ledger architecture with transactional consistency guarantees",
-        "Automated generation of statutory balance sheets and trial balances",
-        "Multi-branch replication handling low-bandwidth network environments"
-      ]
-    },
-    {
-      id: "sol-java-enterprise",
-      title: "Java Enterprise & Component Application Systems",
-      category: "enterprise",
-      domain: "Java Architecture",
-      shortDesc: "Multi-tier enterprise systems utilizing DAO design patterns, JDBC connection pooling, and multi-threaded event handlers.",
-      fullDesc: "Modular Java architectures built on clean object-oriented design principles. Implements data access abstraction layers (DAO pattern), high-performance connection pooling, robust concurrency controls, and modular component technology.",
-      technologies: ["Core Java", "Advanced Java", "JDBC", "Design Patterns (DAO/Factory)", "JavaFX / Swing", "Servlets"],
-      highlights: [
-        "Decoupled data access layers using DAO and Abstract Factory patterns",
-        "High-performance database connection pooling and atomic transaction control",
-        "Multi-threaded socket communication and event handling models"
-      ]
+      ],
+      active: true
     }
   ],
 
@@ -399,6 +404,8 @@ const portfolioData = {
       title: "Practical Design Patterns in Enterprise Java Applications",
       category: "Java",
       readTime: "6 min read",
+      date: "2026-02-15",
+      coverImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop",
       summary: "Explore how Singleton, Factory, and DAO patterns establish maintainable database abstraction layers in production Java systems.",
       content: `### Why Design Patterns Matter in Production Java
 
@@ -414,155 +421,138 @@ public interface AccountDao {
 }
 \`\`\`
 
-#### 2. Connection Pooling & PreparedStatements
-Always avoid string concatenation in SQL queries to prevent SQL Injection vulnerabilities:
-
-\`\`\`java
-String query = "SELECT * FROM Accounts WHERE AccountNumber = ? AND Status = ?";
-try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-    pstmt.setString(1, accNumber);
-    pstmt.setString(2, "ACTIVE");
-    ResultSet rs = pstmt.executeQuery();
-    // Process resultSet
-}
-\`\`\`
-
 #### Key Takeaway
-By combining DAO abstractions with connection pooling and atomic transactions, we ensure our banking data layer remains bulletproof and scalable.`
+By combining DAO abstractions with connection pooling and atomic transactions, we ensure our banking data layer remains bulletproof and scalable.`,
+      active: true
     },
     {
       id: "art-banking-api-security",
       title: "Architecting Resilient & Secure Banking APIs",
       category: "Banking Tech",
       readTime: "8 min read",
+      date: "2026-01-20",
+      coverImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
       summary: "A deep dive into payload encryption, HMAC signatures, idempotent transactions, and zero-trust authentication in financial switches.",
       content: `### Principles of Financial-Grade API Security
 
 When exposing endpoints that execute monetary debits and credits, standard web security is insufficient. Every request must be strictly validated, signed, authenticated, and guarded against replay attacks.
 
 #### Core Pillars:
-1. **Idempotency Keys**: Guaranteeing that duplicate network requests (e.g. from network timeouts) never result in double debits.
-2. **HMAC-SHA256 Payload Signing**: Ensuring request data cannot be tampered with in transit between client and payment switch.
-3. **Mutual TLS (mTLS)**: Enforcing certificate validation at both ends of the transport socket.
-4. **Sub-second Timeout Deadlines**: Preventing cascading thread starvation in high-throughput banking gateways.
-
-\`\`\`csharp
-// Example Idempotency Guard in .NET C#
-public async Task<IActionResult> ProcessPayment([FromBody] PaymentRequest request, [FromHeader] string IdempotencyKey)
-{
-    if (await _cache.ExistsAsync(IdempotencyKey))
-    {
-        return Ok(await _cache.GetPreviousResultAsync(IdempotencyKey));
-    }
-    
-    var result = await _switchService.ExecuteDebitAsync(request);
-    await _cache.SaveResultAsync(IdempotencyKey, result);
-    return Ok(result);
-}
-\`\`\``
+1. **Idempotency Keys**: Guaranteeing duplicate requests never result in double debits.
+2. **HMAC-SHA256 Payload Signing**: Ensuring request data cannot be tampered with in transit.
+3. **Mutual TLS (mTLS)**: Enforcing certificate validation at both ends of transport socket.`,
+      active: true
     },
     {
       id: "art-sql-optimization",
       title: "SQL Server Performance Tuning for High-Volume Ledgers",
       category: "DBMS",
       readTime: "7 min read",
+      date: "2025-12-10",
+      coverImage: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1200&auto=format&fit=crop",
       summary: "Indexing strategies, execution plan analysis, and stored procedure optimization for tables handling millions of financial entries.",
       content: `### High-Throughput Ledger Optimization in SQL Server
 
-Financial ledgers grow by millions of rows monthly. Without careful indexing and query tuning, end-of-day reconciliation queries can choke the entire database engine.
+Financial ledgers grow by millions of rows monthly. Without careful indexing and query tuning, end-of-day reconciliation queries can choke the database engine.
 
-#### 1. Clustered Index Key Selection
-Never use GUIDs (UUIDs) as clustered index keys on write-heavy transaction tables due to page splitting. Prefer sequential \`BIGINT IDENTITY\` keys.
-
-#### 2. Covering Non-Clustered Indexes with INCLUDE Columns
-\`\`\`sql
-CREATE NONCLUSTERED INDEX IX_Transactions_AccountDate
-ON dbo.AccountTransactions (AccountId, TransactionDate DESC)
-INCLUDE (Amount, BalanceAfter, ReferenceNumber);
-\`\`\`
-
-#### 3. Avoiding Non-SARGable Queries
-Avoid wrapping indexed columns inside functions in the WHERE clause:
-- **Bad**: \`WHERE YEAR(TransactionDate) = 2026\`
-- **Good**: \`WHERE TransactionDate >= '2026-01-01' AND TransactionDate < '2027-01-01'\``
-    },
-    {
-      id: "art-dynamic-qr-standards",
-      title: "Demystifying Dynamic QR Codes in Digital Payments",
-      category: "Payment Integration",
-      readTime: "5 min read",
-      summary: "Understanding EMVCo QR specifications, CRC16 checksum verification, and webhook callback lifecycles.",
-      content: `### How Dynamic QR Codes Work Under the Hood
-
-Unlike static QR codes that merely encode a static merchant ID, Dynamic QR codes encapsulate invoice details, unique reference tokens, expiration timestamps, and cryptographic checksums.
-
-#### EMVCo TLV Format
-Dynamic QR codes use a Tag-Length-Value (TLV) structure:
-- **Tag 00**: Payload Format Indicator (e.g. \`01\`)
-- **Tag 01**: Point of Initiation Method (\`12\` for Dynamic QR)
-- **Tag 54**: Transaction Amount (e.g. \`1500.00\`)
-- **Tag 58**: Country Code (\`NP\`)
-- **Tag 63**: CRC Checksum (4 hex characters)
-
-When scanned, the payer app parses the TLV string, confirms the CRC16 hash, and initiates a verified debit request directly to the switch.`
-    },
-    {
-      id: "art-oop-teaching-philosophy",
-      title: "Teaching Object-Oriented Concepts: From Syntax to System Design",
-      category: "Teaching & Mentoring",
-      readTime: "5 min read",
-      summary: "How hands-on project-based pedagogy bridges the gap between academic theory and real-world engineering careers.",
-      content: `### The Bridge from Syntax to Software Engineering
-
-In academic classrooms, students often learn Java syntax—loops, classes, methods—without understanding *why* encapsulation, polymorphism, and modular architectures matter in industry.
-
-#### The 3-Stage Teaching Framework:
-1. **The Problem First**: Introduce a messy, monolithic snippet and show how changing one feature breaks unrelated modules.
-2. **The Refactor**: Introduce OOP principles (Inheritance, Polymorphism, Dependency Injection) as the mathematical solution to reduce complexity.
-3. **The Production Simulation**: Build mini-banking systems or ticket engines with realistic constraints (data persistence, exception handling, clean logs).`
-    },
-    {
-      id: "art-automation-audit",
-      title: "Automating Banking Compliance and Internal Audit Workflows",
-      category: "Automation",
-      readTime: "6 min read",
-      summary: "Transforming manual multi-spreadsheet audit verification into automated scheduled reconciliation pipelines.",
-      content: `### Eliminating Human Error in Banking Audit
-
-Internal banking compliance requires verifying thousands of daily transactions across disparate subsystems: core banking (CBS), card switches, merchant settlement accounts, and clearing houses.
-
-#### The Automation Architecture:
-- **Scheduled Ingestion Service**: Pulls EOD transaction logs from various data sources.
-- **Rules & Validation Engine**: Runs deterministic validation checks (e.g. CBS debit == Switch credit).
-- **Discrepancy Exception Router**: Flags unmatched entries and automatically generates audit report dossiers for immediate review.
-
-By automating these processes, banks achieve 100% audit coverage rather than relying on periodic sample inspections.`
+#### Non-Clustered Index Strategy
+Never use GUIDs as clustered index keys on write-heavy tables. Prefer sequential IDENTITY keys with Non-Clustered INCLUDE indexes.`,
+      active: true
     }
   ],
 
   education: [
     {
+      id: "edu-1",
       degree: "Master's in Business Administration (MBA)",
       field: "Strategic Management & Technology Leadership",
       period: "Postgraduate Degree",
       badge: "Executive Leadership",
-      description: "Specialization in strategic management, technology leadership, business analytics, and enterprise decision-making."
+      description: "Specialization in strategic management, technology leadership, business analytics, and enterprise decision-making.",
+      active: true
     },
     {
+      id: "edu-2",
       degree: "Bachelor's Degree in Computer Engineering (B.E.)",
       field: "Software Engineering & Computer Systems",
       period: "Engineering Degree",
       badge: "Core Engineering",
-      description: "Specialized engineering curriculum covering software development, computer architecture, database management systems, algorithms, and secure network engineering."
+      description: "Specialized engineering curriculum covering software development, computer architecture, database management systems, algorithms, and secure network engineering.",
+      active: true
     },
     {
+      id: "edu-3",
       degree: "Registered Computer Engineer",
       field: "Nepal Engineering Council (NEC) Professional License",
       period: "Licensed Professional — 2017",
       badge: "Professional License",
-      description: "Official governmental professional engineering licensure credential (Er. title) recognizing technical competence and professional software practice."
+      description: "Official governmental professional engineering licensure credential (Er. title) recognizing technical competence and professional software practice.",
+      active: true
     }
-  ]
+  ],
+
+  professionPresets: {
+    engineer: {
+      name: "Computer Engineer & FinTech Lead",
+      badge: "Er. Registered Computer Engineer (2017)",
+      brandBadge: "⚡ Code With Alexi",
+      heroName: "Alexi Dhungel, Er.",
+      brandName: "Code With Alexi",
+      coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
+      titles: ["Computer Engineer", "Software Developer", "Digital Banking & FinTech Professional", "Java Instructor"],
+      bioShort: "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge."
+    },
+    creator: {
+      name: "Tech Content Creator & Educator",
+      badge: "🎥 Tech Educator & Content Creator",
+      brandBadge: "🚀 Code With Alexi YouTube",
+      heroName: "Alexi Dhungel",
+      brandName: "Code With Alexi Channel",
+      coverImage: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2070&auto=format&fit=crop",
+      titles: ["Content Creator", "Tech YouTuber", "Software Instructor", "FinTech Educator"],
+      bioShort: "Empowering developers worldwide with high-impact software engineering tutorials, Java deep-dives, and real-world tech videos."
+    },
+    developer: {
+      name: "Full Stack Systems Architect",
+      badge: "💻 Senior Systems Architect",
+      brandBadge: "⚡ High-Performance Systems",
+      heroName: "Alexi Dhungel, B.E.",
+      brandName: "Alexi Systems",
+      coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+      titles: ["Full Stack Architect", ".NET & Java Engineer", "API Specialist", "Cloud Platform Engineer"],
+      bioShort: "Architecting resilient microservices, high-concurrency database platforms, and modern enterprise applications."
+    },
+    consultant: {
+      name: "Executive FinTech & Technology Consultant",
+      badge: "👔 Executive FinTech Advisory",
+      brandBadge: "🏛️ Enterprise Digital Transformation",
+      heroName: "Er. Alexi Dhungel, MBA",
+      brandName: "Dhungel FinTech Advisory",
+      coverImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+      titles: ["Executive Technology Consultant", "FinTech Adviser", "Digital Transformation Lead", "System Auditor"],
+      bioShort: "Advising financial institutions and corporate clients on payment switch architecture, regulatory compliance, and digital banking strategy."
+    },
+    designer: {
+      name: "UI/UX & Design Systems Lead",
+      badge: "🎨 Senior Product & UX Architect",
+      brandBadge: "✨ Modern UI & Digital Products",
+      heroName: "Alexi Dhungel",
+      brandName: "Alexi Product Studio",
+      coverImage: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=2070&auto=format&fit=crop",
+      titles: ["UI/UX Lead", "Design Systems Engineer", "Product Designer", "Frontend Specialist"],
+      bioShort: "Crafting beautiful, accessible, and intuitive digital interfaces for complex enterprise applications and financial portals."
+    },
+    doctor: {
+      name: "Medical Doctor & HealthTech Specialist",
+      badge: "🩺 Medical Doctor & Health Systems Specialist",
+      brandBadge: "🏥 Health Tech & Clinical Innovation",
+      heroName: "Dr. Alexi Dhungel, MD",
+      brandName: "Dr. Alexi Medical Hub",
+      coverImage: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop",
+      titles: ["Medical Specialist", "Clinical Consultant", "HealthTech Innovator", "Medical Researcher"],
+      bioShort: "Combining clinical medicine expertise with modern healthcare technology systems to improve patient outcomes and medical workflows."
+    }
+  }
 };
 
 if (typeof module !== "undefined") {

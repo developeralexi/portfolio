@@ -27,7 +27,8 @@ const ModalController = {
   },
 
   showProjectDetails(projectId) {
-    const project = portfolioData.projects.find(p => p.id === projectId);
+    const data = typeof getActiveData === "function" ? getActiveData() : portfolioData;
+    const project = (data.projects || []).find(p => p.id === projectId) || (portfolioData.projects || []).find(p => p.id === projectId);
     if (!project) return;
 
     const modalBody = document.getElementById("project-modal-body");
@@ -40,22 +41,22 @@ const ModalController = {
         <div class="project-modal-content">
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
             <span class="project-domain-badge">${project.domain}</span>
-            <span class="mini-tag" style="color: var(--brand-cyan-light);">Domain: ${project.category.toUpperCase()}</span>
+            <span class="mini-tag" style="color: var(--brand-cyan-light);">Domain: ${project.category ? project.category.toUpperCase() : "GENERAL"}</span>
           </div>
 
           <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-primary);">Architecture & Capability Overview</h4>
           <p style="font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1.5rem;">
-            ${project.fullDesc}
+            ${project.fullDesc || project.shortDesc || ""}
           </p>
 
           <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem; color: var(--text-primary);">Key Architectural Highlights</h4>
           <ul style="list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.75rem; color: var(--text-secondary);">
-            ${project.highlights.map(h => `<li style="margin-bottom: 0.5rem; line-height: 1.5;">${h}</li>`).join("")}
+            ${(project.highlights || []).map(h => `<li style="margin-bottom: 0.5rem; line-height: 1.5;">${h}</li>`).join("")}
           </ul>
 
           <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem; color: var(--text-primary);">Specified Technology Stack</h4>
           <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;">
-            ${project.technologies.map(t => `<span class="tech-tag" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;">${t}</span>`).join("")}
+            ${(project.technologies || []).map(t => `<span class="tech-tag" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;">${t}</span>`).join("")}
           </div>
 
           <div style="display: flex; justify-content: flex-end; gap: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
@@ -70,7 +71,8 @@ const ModalController = {
   },
 
   showArticle(articleId) {
-    const article = portfolioData.articles.find(a => a.id === articleId);
+    const data = typeof getActiveData === "function" ? getActiveData() : portfolioData;
+    const article = (data.articles || []).find(a => a.id === articleId) || (portfolioData.articles || []).find(a => a.id === articleId);
     if (!article) return;
 
     const modalBody = document.getElementById("article-modal-body");

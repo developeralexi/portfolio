@@ -5,86 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <!-- Force HTTPS and upgrade insecure requests -->
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-  <script>
-    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-      location.replace('https:' + window.location.href.substring(window.location.protocol.length));
-    }
-  </script>
-  
   <!-- Primary SEO Meta Tags -->
-  <title>Alexi Dhungel | Computer Engineer | Software Developer | Java Instructor</title>
+  <title>Alexi Dhungel | Dynamic Content Management & Profile Platform</title>
   <meta name="title" content="Alexi Dhungel | Computer Engineer | Software Developer | Java Instructor" />
-  <meta name="description" content="Portfolio of Alexi Dhungel, Computer Engineer, Software Developer, Java Instructor and Digital Banking Technology Professional specializing in software development, APIs, integrations, automation and financial technology." />
-  <meta name="keywords" content="Alexi Dhungel, Computer Engineer Nepal, Digital Banking Developer, Java Instructor, Code With Alexi, .NET Developer, FinTech Engineer, Software Architecture Nepal" />
+  <meta name="description" content="Dynamic Content Management Platform for all professions featuring customizable bannered intro, video showcases, blog manager, image uploaders, and active/disabled controls." />
+  <meta name="keywords" content="Alexi Dhungel, Computer Engineer Nepal, CMS Platform, Dynamic Portfolio, Digital Banking Developer, Java Instructor, Code With Alexi" />
   <meta name="author" content="Alexi Dhungel, Er." />
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://alexi.com.np/" />
-  <meta property="og:title" content="Alexi Dhungel | Computer Engineer | Software Developer | Java Instructor" />
-  <meta property="og:description" content="Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge." />
+  <meta property="og:title" content="Alexi Dhungel | Dynamic Profile & CMS Platform" />
+  <meta property="og:description" content="Building reliable software, digital banking solutions, APIs, integrations and dynamic content management." />
   <meta property="og:image" content="assets/images/alexi-dhungel.jpg" />
   <meta property="og:site_name" content="Code With Alexi" />
 
-  <!-- Twitter Card -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:title" content="Alexi Dhungel | Computer Engineer & Digital Banking Specialist" />
-  <meta property="twitter:description" content="Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge." />
-  <meta property="twitter:image" content="assets/images/alexi-dhungel.jpg" />
-
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/cms.css" />
   <link rel="stylesheet" href="css/responsive.css" />
-
-  <!-- Schema.org JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Alexi Dhungel",
-    "honorificPrefix": "Er.",
-    "jobTitle": "Computer Engineer & Digital Banking Technology Professional",
-    "hasCredential": [
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "degree",
-        "name": "Bachelor's Degree in Computer Engineering (B.E.)"
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "degree",
-        "name": "Master's in Business Administration (MBA)"
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "license",
-        "name": "Registered Computer Engineer (Er.) - Nepal Engineering Council"
-      }
-    ],
-    "knowsAbout": [
-      "Digital Banking",
-      "Software Development",
-      "Java Programming",
-      "C# & .NET",
-      "API Integrations",
-      "Dynamic QR Payments",
-      "Database Architecture",
-      "System Automation"
-    ],
-    "email": "mailto:ingr.alexi@gmail.com",
-    "sameAs": [
-      "https://www.linkedin.com/in/alexi-dhungel-01b65b146/"
-    ]
-  }
-  </script>
 </head>
 <body>
 
@@ -105,6 +54,7 @@
       <!-- Desktop Navigation Links -->
       <nav id="nav-links" class="nav-links" aria-label="Main Navigation">
         <a href="#about" class="nav-link">About</a>
+        <a href="#videos" class="nav-link">Videos & Media</a>
         <a href="#expertise" class="nav-link">What I Build</a>
         <a href="#experience" class="nav-link">Experience</a>
         <a href="#teaching" class="nav-link">Teaching</a>
@@ -133,12 +83,15 @@
   </header>
 
   <!-- ========================================================================
-       2. HERO SECTION
+       2. BIG BANNERED HERO INTRODUCTION SECTION
        ======================================================================== -->
   <section id="hero" class="hero-section">
-    <div class="container">
+    <!-- Big Banner Backdrop Image -->
+    <div id="hero-banner-bg" class="hero-banner-backdrop"></div>
+
+    <div class="container" style="position: relative; z-index: 2;">
       <div class="hero-grid">
-        <!-- Hero Text & CTA -->
+        <!-- Hero Text & CTAs -->
         <div class="hero-content reveal">
           <div class="hero-badge-container">
             <div class="engineer-badge">
@@ -171,22 +124,16 @@
               <span>View Solutions & Tech</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
-            <a href="#contact" class="btn btn-secondary btn-lg">
-              <span>Contact Me</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            </a>
           </div>
         </div>
 
-        <!-- Hero Avatar Frame & Floating Nodes -->
+        <!-- Hero Avatar Frame -->
         <div class="hero-visual reveal reveal-delay-2">
           <div class="avatar-card-wrapper">
             <div class="avatar-halo-glow"></div>
             
             <div class="avatar-circle">
-              <!-- Real Profile Portrait Image -->
               <img src="assets/images/alexi-dhungel.jpg" alt="Alexi Dhungel, Er." class="avatar-photo" width="180" height="180" loading="eager" />
-
               <div class="avatar-badge-tag">
                 <span class="status-live-dot"></span> Senior Engineer
               </div>
@@ -197,32 +144,13 @@
               <p>Digital Banking & FinTech Professional</p>
             </div>
 
-            <!-- Floating Tech Chips -->
+            <!-- Tech Chips -->
             <div class="floating-tech-nodes">
-              <span class="tech-node-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
-                Java
-              </span>
-              <span class="tech-node-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                .NET / C#
-              </span>
-              <span class="tech-node-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="6" height="6"/><rect x="2" y="2" width="6" height="6"/></svg>
-                REST APIs
-              </span>
-              <span class="tech-node-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/></svg>
-                SQL Server
-              </span>
-              <span class="tech-node-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Banking Switches
-              </span>
-              <span class="tech-node-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/></svg>
-                Dynamic QR
-              </span>
+              <span class="tech-node-pill">Java</span>
+              <span class="tech-node-pill">.NET / C#</span>
+              <span class="tech-node-pill">REST APIs</span>
+              <span class="tech-node-pill">SQL Server</span>
+              <span class="tech-node-pill">Banking Switches</span>
             </div>
           </div>
         </div>
@@ -246,9 +174,7 @@
             <button class="term-tab-btn" data-tab="audit">🛡️ Audit Automation</button>
           </div>
         </div>
-        <div id="terminal-body" class="terminal-body" role="region" aria-live="polite">
-          <!-- Populated by terminal.js -->
-        </div>
+        <div id="terminal-body" class="terminal-body" role="region" aria-live="polite"></div>
       </div>
     </div>
   </section>
@@ -256,7 +182,7 @@
   <!-- ========================================================================
        3. KEY STATS RIBBON
        ======================================================================== -->
-  <section class="stats-ribbon">
+  <section id="stats" class="stats-ribbon">
     <div class="container">
       <div class="stats-grid">
         <div class="stat-card">
@@ -268,7 +194,6 @@
             <div class="stat-label">Software Engineering</div>
           </div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon-wrapper">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 3l9 7H3z"/></svg>
@@ -278,7 +203,6 @@
             <div class="stat-label">Banking & Switch Integrations</div>
           </div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon-wrapper">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
@@ -288,7 +212,6 @@
             <div class="stat-label">Java & OOP Instruction</div>
           </div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon-wrapper">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -303,9 +226,31 @@
   </section>
 
   <!-- ========================================================================
-       4. WHAT I BUILD (ENGINEERING EXPERTISE)
+       4. YOUTUBE & VIDEO SHOWCASE SECTION
        ======================================================================== -->
-  <section id="expertise" class="section">
+  <section id="videos" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          Featured Media & Demos
+        </span>
+        <h2 class="section-title">YouTube & Video Showcase</h2>
+        <p class="section-subtitle">
+          Watch architectural walk-throughs, technical demonstrations, and software engineering deep-dives.
+        </p>
+      </div>
+
+      <div id="videos-grid-container" class="videos-grid">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. WHAT I BUILD (ENGINEERING EXPERTISE)
+       ======================================================================== -->
+  <section id="expertise" class="section" style="background: var(--bg-secondary);">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
@@ -318,16 +263,14 @@
         </p>
       </div>
 
-      <div id="what-i-build-container" class="expertise-grid">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="what-i-build-container" class="expertise-grid"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       5. ABOUT ME SECTION
+       6. ABOUT ME SECTION
        ======================================================================== -->
-  <section id="about" class="section" style="background: var(--bg-secondary);">
+  <section id="about" class="section">
     <div class="container">
       <div class="about-grid">
         <div class="about-text-content reveal">
@@ -342,65 +285,12 @@
           <p>
             Throughout my career across premier commercial banking and enterprise software environments, I have spearheaded the design and implementation of mission-critical systems including Loan Management Systems, Automated Auditing engines, Dynamic QR settlement gateways, SSA payment switches, and multi-tier microfinance platforms.
           </p>
-          <p>
-            Beyond architecting banking infrastructure, I am deeply committed to education through my platform <strong>Code With Alexi</strong>, delivering comprehensive instruction and mentorship in Advanced Java, OOP, and enterprise architectures.
-          </p>
-
-          <div class="about-pillars">
-            <div class="pillar-item">
-              <div class="pillar-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="21" x2="21" y2="21"/><path d="M12 3L2 10h20L12 3z"/></svg>
-              </div>
-              <div class="pillar-text">
-                <h4>Digital Banking & FinTech</h4>
-                <p>Core banking integrations, payment switches, settlement pipelines, and compliance verification.</p>
-              </div>
-            </div>
-
-            <div class="pillar-item">
-              <div class="pillar-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
-              </div>
-              <div class="pillar-text">
-                <h4>API & System Integration</h4>
-                <p>High-throughput RESTful services, cryptographic validation, and third-party vendor connectors.</p>
-              </div>
-            </div>
-
-            <div class="pillar-item">
-              <div class="pillar-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              </div>
-              <div class="pillar-text">
-                <h4>System Automation</h4>
-                <p>Eliminating repetitive manual processes through event-driven workflows and scheduled ETL jobs.</p>
-              </div>
-            </div>
-
-            <div class="pillar-item">
-              <div class="pillar-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-              </div>
-              <div class="pillar-text">
-                <h4>Java & Tech Instruction</h4>
-                <p>Mentoring university students in OOP design patterns, JDBC data access, and production patterns.</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="about-profile-card-wrapper reveal reveal-delay-2">
           <div class="about-profile-card">
             <div class="about-photo-wrapper">
               <img src="assets/images/alexi-dhungel.jpg" alt="Alexi Dhungel, Er." class="about-profile-img" loading="lazy" />
-              <div class="about-photo-glow"></div>
-              <div class="about-photo-overlay-badge">
-                <span class="badge-icon">🏛️</span>
-                <div>
-                  <strong>Er. Alexi Dhungel</strong>
-                  <div class="badge-sub">NEC Registered Computer Engineer (2017)</div>
-                </div>
-              </div>
             </div>
             <div class="about-card-details">
               <div class="about-spec-row">
@@ -413,22 +303,6 @@
                   <span class="spec-val">8+ Years Enterprise</span>
                 </div>
               </div>
-              <div class="about-spec-row">
-                <div class="spec-item">
-                  <span class="spec-label">Current Role</span>
-                  <span class="spec-val">Digital Transformation / Dev</span>
-                </div>
-                <div class="spec-item">
-                  <span class="spec-label">Brand</span>
-                  <span class="spec-val">Code With Alexi</span>
-                </div>
-              </div>
-              <div class="about-card-actions">
-                <a href="#contact" class="btn btn-primary btn-sm" style="width: 100%;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  <span>Get In Touch</span>
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -437,9 +311,9 @@
   </section>
 
   <!-- ========================================================================
-       6. PROFESSIONAL EXPERIENCE TIMELINE
+       7. PROFESSIONAL EXPERIENCE TIMELINE
        ======================================================================== -->
-  <section id="experience" class="section">
+  <section id="experience" class="section" style="background: var(--bg-secondary);">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
@@ -447,21 +321,16 @@
           Career Milestones
         </span>
         <h2 class="section-title">Professional Experience</h2>
-        <p class="section-subtitle">
-          Over 8 years of engineering leadership across enterprise systems, high-concurrency transaction rails, secure API integrations, and distributed architectures.
-        </p>
       </div>
 
-      <div id="experience-timeline-container" class="timeline-wrapper">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="experience-timeline-container" class="timeline-wrapper"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       7. TEACHING & MENTORING SECTION
+       8. TEACHING & MENTORING SECTION
        ======================================================================== -->
-  <section id="teaching" class="section" style="background: var(--bg-secondary);">
+  <section id="teaching" class="section">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
@@ -469,21 +338,16 @@
           Instructional Specialization
         </span>
         <h2 class="section-title">Teaching & Mentoring Expertise</h2>
-        <p class="section-subtitle">
-          Bridging the gap between software engineering theory, clean architecture patterns, and production practices.
-        </p>
       </div>
 
-      <div id="teaching-grid-container" class="teaching-grid">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="teaching-grid-container" class="teaching-grid"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       8. TECHNICAL SKILLS MATRIX
+       9. TECHNICAL SKILLS MATRIX
        ======================================================================== -->
-  <section id="skills" class="section">
+  <section id="skills" class="section" style="background: var(--bg-secondary);">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
@@ -491,39 +355,31 @@
           Technical Capabilities
         </span>
         <h2 class="section-title">Skills & Technologies</h2>
-        <p class="section-subtitle">
-          Senior-level proficiency across backend languages, banking frameworks, databases, and secure architecture patterns.
-        </p>
       </div>
 
       <div class="skills-filter-container reveal">
-        <!-- Search bar -->
         <div class="skills-search-bar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="skills-search-input" placeholder="Search technologies, tools, or frameworks (e.g. Java, .NET, SQL, QR)..." aria-label="Search skills" />
+          <input type="text" id="skills-search-input" placeholder="Search technologies..." aria-label="Search skills" />
         </div>
-
-        <!-- Category filter tabs -->
         <div class="skills-category-tabs">
           <button class="category-tab active" data-category="all">All Technologies</button>
           <button class="category-tab" data-category="programming">Programming</button>
           <button class="category-tab" data-category="web">Web & APIs</button>
           <button class="category-tab" data-category="database">Databases</button>
-          <button class="category-tab" data-category="enterprise">Enterprise & Banking</button>
-          <button class="category-tab" data-category="practices">Dev Practices</button>
+          <button class="category-tab" data-category="enterprise">Enterprise</button>
+          <button class="category-tab" data-category="practices">Practices</button>
         </div>
       </div>
 
-      <div id="skills-grid-container" class="skills-grid">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="skills-grid-container" class="skills-grid"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       9. TECHNICAL SOLUTIONS & ARCHITECTURE SHOWCASE
+       10. TECHNICAL SOLUTIONS & ARCHITECTURE SHOWCASE
        ======================================================================== -->
-  <section id="projects" class="section" style="background: var(--bg-secondary);">
+  <section id="projects" class="section">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
@@ -531,51 +387,40 @@
           Technical Architecture & Domains
         </span>
         <h2 class="section-title">Technical Solutions & Architecture</h2>
-        <p class="section-subtitle">
-          A generalized overview of engineering architectures, domain capabilities, and technology stacks designed for enterprise environments.
-        </p>
       </div>
 
-      <!-- Domain Category Filters -->
       <div class="projects-filter-tabs reveal">
         <button class="project-filter-btn active" data-category="all">All Domains</button>
-        <button class="project-filter-btn" data-category="banking">Digital Banking & Payments</button>
+        <button class="project-filter-btn" data-category="banking">Digital Banking</button>
         <button class="project-filter-btn" data-category="enterprise">Enterprise Systems</button>
-        <button class="project-filter-btn" data-category="fintech">FinTech & Mobile</button>
+        <button class="project-filter-btn" data-category="fintech">FinTech</button>
       </div>
 
-      <div id="projects-grid-container" class="projects-grid">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="projects-grid-container" class="projects-grid"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       10. "CODE WITH ALEXI" KNOWLEDGE & CONTENT HUB
+       11. DYNAMIC ARTICLES / BLOG HUB
        ======================================================================== -->
-  <section id="articles" class="section">
+  <section id="articles" class="section" style="background: var(--bg-secondary);">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
           Technical Publications
         </span>
-        <h2 class="section-title">Knowledge Hub — <span class="text-gradient">Code With Alexi</span></h2>
-        <p class="section-subtitle">
-          In-depth technical guides and architectural analysis on Java, C#, SQL Server, banking security, and system design.
-        </p>
+        <h2 class="section-title">Knowledge Hub & Dynamic Blog</h2>
       </div>
 
-      <div id="articles-grid-container" class="articles-grid">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="articles-grid-container" class="articles-grid"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       11. EDUCATION & QUALIFICATIONS
+       12. EDUCATION & QUALIFICATIONS
        ======================================================================== -->
-  <section id="education" class="section" style="background: var(--bg-secondary);">
+  <section id="education" class="section">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
@@ -583,35 +428,26 @@
           Credentials & Degrees
         </span>
         <h2 class="section-title">Education & Qualifications</h2>
-        <p class="section-subtitle">
-          Engineering, business administration, and licensed credentials backing senior technical leadership.
-        </p>
       </div>
 
-      <div id="education-grid-container" class="education-grid">
-        <!-- Rendered by app.js -->
-      </div>
+      <div id="education-grid-container" class="education-grid"></div>
     </div>
   </section>
 
   <!-- ========================================================================
-       12. CONTACT SECTION
+       13. CONTACT SECTION
        ======================================================================== -->
-  <section id="contact" class="section">
+  <section id="contact" class="section" style="background: var(--bg-secondary);">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Get In Touch
         </span>
-        <h2 class="section-title">Let's Build Something Useful</h2>
-        <p class="section-subtitle">
-          Have a software idea, integration requirement, technical project, or learning goal? Let's connect.
-        </p>
+        <h2 class="section-title">Let's Connect</h2>
       </div>
 
       <div class="contact-grid">
-        <!-- Left: Direct Info & Socials -->
         <div class="contact-info-panel reveal">
           <div class="contact-card-box">
             <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--text-primary);">Contact Channels</h3>
@@ -635,35 +471,9 @@
                 <a href="https://www.linkedin.com/in/alexi-dhungel-01b65b146/" target="_blank" rel="noopener">linkedin.com/in/alexi-dhungel</a>
               </div>
             </div>
-
-            <div class="contact-method-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              </div>
-              <div class="contact-method-text">
-                <h4>Location</h4>
-                <span>Kathmandu, Nepal</span>
-              </div>
-            </div>
-
-            <div class="social-links-row">
-              <a href="https://www.linkedin.com/in/alexi-dhungel-01b65b146/" target="_blank" rel="noopener" class="social-icon-btn" title="LinkedIn" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-              </a>
-              <a href="mailto:ingr.alexi@gmail.com" class="social-icon-btn" title="Email Alexi" aria-label="Email">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              </a>
-              <a href="#hero" class="social-icon-btn" title="YouTube Channel (Code With Alexi)" aria-label="YouTube">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-              </a>
-              <a href="#hero" class="social-icon-btn" title="GitHub Repository" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-            </div>
           </div>
         </div>
 
-        <!-- Right: Contact Form -->
         <div class="contact-form-card reveal reveal-delay-2">
           <form id="contact-form" novalidate>
             <div class="form-group-row">
@@ -678,79 +488,28 @@
                 <span class="form-feedback"></span>
               </div>
             </div>
-
             <div class="form-group">
               <label for="contact-subject" class="form-label">Subject *</label>
-              <input type="text" id="contact-subject" class="form-input" placeholder="e.g. Banking API Integration / Java Training Inquiry" required />
+              <input type="text" id="contact-subject" class="form-input" placeholder="e.g. Inquiry" required />
               <span class="form-feedback"></span>
             </div>
-
             <div class="form-group">
-              <label for="contact-message" class="form-label">Your Message *</label>
-              <textarea id="contact-message" class="form-textarea" placeholder="Describe your project, technical requirement, or query..." required></textarea>
+              <label for="contact-message" class="form-label">Message *</label>
+              <textarea id="contact-message" class="form-textarea" placeholder="Your message..." required></textarea>
               <span class="form-feedback"></span>
             </div>
-
-            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-              <button type="submit" class="btn btn-primary btn-lg">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                <span>Send Message</span>
-              </button>
-              <a href="mailto:ingr.alexi@gmail.com" class="btn btn-secondary btn-lg">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                <span>Email Me Directly</span>
-              </a>
-            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
           </form>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ========================================================================
-       13. FOOTER
-       ======================================================================== -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="brand-logo">
-            <div class="brand-symbol">AD</div>
-            <div class="brand-text">
-              <span class="brand-name">Alexi Dhungel, <span style="font-size: 0.85rem; color: var(--brand-cyan-light);">Er.</span></span>
-              <span class="brand-title">Code With Alexi</span>
-            </div>
-          </div>
-          <p>
-            Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge.
-          </p>
-        </div>
-
-        <div class="footer-nav-col">
-          <h4>Navigation</h4>
-          <ul class="footer-links-list">
-            <li><a href="#about">About Alexi</a></li>
-            <li><a href="#experience">Professional Experience</a></li>
-            <li><a href="#teaching">Teaching & Mentorship</a></li>
-            <li><a href="#projects">Solutions & Tech</a></li>
-            <li><a href="#skills">Technical Skills</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-nav-col">
-          <h4>Platform & Legal</h4>
-          <ul class="footer-links-list">
-            <li><a href="#articles">Code With Alexi Hub</a></li>
-            <li><a href="#education">Engineering License</a></li>
-            <li><a href="mailto:ingr.alexi@gmail.com">Direct Consultation</a></li>
-          </ul>
-        </div>
-      </div>
-
       <div class="footer-bottom">
-        <div>
-          &copy; <span id="current-year">2026</span> Alexi Dhungel, Er. All rights reserved. • Personal Brand: <strong>Code With Alexi</strong>
-        </div>
+        <div id="footer-copyright" style="cursor: pointer; user-select: none;" title="Alexi Dhungel, Er.">&copy; 2026 Alexi Dhungel, Er. • Universal Dynamic Content Management Platform</div>
         <button id="back-to-top" class="back-to-top-btn" title="Back to top" aria-label="Back to top">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg>
         </button>
@@ -763,7 +522,7 @@
        ======================================================================== -->
   
   <!-- Technical Solution Architecture Modal -->
-  <div id="project-details-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+  <div id="project-details-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-content-container">
       <div class="modal-header">
         <h3 id="project-modal-title" style="font-size: 1.35rem; font-weight: 800;">Technical Solution Architecture</h3>
@@ -771,14 +530,12 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
-      <div id="project-modal-body" class="modal-body">
-        <!-- Injected dynamically -->
-      </div>
+      <div id="project-modal-body" class="modal-body"></div>
     </div>
   </div>
 
   <!-- Article Reader Modal -->
-  <div id="article-reader-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="article-modal-title">
+  <div id="article-reader-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-content-container">
       <div class="modal-header">
         <h3 id="article-modal-title" style="font-size: 1.25rem; font-weight: 800;">Technical Publication</h3>
@@ -786,8 +543,440 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
-      <div id="article-modal-body" class="modal-body">
-        <!-- Injected dynamically -->
+      <div id="article-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- YouTube Video Player Modal -->
+  <div id="youtube-player-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content-container" style="max-width: 900px; padding: 1.5rem;">
+      <div class="modal-header" style="margin-bottom: 1rem;">
+        <h3 id="youtube-modal-title" style="font-size: 1.2rem; font-weight: 800;">Video Player</h3>
+        <button class="modal-close-btn" onclick="closeVideoModal()" aria-label="Close video player">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div id="youtube-iframe-container" class="responsive-iframe-container"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       14.5 SECURE CMS AUTHENTICATION MODAL
+       ======================================================================== -->
+  <div id="cms-auth-modal" class="cms-modal-overlay" role="dialog" aria-modal="true">
+    <div class="cms-auth-card">
+      <div class="cms-auth-header">
+        <div class="cms-auth-icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h3>Secure CMS Studio Login</h3>
+        <p>Enter your master security passphrase to unlock administrative privileges.</p>
+      </div>
+
+      <form id="cms-auth-form" onsubmit="CMS.handleLoginSubmit(event)">
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label for="cms-passphrase-input" class="form-label">Master Passphrase</label>
+          <div class="input-with-icon" style="position: relative;">
+            <input type="password" id="cms-passphrase-input" class="form-input" placeholder="••••••••••••••••" required autocomplete="current-password" style="padding-right: 2.8rem;" />
+            <button type="button" class="toggle-password-btn" onclick="CMS.togglePasswordVisibility()" style="position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer;">
+              <svg id="pw-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="cms-auth-error" class="cms-auth-error-msg" style="display: none;"></div>
+
+        <div class="cms-auth-actions" style="display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="CMS.closeAuthModal()">Cancel</button>
+          <button type="submit" id="cms-login-btn" class="btn btn-primary">
+            <span>Unlock CMS Studio</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       15. MASTER CMS STUDIO MODAL
+       ======================================================================== -->
+  <div id="cms-studio-modal" class="cms-modal-overlay" role="dialog" aria-modal="true">
+    <div class="cms-container">
+      <!-- CMS Header -->
+      <div class="cms-header">
+        <div class="cms-title-group">
+          <h2>⚙️ CMS Studio</h2>
+          <span class="cms-title-badge">Universal Profile CMS</span>
+        </div>
+        <div class="cms-header-actions">
+          <button class="btn btn-secondary btn-sm" onclick="CMS.exportJSON()">📥 Backup JSON</button>
+          <button class="btn btn-secondary btn-sm" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="CMS.logout()">🔒 Lock CMS</button>
+          <button class="btn btn-primary btn-sm" onclick="CMS.closeModal()">✓ Done Editing</button>
+          <button class="modal-close-btn" onclick="CMS.closeModal()" aria-label="Close CMS Studio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- CMS Body -->
+      <div class="cms-body">
+        <!-- Sidebar Navigation Tabs -->
+        <div class="cms-sidebar">
+          <button class="cms-tab-btn active" data-tab="hero" onclick="CMS.switchTab('hero')">
+            <span>🏠 Hero & Profile</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="videos" onclick="CMS.switchTab('videos')">
+            <span>🎬 YouTube & Videos</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="articles" onclick="CMS.switchTab('articles')">
+            <span>✍️ Blog & Articles</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="projects" onclick="CMS.switchTab('projects')">
+            <span>📁 Portfolio Projects</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="experience" onclick="CMS.switchTab('experience')">
+            <span>💼 Experience</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="skills" onclick="CMS.switchTab('skills')">
+            <span>🛠️ Skills Matrix</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="social" onclick="CMS.switchTab('social')">
+            <span>🌐 Social & Contact</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="visibility" onclick="CMS.switchTab('visibility')">
+            <span>👁️ Section Visibility</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="presets" onclick="CMS.switchTab('presets')">
+            <span>🎭 Profession Presets</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="data" onclick="CMS.switchTab('data')">
+            <span>💾 Backup & Import</span>
+          </button>
+        </div>
+
+        <!-- Content Workspace Panels -->
+        <div class="cms-content-workspace">
+          
+          <!-- PANEL 1: Hero & Profile Studio -->
+          <div id="cms-panel-hero" class="cms-panel active">
+            <h3 class="cms-panel-title">Hero Banner & Profile Studio</h3>
+            <p class="cms-panel-subtitle">Customize hero headline, banner cover photo, avatar upload, short bio, and CTAs.</p>
+            
+            <div class="cms-form-grid">
+              <div class="cms-form-group">
+                <label class="cms-label">Full Name</label>
+                <input type="text" id="cms-hero-name" class="cms-input" placeholder="e.g. Alexi Dhungel, Er." />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Professional Badge</label>
+                <input type="text" id="cms-hero-badge" class="cms-input" placeholder="e.g. Er. Registered Computer Engineer" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Brand Tag Badge</label>
+                <input type="text" id="cms-hero-brand-badge" class="cms-input" placeholder="e.g. ⚡ Code With Alexi" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Brand Name</label>
+                <input type="text" id="cms-hero-brand-name" class="cms-input" placeholder="e.g. Code With Alexi" />
+              </div>
+
+              <!-- Cover Image Drag & Drop -->
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Banner Background Cover Image</label>
+                <div class="image-uploader-box" data-target-input="cms-hero-cover-url" data-target-preview="cms-cover-preview">
+                  <div>Drag & Drop Cover Image File Here, or Click to Browse</div>
+                  <input type="file" accept="image/*" style="display:none;" id="cms-cover-file" onchange="CMS.handleFileUpload(this.files[0], 'cms-hero-cover-url', 'cms-cover-preview')" />
+                  <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;" onclick="document.getElementById('cms-cover-file').click()">📁 Choose Image File</button>
+                  <div class="image-preview-wrapper">
+                    <img id="cms-cover-preview" class="image-preview-thumb" src="" alt="Banner Cover Preview" />
+                    <input type="text" id="cms-hero-cover-url" class="cms-input" placeholder="Or paste image URL here..." />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Avatar Photo Upload -->
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Profile Photo / Avatar Image</label>
+                <div class="image-uploader-box" data-target-input="cms-hero-avatar-url" data-target-preview="cms-avatar-preview">
+                  <div>Drag & Drop Avatar Image File Here, or Click to Browse</div>
+                  <input type="file" accept="image/*" style="display:none;" id="cms-avatar-file" onchange="CMS.handleFileUpload(this.files[0], 'cms-hero-avatar-url', 'cms-avatar-preview')" />
+                  <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;" onclick="document.getElementById('cms-avatar-file').click()">📁 Choose Avatar File</button>
+                  <div class="image-preview-wrapper">
+                    <img id="cms-avatar-preview" class="image-preview-thumb avatar" src="" alt="Avatar Preview" />
+                    <input type="text" id="cms-hero-avatar-url" class="cms-input" placeholder="Or paste photo URL here..." />
+                  </div>
+                </div>
+              </div>
+
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Titles / Roles (One per line)</label>
+                <textarea id="cms-hero-titles" class="cms-textarea" rows="3" placeholder="Computer Engineer&#10;Software Developer&#10;Java Instructor"></textarea>
+              </div>
+
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Short Intro Bio</label>
+                <textarea id="cms-hero-bio-short" class="cms-textarea" rows="2"></textarea>
+              </div>
+
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Detailed Expanded Bio</label>
+                <textarea id="cms-hero-bio-long" class="cms-textarea" rows="4"></textarea>
+              </div>
+
+              <div class="cms-form-group">
+                <label class="cms-label">Primary CTA Button Label</label>
+                <input type="text" id="cms-hero-cta-primary" class="cms-input" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Secondary CTA Button Label</label>
+                <input type="text" id="cms-hero-cta-secondary" class="cms-input" />
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg" onclick="CMS.saveHeroBanner()">💾 Save Profile & Banner Edits</button>
+          </div>
+
+          <!-- PANEL 2: YouTube Videos Manager -->
+          <div id="cms-panel-videos" class="cms-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <div>
+                <h3 class="cms-panel-title">YouTube & Video Link Showcase</h3>
+                <p class="cms-panel-subtitle">Add YouTube video links, thumbnails, active/disabled toggles.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addYouTubeVideo()">+ Add YouTube Video</button>
+            </div>
+            <div id="cms-youtube-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 3: Articles / Blog CMS -->
+          <div id="cms-panel-articles" class="cms-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <div>
+                <h3 class="cms-panel-title">Dynamic Blog & Knowledge Hub</h3>
+                <p class="cms-panel-subtitle">Create, edit, toggle active state, or delete technical blog articles.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addArticle()">+ Create Blog Article</button>
+            </div>
+            <div id="cms-articles-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 4: Portfolio Projects -->
+          <div id="cms-panel-projects" class="cms-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <div>
+                <h3 class="cms-panel-title">Portfolio Projects & Technical Architecture</h3>
+                <p class="cms-panel-subtitle">Manage project domain cards, image thumbnails, and active switches.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addProject()">+ Add Project Card</button>
+            </div>
+            <div id="cms-projects-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 5: Experience & Services -->
+          <div id="cms-panel-experience" class="cms-panel">
+            <h3 class="cms-panel-title">Professional Experience & Career Timeline</h3>
+            <p class="cms-panel-subtitle">Toggle active visibility for roles and career milestones.</p>
+            <div id="cms-experience-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 6: Skills Matrix -->
+          <div id="cms-panel-skills" class="cms-panel">
+            <h3 class="cms-panel-title">Technical Skills Matrix</h3>
+            <p class="cms-panel-subtitle">Enable or disable specific tech stack items from public view.</p>
+            <div id="cms-skills-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 7: Social Links -->
+          <div id="cms-panel-social" class="cms-panel">
+            <h3 class="cms-panel-title">Social Media Links & Channels</h3>
+            <p class="cms-panel-subtitle">Update LinkedIn, GitHub, YouTube, Email, Twitter/X, and Location.</p>
+            <div class="cms-form-grid">
+              <div class="cms-form-group">
+                <label class="cms-label">Email Address</label>
+                <input type="email" id="cms-social-email" class="cms-input" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">LinkedIn Profile URL</label>
+                <input type="text" id="cms-social-linkedin" class="cms-input" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">GitHub Profile URL</label>
+                <input type="text" id="cms-social-github" class="cms-input" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">YouTube Channel URL</label>
+                <input type="text" id="cms-social-youtube" class="cms-input" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Twitter / X URL</label>
+                <input type="text" id="cms-social-twitter" class="cms-input" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Location / City</label>
+                <input type="text" id="cms-social-location" class="cms-input" />
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" onclick="CMS.saveSocials()">💾 Save Social Handles</button>
+          </div>
+
+          <!-- PANEL 8: Master Section Visibility -->
+          <div id="cms-panel-visibility" class="cms-panel">
+            <h3 class="cms-panel-title">Master Section Active / Disable Control</h3>
+            <p class="cms-panel-subtitle">Turn any section on or off on your website with one click.</p>
+            
+            <div class="toggle-card-grid">
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Hero Banner Section</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-hero" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Key Stats Ribbon</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-stats" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">YouTube Videos Showcase</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-videos" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">What I Build / Services</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-whatIBuild" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">About Me Section</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-about" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Professional Experience</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-experience" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Teaching & Mentoring</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-teaching" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Skills & Technologies Matrix</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-skills" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Technical Projects / Architecture</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-projects" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Dynamic Blog & Knowledge Hub</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-articles" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Education & Qualifications</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-education" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-card">
+                <div class="toggle-card-info">
+                  <div class="toggle-card-title">Contact & Inquiry Form</div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="vis-toggle-contact" onchange="CMS.saveSectionVisibility()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 9: Profession Presets -->
+          <div id="cms-panel-presets" class="cms-panel">
+            <h3 class="cms-panel-title">Universal Profession Preset Switcher</h3>
+            <p class="cms-panel-subtitle">Click any preset below to instantly re-theme and adapt your entire website for that profession!</p>
+            <div id="cms-presets-grid" class="preset-grid"></div>
+          </div>
+
+          <!-- PANEL 10: Backup & Data -->
+          <div id="cms-panel-data" class="cms-panel">
+            <h3 class="cms-panel-title">Data Backup, Import & Reset</h3>
+            <p class="cms-panel-subtitle">Export your full configuration, import existing profiles, or reset to defaults.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 450px;">
+              <button class="btn btn-secondary btn-lg" onclick="CMS.exportJSON()">
+                📥 Export Full CMS JSON Config
+              </button>
+
+              <div style="border: 1px dashed var(--border-color); padding: 1.2rem; border-radius: 12px; text-align: center;">
+                <p style="font-weight: 700; margin-bottom: 0.5rem;">Import JSON Profile Backup</p>
+                <input type="file" accept=".json" id="import-json-file" onchange="CMS.importJSON(event)" style="display: none;" />
+                <button class="btn btn-primary btn-sm" onclick="document.getElementById('import-json-file').click()">📤 Select JSON File to Import</button>
+              </div>
+
+              <button class="btn btn-secondary btn-lg" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" onclick="CMS.resetToDefault()">
+                🔄 Reset All Data to Baseline Defaults
+              </button>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -796,6 +985,7 @@
   <script src="js/data.js"></script>
   <script src="js/terminal.js"></script>
   <script src="js/modal.js"></script>
+  <script src="js/cms.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

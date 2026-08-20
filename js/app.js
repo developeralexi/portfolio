@@ -1,6 +1,6 @@
 /**
- * MAIN APPLICATION LOGIC
- * Alexi Dhungel, Er. — Portfolio Website
+ * MAIN APPLICATION LOGIC & CMS RENDERING ENGINE
+ * Alexi Dhungel, Er. — Universal Profile & Portfolio
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,14 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Navigation & Mobile Menu
   initNavigation();
 
-  // 3. Render Dynamic Data Components
-  renderWhatIBuild();
-  renderExperience();
-  renderTeaching();
-  renderSkills();
-  renderProjects();
-  renderArticles();
-  renderEducation();
+  // 3. Initial Dynamic Rendering
+  renderAllComponents();
 
   // 4. Interactive Filters & Search
   initSkillFilters();
@@ -29,6 +23,48 @@ document.addEventListener("DOMContentLoaded", () => {
   // 6. Scroll Reveal Observer & Back to Top
   initScrollEffects();
 });
+
+// XSS Protection & HTML Sanitization Helper for Secure Dynamic System
+function escapeHTML(str) {
+  if (str === null || str === undefined) return "";
+  if (typeof str !== "string") return String(str);
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+window.escapeHTML = escapeHTML;
+
+// Helper to retrieve active state data (from CMS or portfolioData default)
+function getActiveData() {
+  if (window.CMS && window.CMS.data) {
+    return window.CMS.data;
+  }
+  const saved = localStorage.getItem("cms_portfolio_data");
+  if (saved) {
+    try { return JSON.parse(saved); } catch (e) {}
+  }
+  return portfolioData;
+}
+
+// Master Render All Components
+window.renderAllComponents = function() {
+  renderHeroBanner();
+  renderVideos();
+  renderWhatIBuild();
+  renderExperience();
+  renderTeaching();
+  renderSkills();
+  renderProjects();
+  renderArticles();
+  renderEducation();
+  
+  if (window.CMS && window.CMS.renderActiveVisibility) {
+    window.CMS.renderActiveVisibility();
+  }
+};
 
 /* ==========================================================================
    1. THEME MANAGEMENT (Dark / Light Mode)
@@ -58,14 +94,12 @@ function updateThemeIcon(theme) {
   if (!iconContainer) return;
   
   if (theme === "light") {
-    // Show Moon icon for light mode (to switch to dark)
     iconContainer.innerHTML = `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
       </svg>
     `;
   } else {
-    // Show Sun icon for dark mode (to switch to light)
     iconContainer.innerHTML = `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="5"></circle>
@@ -91,7 +125,6 @@ function initNavigation() {
   const navLinks = document.getElementById("nav-links");
   const navLinkItems = document.querySelectorAll(".nav-link");
 
-  // Sticky navbar shadow on scroll
   window.addEventListener("scroll", () => {
     if (window.scrollY > 40) {
       navbar.classList.add("scrolled");
@@ -101,13 +134,11 @@ function initNavigation() {
     highlightActiveNav();
   });
 
-  // Mobile menu toggle
   if (menuToggle && navLinks) {
     menuToggle.addEventListener("click", () => {
       navLinks.classList.toggle("mobile-active");
     });
 
-    // Close mobile menu when clicking a link
     navLinkItems.forEach(link => {
       link.addEventListener("click", () => {
         navLinks.classList.remove("mobile-active");
@@ -115,7 +146,6 @@ function initNavigation() {
     });
   }
 
-  // Active section scrollspy
   function highlightActiveNav() {
     const sections = document.querySelectorAll("section[id]");
     const scrollY = window.pageYOffset + 120;
@@ -141,7 +171,6 @@ function initNavigation() {
    3. DYNAMIC RENDERING
    ========================================================================== */
 
-// Helper to get SVG icon markup
 function getIconSvg(iconName) {
   const icons = {
     code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
@@ -153,7 +182,7 @@ function getIconSvg(iconName) {
     network: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="6" height="6" rx="1"/><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><line x1="5" y1="8" x2="5" y2="12"/><line x1="5" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="19" y2="12"/><line x1="19" y1="12" x2="19" y2="16"/></svg>`,
     cpu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>`,
     coffee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
-    "book-open": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+    "book-open": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 1 3-3h7z"/></svg>`,
     database: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
     globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
     "qr-code": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
@@ -167,89 +196,205 @@ function getIconSvg(iconName) {
     terminal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
     layout: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`
   };
-
   return icons[iconName] || icons.code;
 }
 
-// 1. Render "What I Build"
+// Render Hero Banner Elements Dynamically
+function renderHeroBanner() {
+  const data = getActiveData();
+  const hero = data.heroBanner || portfolioData.heroBanner;
+  if (!hero) return;
+
+  // Banner background image
+  const bgEl = document.getElementById("hero-banner-bg");
+  if (bgEl && hero.coverImage) {
+    bgEl.style.backgroundImage = `url('${hero.coverImage}')`;
+  }
+
+  // Badges & Titles
+  const badgeEl = document.querySelector(".engineer-badge span:nth-child(2)");
+  if (badgeEl && hero.badgeText) badgeEl.textContent = hero.badgeText;
+
+  const brandBadgeEl = document.querySelector(".brand-tag-badge span");
+  if (brandBadgeEl && hero.brandBadge) brandBadgeEl.textContent = hero.brandBadge;
+
+  const titleEl = document.querySelector(".hero-title");
+  if (titleEl && hero.name) {
+    titleEl.innerHTML = `${hero.name.replace(", Er.", "")} <span class="text-gradient">${hero.name.includes(", Er.") ? ", Er." : ""}</span>`;
+  }
+
+  const subtitleEl = document.querySelector(".hero-subtitle-role");
+  if (subtitleEl && hero.titles) {
+    subtitleEl.innerHTML = hero.titles.map((t, idx) => `
+      <span>${t}</span>
+      ${idx < hero.titles.length - 1 ? '<span class="role-divider">•</span>' : ''}
+    `).join("");
+  }
+
+  const descEl = document.querySelector(".hero-desc");
+  if (descEl && hero.bioShort) descEl.textContent = hero.bioShort;
+
+  // Avatar Photo
+  const avatarEl = document.querySelector(".avatar-photo");
+  if (avatarEl && hero.avatarPhoto) avatarEl.src = hero.avatarPhoto;
+
+  const avatarNameEl = document.querySelector(".avatar-info-header h3");
+  if (avatarNameEl && hero.name) avatarNameEl.textContent = hero.name;
+}
+
+// 🎬 Render YouTube & Video Showcase
+function renderVideos() {
+  const container = document.getElementById("videos-grid-container");
+  if (!container) return;
+
+  const data = getActiveData();
+  const videos = (data.youtubeVideos || []).filter(v => v.active !== false);
+
+  if (videos.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-muted);">
+        <p>No active videos configured.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = videos.map(vid => {
+    const thumb = vid.customThumbnail || `https://img.youtube.com/vi/${vid.youtubeId}/hqdefault.jpg`;
+    return `
+      <div class="video-card reveal active">
+        <div class="video-card-thumb-wrapper" onclick="openVideoModal('${vid.youtubeId}', '${escapeHtml(vid.title)}')">
+          <img src="${thumb}" class="video-card-thumb" alt="${escapeHtml(vid.title)}" loading="lazy" />
+          <div class="video-play-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <div class="video-card-body">
+          <span class="video-card-category">${escapeHtml(vid.category || "Featured Video")}</span>
+          <h3 class="video-card-title">${escapeHtml(vid.title)}</h3>
+          <p class="video-card-desc">${escapeHtml(vid.description)}</p>
+          <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="openVideoModal('${vid.youtubeId}', '${escapeHtml(vid.title)}')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Watch Video</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// Play YouTube Video in Modal
+window.openVideoModal = function(youtubeId, title) {
+  const modal = document.getElementById("youtube-player-modal");
+  const modalTitle = document.getElementById("youtube-modal-title");
+  const iframeContainer = document.getElementById("youtube-iframe-container");
+
+  if (!modal || !iframeContainer) return;
+
+  modalTitle.textContent = title || "Video Player";
+  iframeContainer.innerHTML = `
+    <iframe 
+      src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0" 
+      title="${escapeHtml(title)}" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  `;
+
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+};
+
+window.closeVideoModal = function() {
+  const modal = document.getElementById("youtube-player-modal");
+  const iframeContainer = document.getElementById("youtube-iframe-container");
+
+  if (modal) modal.classList.remove("active");
+  if (iframeContainer) iframeContainer.innerHTML = "";
+  document.body.style.overflow = "";
+};
+
+// Render "What I Build"
 function renderWhatIBuild() {
   const container = document.getElementById("what-i-build-container");
   if (!container) return;
 
-  container.innerHTML = portfolioData.whatIBuild.map((item, index) => `
-    <div class="expertise-card reveal reveal-delay-${(index % 3) + 1}">
+  const data = getActiveData();
+  const items = (data.whatIBuild || []).filter(i => i.active !== false);
+
+  container.innerHTML = items.map((item, index) => `
+    <div class="expertise-card reveal active reveal-delay-${(index % 3) + 1}">
       <div class="expertise-icon-box">
         ${getIconSvg(item.icon)}
       </div>
-      <h3 class="expertise-title">${item.title}</h3>
-      <p class="expertise-desc">${item.description}</p>
+      <h3 class="expertise-title">${escapeHtml(item.title)}</h3>
+      <p class="expertise-desc">${escapeHtml(item.description)}</p>
       <div class="expertise-tags">
-        ${item.tags.map(t => `<span class="mini-tag">${t}</span>`).join("")}
+        ${item.tags.map(t => `<span class="mini-tag">${escapeHtml(t)}</span>`).join("")}
       </div>
     </div>
   `).join("");
 }
 
-// 2. Render Experience Timeline
+// Render Experience Timeline
 function renderExperience() {
   const container = document.getElementById("experience-timeline-container");
   if (!container) return;
 
+  const data = getActiveData();
+  const items = (data.experience || []).filter(e => e.active !== false);
+
   container.innerHTML = `
     <div class="timeline-line"></div>
-    ${portfolioData.experience.map((exp, index) => `
-      <div class="timeline-item reveal reveal-delay-${(index % 3) + 1}">
+    ${items.map((exp, index) => `
+      <div class="timeline-item reveal active reveal-delay-${(index % 3) + 1}">
         <div class="timeline-node">
           <span class="timeline-node-inner"></span>
         </div>
         <div class="timeline-card">
-          <!-- Card Top Bar: Role & Meta -->
           <div class="timeline-header">
             <div class="timeline-role-info">
               <div class="timeline-badges-row">
                 <span class="timeline-domain-badge">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                  ${exp.domain || "Enterprise Systems"}
+                  ${escapeHtml(exp.domain || "Enterprise Systems")}
                 </span>
-                ${exp.type ? `<span class="timeline-type-badge">${exp.type}</span>` : ''}
+                ${exp.type ? `<span class="timeline-type-badge">${escapeHtml(exp.type)}</span>` : ''}
               </div>
-              <h3 class="timeline-role-title">${exp.role}</h3>
+              <h3 class="timeline-role-title">${escapeHtml(exp.role)}</h3>
             </div>
             
             <div class="timeline-meta-group">
               <div class="timeline-period">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                ${exp.period}
+                ${escapeHtml(exp.period)}
               </div>
               ${exp.location ? `
                 <div class="timeline-location">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  ${exp.location}
+                  ${escapeHtml(exp.location)}
                 </div>
               ` : ''}
             </div>
           </div>
 
-          <!-- Executive Summary / Scope -->
           ${exp.summary ? `
             <div class="timeline-summary">
-              <p>${exp.summary}</p>
+              <p>${escapeHtml(exp.summary)}</p>
             </div>
           ` : ''}
 
-          <!-- Impact Metrics Strip -->
           ${exp.metrics && exp.metrics.length > 0 ? `
             <div class="timeline-metrics-grid">
               ${exp.metrics.map(m => `
                 <div class="timeline-metric-item">
-                  <span class="metric-val">${m.value}</span>
-                  <span class="metric-lbl">${m.label}</span>
+                  <span class="metric-val">${escapeHtml(m.value)}</span>
+                  <span class="metric-lbl">${escapeHtml(m.label)}</span>
                 </div>
               `).join("")}
             </div>
           ` : ''}
 
-          <!-- Key Deliverables & Systems Engineered -->
           <div class="timeline-highlights">
             <h4 class="timeline-highlights-title">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -262,8 +407,8 @@ function renderExperience() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
                   <div class="deliverable-body">
-                    <strong>${h.title}:</strong>
-                    <span>${h.desc}</span>
+                    <strong>${escapeHtml(h.title)}:</strong>
+                    <span>${escapeHtml(h.desc)}</span>
                   </div>
                 </div>
               ` : `
@@ -272,14 +417,13 @@ function renderExperience() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
                   <div class="deliverable-body">
-                    <span>${h}</span>
+                    <span>${escapeHtml(h)}</span>
                   </div>
                 </div>
               `).join("")}
             </div>
           </div>
 
-          <!-- Core Technologies & Domain Tags -->
           <div class="timeline-footer">
             <div class="timeline-tech-stack">
               <span class="tech-stack-label">
@@ -287,15 +431,9 @@ function renderExperience() {
                 Core Technologies:
               </span>
               <div class="tech-tags-list">
-                ${exp.technologies.map(t => `<span class="tech-tag">${t}</span>`).join("")}
+                ${exp.technologies.map(t => `<span class="tech-tag">${escapeHtml(t)}</span>`).join("")}
               </div>
             </div>
-
-            ${exp.tags && exp.tags.length > 0 ? `
-              <div class="timeline-domain-tags">
-                ${exp.tags.map(tag => `<span class="domain-pill">#${tag}</span>`).join("")}
-              </div>
-            ` : ''}
           </div>
         </div>
       </div>
@@ -303,35 +441,40 @@ function renderExperience() {
   `;
 }
 
-// 3. Render Teaching Experience & Expertise
+// Render Teaching Experience & Expertise
 function renderTeaching() {
   const container = document.getElementById("teaching-grid-container");
   if (!container) return;
 
-  container.innerHTML = portfolioData.teaching.map((item, index) => `
-    <div class="teaching-card reveal reveal-delay-${index + 1}">
-      <span class="teaching-badge">${item.badge}</span>
-      <h3 class="teaching-institution">${item.expertise}</h3>
-      <div class="teaching-subject">${item.subject}</div>
+  const data = getActiveData();
+  const items = (data.teaching || []).filter(t => t.active !== false);
+
+  container.innerHTML = items.map((item, index) => `
+    <div class="teaching-card reveal active reveal-delay-${index + 1}">
+      <span class="teaching-badge">${escapeHtml(item.badge)}</span>
+      <h3 class="teaching-institution">${escapeHtml(item.expertise)}</h3>
+      <div class="teaching-subject">${escapeHtml(item.subject)}</div>
       <div style="font-size: 0.85rem; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 1.25rem;">
-        Domain: ${item.period}
+        Domain: ${escapeHtml(item.period)}
       </div>
       <div class="teaching-topics">
         <h5>Instructional Focus & Topics</h5>
         <div class="topics-list">
-          ${item.topics.map(t => `<span class="topic-chip">${t}</span>`).join("")}
+          ${item.topics.map(t => `<span class="topic-chip">${escapeHtml(t)}</span>`).join("")}
         </div>
       </div>
     </div>
   `).join("");
 }
 
-// 4. Render Skills
+// Render Skills
 function renderSkills(filteredSkills = null) {
   const container = document.getElementById("skills-grid-container");
   if (!container) return;
 
-  const dataToRender = filteredSkills || portfolioData.skills;
+  const data = getActiveData();
+  const allActive = (data.skills || []).filter(s => s.active !== false);
+  const dataToRender = filteredSkills || allActive;
 
   if (dataToRender.length === 0) {
     container.innerHTML = `
@@ -348,33 +491,36 @@ function renderSkills(filteredSkills = null) {
         ${getIconSvg(skill.icon)}
       </div>
       <div class="skill-info">
-        <span class="skill-name">${skill.name}</span>
-        <span class="skill-category-label">${skill.level}</span>
+        <span class="skill-name">${escapeHtml(skill.name)}</span>
+        <span class="skill-category-label">${escapeHtml(skill.level)}</span>
       </div>
     </div>
   `).join("");
 }
 
-// 5. Render Generalized Solutions & Tech Stack
+// Render Solutions & Tech Stack (Portfolio Projects)
 function renderProjects(category = "all") {
   const container = document.getElementById("projects-grid-container");
   if (!container) return;
 
+  const data = getActiveData();
+  const allActive = (data.projects || []).filter(p => p.active !== false);
+
   const filtered = category === "all" 
-    ? portfolioData.projects 
-    : portfolioData.projects.filter(p => p.category === category);
+    ? allActive 
+    : allActive.filter(p => p.category === category);
 
   container.innerHTML = filtered.map((proj, index) => `
     <div class="project-card reveal active reveal-delay-${(index % 2) + 1}">
       <div class="project-card-header">
-        <span class="project-domain-badge">${proj.domain}</span>
+        <span class="project-domain-badge">${escapeHtml(proj.domain)}</span>
         <div class="project-icon-indicator">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
       </div>
 
-      <h3 class="project-title">${proj.title}</h3>
-      <p class="project-desc">${proj.shortDesc}</p>
+      <h3 class="project-title">${escapeHtml(proj.title)}</h3>
+      <p class="project-desc">${escapeHtml(proj.shortDesc)}</p>
 
       <div style="margin-top: auto; margin-bottom: 1.25rem;">
         <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
@@ -382,7 +528,7 @@ function renderProjects(category = "all") {
           Specified Tech Stack:
         </div>
         <div class="project-tech-tags" style="margin-top: 0; margin-bottom: 0;">
-          ${proj.technologies.map(t => `<span class="project-tech-pill">${t}</span>`).join("")}
+          ${proj.technologies.map(t => `<span class="project-tech-pill">${escapeHtml(t)}</span>`).join("")}
         </div>
       </div>
 
@@ -396,19 +542,22 @@ function renderProjects(category = "all") {
   `).join("");
 }
 
-// 6. Render Articles
+// Render Dynamic Articles / Blog
 function renderArticles() {
   const container = document.getElementById("articles-grid-container");
   if (!container) return;
 
-  container.innerHTML = portfolioData.articles.map((art, index) => `
-    <div class="article-card reveal reveal-delay-${(index % 3) + 1}">
+  const data = getActiveData();
+  const articles = (data.articles || []).filter(a => a.active !== false);
+
+  container.innerHTML = articles.map((art, index) => `
+    <div class="article-card reveal active reveal-delay-${(index % 3) + 1}">
       <div class="article-meta">
-        <span class="article-category">${art.category}</span>
-        <span class="article-read-time">${art.readTime}</span>
+        <span class="article-category">${escapeHtml(art.category)}</span>
+        <span class="article-read-time">${escapeHtml(art.readTime)}</span>
       </div>
-      <h3 class="article-title">${art.title}</h3>
-      <p class="article-summary">${art.summary}</p>
+      <h3 class="article-title">${escapeHtml(art.title)}</h3>
+      <p class="article-summary">${escapeHtml(art.summary)}</p>
       <div class="article-footer">
         <span class="article-read-link" onclick="ModalController.showArticle('${art.id}')">
           Read Deep-Dive
@@ -419,27 +568,30 @@ function renderArticles() {
   `).join("");
 }
 
-// 7. Render Education & Qualifications
+// Render Education & Qualifications
 function renderEducation() {
   const container = document.getElementById("education-grid-container");
   if (!container) return;
 
-  container.innerHTML = portfolioData.education.map((edu, index) => `
-    <div class="education-card reveal reveal-delay-${index + 1}">
-      <span class="education-badge">${edu.badge}</span>
-      <h3 class="education-degree">${edu.degree}</h3>
-      <div class="education-institution">${edu.field}</div>
+  const data = getActiveData();
+  const items = (data.education || []).filter(e => e.active !== false);
+
+  container.innerHTML = items.map((edu, index) => `
+    <div class="education-card reveal active reveal-delay-${index + 1}">
+      <span class="education-badge">${escapeHtml(edu.badge)}</span>
+      <h3 class="education-degree">${escapeHtml(edu.degree)}</h3>
+      <div class="education-institution">${escapeHtml(edu.field)}</div>
       <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
-        ${edu.period}
+        ${escapeHtml(edu.period)}
       </div>
-      <div class="education-spec">${edu.description}</div>
+      <div class="education-spec">${escapeHtml(edu.description)}</div>
     </div>
   `).join("");
 }
 
 /* ==========================================================================
    4. INTERACTIVE FILTERS & SEARCH
-   ========================================================================= */
+   ========================================================================== */
 function initSkillFilters() {
   const searchInput = document.getElementById("skills-search-input");
   const categoryTabs = document.querySelectorAll(".skills-category-tabs .category-tab");
@@ -448,7 +600,8 @@ function initSkillFilters() {
   let searchQuery = "";
 
   function filterData() {
-    let result = portfolioData.skills;
+    const data = getActiveData();
+    let result = (data.skills || []).filter(s => s.active !== false);
 
     if (activeCategory !== "all") {
       result = result.filter(s => s.category === activeCategory);
@@ -512,30 +665,24 @@ function initContactForm() {
     const messageInput = document.getElementById("contact-message");
 
     let isValid = true;
-
-    // Reset error states
     form.querySelectorAll(".form-group").forEach(fg => fg.classList.remove("error"));
 
-    // Name check
     if (!nameInput.value.trim()) {
       showFieldError(nameInput, "Please enter your full name.");
       isValid = false;
     }
 
-    // Email check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
       showFieldError(emailInput, "Please enter a valid email address.");
       isValid = false;
     }
 
-    // Subject check
     if (!subjectInput.value.trim()) {
       showFieldError(subjectInput, "Please enter a subject.");
       isValid = false;
     }
 
-    // Message check
     if (!messageInput.value.trim() || messageInput.value.trim().length < 10) {
       showFieldError(messageInput, "Message must be at least 10 characters long.");
       isValid = false;
@@ -543,13 +690,10 @@ function initContactForm() {
 
     if (!isValid) return;
 
-    // Compose mailto fallback / simulation
     const mailtoSubject = encodeURIComponent(`[Portfolio Inquiry] ${subjectInput.value.trim()}`);
     const mailtoBody = encodeURIComponent(`Name: ${nameInput.value.trim()}\nEmail: ${emailInput.value.trim()}\n\nMessage:\n${messageInput.value.trim()}`);
     
-    // Launch mail client
     window.location.href = `mailto:ingr.alexi@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-
     showToast("Opening email client... Thank you for reaching out!");
     form.reset();
   });
@@ -565,14 +709,14 @@ function initContactForm() {
 }
 
 /* ==========================================================================
-   6. SCROLL EFFECTS, REVEAL OBSERVER & BACK TO TOP
+   6. SCROLL EFFECTS & REVEAL OBSERVER
    ========================================================================== */
 function initScrollEffects() {
   const revealElements = document.querySelectorAll(".reveal");
 
   const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -40px 0px"
+    threshold: 0.05,
+    rootMargin: "0px 0px -20px 0px"
   };
 
   const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -586,12 +730,10 @@ function initScrollEffects() {
 
   revealElements.forEach(el => revealObserver.observe(el));
 
-  // Dynamically observe future elements created by renderers
   setTimeout(() => {
     document.querySelectorAll(".reveal:not(.active)").forEach(el => revealObserver.observe(el));
   }, 100);
 
-  // Back to Top button
   const backToTopBtn = document.getElementById("back-to-top");
   if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () => {
@@ -601,7 +743,7 @@ function initScrollEffects() {
 }
 
 /* ==========================================================================
-   7. TOAST NOTIFICATIONS
+   7. TOAST NOTIFICATIONS & UTILS
    ========================================================================== */
 function showToast(message) {
   let container = document.getElementById("toast-container");
@@ -627,4 +769,14 @@ function showToast(message) {
     toast.style.transition = "all 0.3s ease-out";
     setTimeout(() => toast.remove(), 300);
   }, 3500);
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
