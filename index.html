@@ -652,6 +652,22 @@
           <button class="cms-tab-btn" data-tab="data" onclick="CMS.switchTab('data')">
             <span>💾 Backup & Import</span>
           </button>
+          <hr style="border:none;border-top:1px solid var(--border-subtle);margin:0.4rem 0.5rem;" />
+          <button class="cms-tab-btn" data-tab="stats" onclick="CMS.switchTab('stats')">
+            <span>📊 Stats & Metrics</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="whatibuild" onclick="CMS.switchTab('whatibuild')">
+            <span>🏗️ What I Build</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="teaching" onclick="CMS.switchTab('teaching')">
+            <span>📚 Teaching Cards</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="education" onclick="CMS.switchTab('education')">
+            <span>🎓 Education Cards</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="theme" onclick="CMS.switchTab('theme')">
+            <span>🎨 Theme & Colors</span>
+          </button>
         </div>
 
         <!-- Content Workspace Panels -->
@@ -774,15 +790,24 @@
 
           <!-- PANEL 5: Experience & Services -->
           <div id="cms-panel-experience" class="cms-panel">
-            <h3 class="cms-panel-title">Professional Experience & Career Timeline</h3>
-            <p class="cms-panel-subtitle">Toggle active visibility for roles and career milestones.</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <div>
+                <h3 class="cms-panel-title">Professional Experience & Career Timeline</h3>
+                <p class="cms-panel-subtitle">Edit roles, periods, summaries, technologies, and toggle visibility.</p>
+              </div>
+            </div>
             <div id="cms-experience-list" class="cms-items-list"></div>
           </div>
 
           <!-- PANEL 6: Skills Matrix -->
           <div id="cms-panel-skills" class="cms-panel">
-            <h3 class="cms-panel-title">Technical Skills Matrix</h3>
-            <p class="cms-panel-subtitle">Enable or disable specific tech stack items from public view.</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <div>
+                <h3 class="cms-panel-title">Technical Skills Matrix</h3>
+                <p class="cms-panel-subtitle">Add, edit, or disable specific tech stack items from public view.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addSkill()">+ Add Skill</button>
+            </div>
             <div id="cms-skills-list" class="cms-items-list"></div>
           </div>
 
@@ -974,6 +999,61 @@
                 🔄 Reset All Data to Baseline Defaults
               </button>
             </div>
+          </div>
+
+          <!-- PANEL 11: Stats & Metrics -->
+          <div id="cms-panel-stats" class="cms-panel">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <div>
+                <h3 class="cms-panel-title">Stats &amp; Metrics Ribbon</h3>
+                <p class="cms-panel-subtitle">Edit stat values, labels, and toggle each stat tile on or off.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addStat()">+ Add Stat</button>
+            </div>
+            <div id="cms-stats-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 12: What I Build -->
+          <div id="cms-panel-whatibuild" class="cms-panel">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <div>
+                <h3 class="cms-panel-title">What I Build — Service Cards</h3>
+                <p class="cms-panel-subtitle">Edit titles, descriptions, tags and toggle each service card.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addWhatIBuildItem()">+ Add Card</button>
+            </div>
+            <div id="cms-whatibuild-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 13: Teaching Cards -->
+          <div id="cms-panel-teaching" class="cms-panel">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <div>
+                <h3 class="cms-panel-title">Teaching &amp; Mentoring Cards</h3>
+                <p class="cms-panel-subtitle">Edit expertise areas, subjects, badges, and topic lists.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addTeachingItem()">+ Add Teaching Card</button>
+            </div>
+            <div id="cms-teaching-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 14: Education Cards -->
+          <div id="cms-panel-education" class="cms-panel">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <div>
+                <h3 class="cms-panel-title">Education &amp; Qualifications</h3>
+                <p class="cms-panel-subtitle">Edit degrees, fields, periods, badges, and descriptions.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="CMS.addEducationItem()">+ Add Education</button>
+            </div>
+            <div id="cms-education-list" class="cms-items-list"></div>
+          </div>
+
+          <!-- PANEL 15: Theme & Colors -->
+          <div id="cms-panel-theme" class="cms-panel">
+            <h3 class="cms-panel-title">Theme &amp; Brand Colors</h3>
+            <p class="cms-panel-subtitle">Customize the primary brand and background colors across the entire site. Changes apply live instantly.</p>
+            <div id="cms-theme-panel-content" style="margin-top:1rem;"></div>
           </div>
 
         </div>
