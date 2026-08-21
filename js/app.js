@@ -1,16 +1,16 @@
 /**
- * MAIN APPLICATION LOGIC & CMS RENDERING ENGINE
- * Alexi Dhungel, Er. — Universal Profile & Portfolio
+ * MAIN APPLICATION LOGIC & DYNAMIC RENDERING ENGINE
+ * Universal Profile & Portfolio — Fully Dynamic Platform
  */
 
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Theme Management
   initTheme();
 
-  // 2. Navigation & Mobile Menu
+  // 2. Navigation & Mobile Menu Setup
   initNavigation();
 
-  // 3. Initial Dynamic Rendering
+  // 3. Initial Dynamic Rendering of All Components
   renderAllComponents();
 
   // 4. Interactive Filters & Search
@@ -36,6 +36,7 @@ function escapeHTML(str) {
     .replace(/'/g, "&#039;");
 }
 window.escapeHTML = escapeHTML;
+window.escapeHtml = escapeHTML;
 
 // Helper to retrieve active state data (from CMS or portfolioData default)
 function getActiveData() {
@@ -46,21 +47,27 @@ function getActiveData() {
   if (saved) {
     try { return JSON.parse(saved); } catch (e) {}
   }
-  return portfolioData;
+  return typeof portfolioData !== "undefined" ? portfolioData : {};
 }
+window.getActiveData = getActiveData;
 
 // Master Render All Components
 window.renderAllComponents = function() {
+  renderNavigation();
   renderHeroBanner();
+  renderStats();
   renderVideos();
   renderWhatIBuild();
+  renderAbout();
   renderExperience();
   renderTeaching();
   renderSkills();
   renderProjects();
   renderArticles();
   renderEducation();
-  
+  renderContact();
+  renderFooter();
+
   if (window.CMS && window.CMS.renderActiveVisibility) {
     window.CMS.renderActiveVisibility();
   }
@@ -123,7 +130,6 @@ function initNavigation() {
   const navbar = document.querySelector(".navbar");
   const menuToggle = document.getElementById("mobile-menu-toggle");
   const navLinks = document.getElementById("nav-links");
-  const navLinkItems = document.querySelectorAll(".nav-link");
 
   window.addEventListener("scroll", () => {
     if (window.scrollY > 40) {
@@ -137,12 +143,6 @@ function initNavigation() {
   if (menuToggle && navLinks) {
     menuToggle.addEventListener("click", () => {
       navLinks.classList.toggle("mobile-active");
-    });
-
-    navLinkItems.forEach(link => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("mobile-active");
-      });
     });
   }
 
@@ -167,8 +167,75 @@ function initNavigation() {
   }
 }
 
+// 🧭 Dynamically Render Navigation Bar & Brand Identity
+function renderNavigation() {
+  const data = getActiveData();
+  const navConfig = data.navigation || {};
+  const personal = data.personal || {};
+  const hero = data.heroBanner || {};
+  const visibility = data.sectionVisibility || {};
+
+  // 1. Dynamic Brand Logo & Initials
+  const brandSymbolEl = document.getElementById("brand-symbol");
+  if (brandSymbolEl) {
+    brandSymbolEl.textContent = navConfig.brandInitials || personal.brandInitials || "AD";
+  }
+
+  const brandNameEl = document.getElementById("brand-name-display");
+  if (brandNameEl) {
+    const rawName = navConfig.brandName || hero.name || personal.name || "Alexi Dhungel, Er.";
+    if (rawName.includes(", Er.")) {
+      brandNameEl.innerHTML = `${escapeHTML(rawName.replace(", Er.", ""))} <span style="font-size: 0.85rem; color: var(--brand-cyan-light);">Er.</span>`;
+    } else {
+      brandNameEl.textContent = rawName;
+    }
+  }
+
+  const brandTitleEl = document.getElementById("brand-title-display");
+  if (brandTitleEl) {
+    brandTitleEl.textContent = navConfig.brandTitle || hero.brandName || personal.brandName || "Code With Alexi";
+  }
+
+  // 2. Dynamic Nav Links (Filtered by Section Visibility)
+  const navContainer = document.getElementById("nav-links");
+  if (!navContainer) return;
+
+  const defaultNavLinks = [
+    { id: "nav-about", label: "About", href: "#about", sectionKey: "about", active: true },
+    { id: "nav-videos", label: "Videos & Media", href: "#videos", sectionKey: "videos", active: true },
+    { id: "nav-whatibuild", label: "What I Build", href: "#expertise", sectionKey: "whatIBuild", active: true },
+    { id: "nav-experience", label: "Experience", href: "#experience", sectionKey: "experience", active: true },
+    { id: "nav-teaching", label: "Teaching", href: "#teaching", sectionKey: "teaching", active: true },
+    { id: "nav-skills", label: "Skills", href: "#skills", sectionKey: "skills", active: true },
+    { id: "nav-projects", label: "Solutions & Tech", href: "#projects", sectionKey: "projects", active: true },
+    { id: "nav-articles", label: "Knowledge Hub", href: "#articles", sectionKey: "articles", active: true },
+    { id: "nav-education", label: "Qualifications", href: "#education", sectionKey: "education", active: true },
+    { id: "nav-contact", label: "Contact", href: "#contact", sectionKey: "contact", active: true }
+  ];
+
+  const linksToProcess = (navConfig.navLinks && navConfig.navLinks.length > 0) ? navConfig.navLinks : defaultNavLinks;
+
+  // Filter out any link whose sectionKey is explicitly false in visibility
+  const activeLinks = linksToProcess.filter(link => {
+    if (link.active === false) return false;
+    if (link.sectionKey && visibility[link.sectionKey] === false) return false;
+    return true;
+  });
+
+  navContainer.innerHTML = activeLinks.map(link => `
+    <a href="${escapeHTML(link.href)}" class="nav-link" data-section="${escapeHTML(link.sectionKey || '')}">${escapeHTML(link.label)}</a>
+  `).join("");
+
+  // Re-bind click event for mobile navigation
+  navContainer.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+      navContainer.classList.remove("mobile-active");
+    });
+  });
+}
+
 /* ==========================================================================
-   3. DYNAMIC RENDERING
+   3. DYNAMIC RENDERING HELPERS & ICONS
    ========================================================================== */
 
 function getIconSvg(iconName) {
@@ -199,19 +266,19 @@ function getIconSvg(iconName) {
   return icons[iconName] || icons.code;
 }
 
-// Render Hero Banner Elements Dynamically
+// 🏠 Render Hero Banner Elements Dynamically
 function renderHeroBanner() {
   const data = getActiveData();
-  const hero = data.heroBanner || portfolioData.heroBanner;
+  const hero = data.heroBanner || (typeof portfolioData !== "undefined" ? portfolioData.heroBanner : {});
   if (!hero) return;
 
-  // Banner background image
+  // 1. Banner background image
   const bgEl = document.getElementById("hero-banner-bg");
   if (bgEl && hero.coverImage) {
     bgEl.style.backgroundImage = `url('${hero.coverImage}')`;
   }
 
-  // Badges & Titles
+  // 2. Badges & Titles
   const badgeEl = document.querySelector(".engineer-badge span:nth-child(2)");
   if (badgeEl && hero.badgeText) badgeEl.textContent = hero.badgeText;
 
@@ -220,13 +287,17 @@ function renderHeroBanner() {
 
   const titleEl = document.querySelector(".hero-title");
   if (titleEl && hero.name) {
-    titleEl.innerHTML = `${hero.name.replace(", Er.", "")} <span class="text-gradient">${hero.name.includes(", Er.") ? ", Er." : ""}</span>`;
+    if (hero.name.includes(", Er.")) {
+      titleEl.innerHTML = `${escapeHTML(hero.name.replace(", Er.", ""))} <span class="text-gradient">, Er.</span>`;
+    } else {
+      titleEl.innerHTML = `${escapeHTML(hero.name)}`;
+    }
   }
 
   const subtitleEl = document.querySelector(".hero-subtitle-role");
   if (subtitleEl && hero.titles) {
     subtitleEl.innerHTML = hero.titles.map((t, idx) => `
-      <span>${t}</span>
+      <span>${escapeHTML(t)}</span>
       ${idx < hero.titles.length - 1 ? '<span class="role-divider">•</span>' : ''}
     `).join("");
   }
@@ -234,12 +305,132 @@ function renderHeroBanner() {
   const descEl = document.querySelector(".hero-desc");
   if (descEl && hero.bioShort) descEl.textContent = hero.bioShort;
 
-  // Avatar Photo
+  // 3. CTA Buttons
+  const ctaBtn = document.getElementById("hero-cta-primary-btn");
+  if (ctaBtn) {
+    if (hero.ctaPrimaryText) {
+      ctaBtn.querySelector("span").textContent = hero.ctaPrimaryText;
+    }
+    if (hero.ctaPrimaryLink) {
+      ctaBtn.href = hero.ctaPrimaryLink;
+    }
+  }
+
+  // 4. Avatar Photo & Badge
   const avatarEl = document.querySelector(".avatar-photo");
   if (avatarEl && hero.avatarPhoto) avatarEl.src = hero.avatarPhoto;
 
   const avatarNameEl = document.querySelector(".avatar-info-header h3");
   if (avatarNameEl && hero.name) avatarNameEl.textContent = hero.name;
+
+  const avatarRoleEl = document.querySelector(".avatar-info-header p");
+  if (avatarRoleEl && hero.titles && hero.titles.length > 0) {
+    avatarRoleEl.textContent = hero.titles[0];
+  }
+
+  const avatarBadgeTextEl = document.getElementById("hero-avatar-badge-text");
+  if (avatarBadgeTextEl) {
+    avatarBadgeTextEl.textContent = hero.avatarBadge || "Senior Engineer";
+  }
+
+  // 5. Dynamic Floating Tech Nodes
+  const techNodesContainer = document.getElementById("hero-tech-nodes");
+  if (techNodesContainer) {
+    const techList = hero.floatingTech || ["Java", ".NET / C#", "REST APIs", "SQL Server", "Banking Switches"];
+    techNodesContainer.innerHTML = techList.map(item => `
+      <span class="tech-node-pill">${escapeHTML(item)}</span>
+    `).join("");
+  }
+}
+
+// 📊 Render Key Stats Ribbon Dynamically
+function renderStats() {
+  const container = document.getElementById("stats-grid-container");
+  if (!container) return;
+
+  const data = getActiveData();
+  const stats = (data.stats || []).filter(s => s.active !== false);
+
+  if (stats.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 1rem;">
+        <p>No active stats configured.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = stats.map(stat => `
+    <div class="stat-card reveal active">
+      <div class="stat-icon-wrapper">
+        ${getIconSvg(stat.icon || "code")}
+      </div>
+      <div>
+        <div class="stat-value">${escapeHTML(stat.value)}</div>
+        <div class="stat-label">${escapeHTML(stat.label)}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+// 👤 Render About Me Section Dynamically
+function renderAbout() {
+  const container = document.getElementById("about-content-container");
+  if (!container) return;
+
+  const data = getActiveData();
+  const about = data.about || {};
+  const personal = data.personal || {};
+  const hero = data.heroBanner || {};
+
+  const tag = about.tag || "Background & Philosophy";
+  const title = about.title || "Senior Engineering with Financial Depth";
+  const photo = about.photo || hero.avatarPhoto || "assets/images/alexi-dhungel.jpg";
+
+  let paragraphs = about.paragraphs;
+  if (!paragraphs || paragraphs.length === 0) {
+    paragraphs = [
+      personal.bioLong || hero.bioLong || "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge."
+    ];
+  }
+
+  const specs = about.specs || [
+    { label: "Education", value: "B.E. Computer • MBA" },
+    { label: "Experience", value: "8+ Years Enterprise" },
+    { label: "Licensure", value: "NEC Registered (Er.)" },
+    { label: "Focus", value: "FinTech & Banking Rails" }
+  ];
+
+  container.innerHTML = `
+    <div class="about-grid">
+      <div class="about-text-content reveal active">
+        <span class="section-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          ${escapeHTML(tag)}
+        </span>
+        <h2 class="section-title">${escapeHTML(title)}</h2>
+        ${paragraphs.map(p => `<p>${p}</p>`).join("")}
+      </div>
+
+      <div class="about-profile-card-wrapper reveal active reveal-delay-2">
+        <div class="about-profile-card">
+          <div class="about-photo-wrapper">
+            <img src="${escapeHTML(photo)}" alt="${escapeHTML(personal.name || hero.name || 'Profile')}" class="about-profile-img" loading="lazy" />
+          </div>
+          <div class="about-card-details">
+            <div class="about-spec-row">
+              ${specs.map(s => `
+                <div class="spec-item">
+                  <span class="spec-label">${escapeHTML(s.label)}</span>
+                  <span class="spec-val">${escapeHTML(s.value)}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // 🎬 Render YouTube & Video Showcase
@@ -314,13 +505,18 @@ window.closeVideoModal = function() {
   document.body.style.overflow = "";
 };
 
-// Render "What I Build"
+// 🏗️ Render "What I Build" Services
 function renderWhatIBuild() {
   const container = document.getElementById("what-i-build-container");
   if (!container) return;
 
   const data = getActiveData();
   const items = (data.whatIBuild || []).filter(i => i.active !== false);
+
+  if (items.length === 0) {
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No items configured.</div>`;
+    return;
+  }
 
   container.innerHTML = items.map((item, index) => `
     <div class="expertise-card reveal active reveal-delay-${(index % 3) + 1}">
@@ -330,19 +526,24 @@ function renderWhatIBuild() {
       <h3 class="expertise-title">${escapeHtml(item.title)}</h3>
       <p class="expertise-desc">${escapeHtml(item.description)}</p>
       <div class="expertise-tags">
-        ${item.tags.map(t => `<span class="mini-tag">${escapeHtml(t)}</span>`).join("")}
+        ${(item.tags || []).map(t => `<span class="mini-tag">${escapeHtml(t)}</span>`).join("")}
       </div>
     </div>
   `).join("");
 }
 
-// Render Experience Timeline
+// 💼 Render Experience Timeline
 function renderExperience() {
   const container = document.getElementById("experience-timeline-container");
   if (!container) return;
 
   const data = getActiveData();
   const items = (data.experience || []).filter(e => e.active !== false);
+
+  if (items.length === 0) {
+    container.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:2rem;">No experience entries active.</div>`;
+    return;
+  }
 
   container.innerHTML = `
     <div class="timeline-line"></div>
@@ -395,59 +596,68 @@ function renderExperience() {
             </div>
           ` : ''}
 
-          <div class="timeline-highlights">
-            <h4 class="timeline-highlights-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Key Deliverables & Architectural Solutions
-            </h4>
-            <div class="deliverables-grid">
-              ${exp.highlights.map(h => typeof h === 'object' ? `
-                <div class="deliverable-card">
-                  <div class="deliverable-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          ${exp.highlights && exp.highlights.length > 0 ? `
+            <div class="timeline-highlights">
+              <h4 class="timeline-highlights-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Key Deliverables & Architectural Solutions
+              </h4>
+              <div class="deliverables-grid">
+                ${exp.highlights.map(h => typeof h === 'object' ? `
+                  <div class="deliverable-card">
+                    <div class="deliverable-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="deliverable-body">
+                      <strong>${escapeHtml(h.title)}:</strong>
+                      <span>${escapeHtml(h.desc)}</span>
+                    </div>
                   </div>
-                  <div class="deliverable-body">
-                    <strong>${escapeHtml(h.title)}:</strong>
-                    <span>${escapeHtml(h.desc)}</span>
+                ` : `
+                  <div class="deliverable-card">
+                    <div class="deliverable-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="deliverable-body">
+                      <span>${escapeHtml(h)}</span>
+                    </div>
                   </div>
-                </div>
-              ` : `
-                <div class="deliverable-card">
-                  <div class="deliverable-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
-                  <div class="deliverable-body">
-                    <span>${escapeHtml(h)}</span>
-                  </div>
-                </div>
-              `).join("")}
-            </div>
-          </div>
-
-          <div class="timeline-footer">
-            <div class="timeline-tech-stack">
-              <span class="tech-stack-label">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                Core Technologies:
-              </span>
-              <div class="tech-tags-list">
-                ${exp.technologies.map(t => `<span class="tech-tag">${escapeHtml(t)}</span>`).join("")}
+                `).join("")}
               </div>
             </div>
-          </div>
+          ` : ''}
+
+          ${exp.technologies && exp.technologies.length > 0 ? `
+            <div class="timeline-footer">
+              <div class="timeline-tech-stack">
+                <span class="tech-stack-label">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  Core Technologies:
+                </span>
+                <div class="tech-tags-list">
+                  ${exp.technologies.map(t => `<span class="tech-tag">${escapeHtml(t)}</span>`).join("")}
+                </div>
+              </div>
+            </div>
+          ` : ''}
         </div>
       </div>
     `).join("")}
   `;
 }
 
-// Render Teaching Experience & Expertise
+// 📚 Render Teaching Experience
 function renderTeaching() {
   const container = document.getElementById("teaching-grid-container");
   if (!container) return;
 
   const data = getActiveData();
   const items = (data.teaching || []).filter(t => t.active !== false);
+
+  if (items.length === 0) {
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No teaching modules configured.</div>`;
+    return;
+  }
 
   container.innerHTML = items.map((item, index) => `
     <div class="teaching-card reveal active reveal-delay-${index + 1}">
@@ -460,14 +670,14 @@ function renderTeaching() {
       <div class="teaching-topics">
         <h5>Instructional Focus & Topics</h5>
         <div class="topics-list">
-          ${item.topics.map(t => `<span class="topic-chip">${escapeHtml(t)}</span>`).join("")}
+          ${(item.topics || []).map(t => `<span class="topic-chip">${escapeHtml(t)}</span>`).join("")}
         </div>
       </div>
     </div>
   `).join("");
 }
 
-// Render Skills
+// 🛠️ Render Skills Matrix
 function renderSkills(filteredSkills = null) {
   const container = document.getElementById("skills-grid-container");
   if (!container) return;
@@ -498,7 +708,7 @@ function renderSkills(filteredSkills = null) {
   `).join("");
 }
 
-// Render Solutions & Tech Stack (Portfolio Projects)
+// 📁 Render Solutions & Tech Stack (Portfolio Projects)
 function renderProjects(category = "all") {
   const container = document.getElementById("projects-grid-container");
   if (!container) return;
@@ -509,6 +719,11 @@ function renderProjects(category = "all") {
   const filtered = category === "all" 
     ? allActive 
     : allActive.filter(p => p.category === category);
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem;">No projects in this domain.</div>`;
+    return;
+  }
 
   container.innerHTML = filtered.map((proj, index) => `
     <div class="project-card reveal active reveal-delay-${(index % 2) + 1}">
@@ -528,7 +743,7 @@ function renderProjects(category = "all") {
           Specified Tech Stack:
         </div>
         <div class="project-tech-tags" style="margin-top: 0; margin-bottom: 0;">
-          ${proj.technologies.map(t => `<span class="project-tech-pill">${escapeHtml(t)}</span>`).join("")}
+          ${(proj.technologies || []).map(t => `<span class="project-tech-pill">${escapeHtml(t)}</span>`).join("")}
         </div>
       </div>
 
@@ -542,13 +757,18 @@ function renderProjects(category = "all") {
   `).join("");
 }
 
-// Render Dynamic Articles / Blog
+// ✍️ Render Dynamic Articles / Blog
 function renderArticles() {
   const container = document.getElementById("articles-grid-container");
   if (!container) return;
 
   const data = getActiveData();
   const articles = (data.articles || []).filter(a => a.active !== false);
+
+  if (articles.length === 0) {
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem;">No published articles yet.</div>`;
+    return;
+  }
 
   container.innerHTML = articles.map((art, index) => `
     <div class="article-card reveal active reveal-delay-${(index % 3) + 1}">
@@ -568,13 +788,18 @@ function renderArticles() {
   `).join("");
 }
 
-// Render Education & Qualifications
+// 🎓 Render Education & Qualifications
 function renderEducation() {
   const container = document.getElementById("education-grid-container");
   if (!container) return;
 
   const data = getActiveData();
   const items = (data.education || []).filter(e => e.active !== false);
+
+  if (items.length === 0) {
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No credentials listed.</div>`;
+    return;
+  }
 
   container.innerHTML = items.map((edu, index) => `
     <div class="education-card reveal active reveal-delay-${index + 1}">
@@ -587,6 +812,114 @@ function renderEducation() {
       <div class="education-spec">${escapeHtml(edu.description)}</div>
     </div>
   `).join("");
+}
+
+// 🌐 Render Contact Channels Panel Dynamically
+function renderContact() {
+  const container = document.getElementById("contact-info-container");
+  if (!container) return;
+
+  const data = getActiveData();
+  const personal = data.personal || {};
+
+  const email = personal.email || "ingr.alexi@gmail.com";
+  const linkedin = personal.linkedin || "https://www.linkedin.com/in/alexi-dhungel-01b65b146/";
+  const github = personal.github || "";
+  const youtube = personal.youtube || "";
+  const twitter = personal.twitter || "";
+  const location = personal.location || "Kathmandu, Nepal";
+  const whatsapp = personal.whatsapp || "";
+
+  container.innerHTML = `
+    <div class="contact-card-box">
+      <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--text-primary);">Contact Channels</h3>
+      
+      ${email ? `
+        <div class="contact-method-item">
+          <div class="contact-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </div>
+          <div class="contact-method-text">
+            <h4>Direct Email</h4>
+            <a href="mailto:${escapeHTML(email)}">${escapeHTML(email)}</a>
+          </div>
+        </div>
+      ` : ''}
+
+      ${linkedin ? `
+        <div class="contact-method-item">
+          <div class="contact-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          </div>
+          <div class="contact-method-text">
+            <h4>LinkedIn Profile</h4>
+            <a href="${escapeHTML(linkedin)}" target="_blank" rel="noopener">${escapeHTML(linkedin.replace('https://www.linkedin.com/in/', 'linkedin.com/in/'))}</a>
+          </div>
+        </div>
+      ` : ''}
+
+      ${github ? `
+        <div class="contact-method-item">
+          <div class="contact-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </div>
+          <div class="contact-method-text">
+            <h4>GitHub</h4>
+            <a href="${escapeHTML(github)}" target="_blank" rel="noopener">${escapeHTML(github.replace('https://github.com/', 'github.com/'))}</a>
+          </div>
+        </div>
+      ` : ''}
+
+      ${youtube ? `
+        <div class="contact-method-item">
+          <div class="contact-icon-box">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <div class="contact-method-text">
+            <h4>YouTube Channel</h4>
+            <a href="${escapeHTML(youtube)}" target="_blank" rel="noopener">YouTube Channel</a>
+          </div>
+        </div>
+      ` : ''}
+
+      ${whatsapp ? `
+        <div class="contact-method-item">
+          <div class="contact-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          </div>
+          <div class="contact-method-text">
+            <h4>WhatsApp / Mobile</h4>
+            <a href="https://wa.me/${escapeHTML(whatsapp.replace(/[^0-9]/g, ''))}" target="_blank" rel="noopener">${escapeHTML(whatsapp)}</a>
+          </div>
+        </div>
+      ` : ''}
+
+      ${location ? `
+        <div class="contact-method-item">
+          <div class="contact-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-method-text">
+            <h4>Primary Location</h4>
+            <span style="font-weight:600;color:var(--text-primary);">${escapeHTML(location)}</span>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// 📄 Render Dynamic Footer
+function renderFooter() {
+  const data = getActiveData();
+  const footerData = data.footer || {};
+  const personal = data.personal || {};
+
+  const copyrightEl = document.getElementById("footer-copyright");
+  if (copyrightEl) {
+    const rawCopyright = footerData.copyright || `© 2026 ${personal.name || 'Alexi Dhungel, Er.'} • Universal Dynamic Content Management Platform`;
+    copyrightEl.innerHTML = escapeHTML(rawCopyright);
+  }
 }
 
 /* ==========================================================================
@@ -690,10 +1023,13 @@ function initContactForm() {
 
     if (!isValid) return;
 
+    const data = getActiveData();
+    const destinationEmail = (data.personal && data.personal.email) || "ingr.alexi@gmail.com";
+
     const mailtoSubject = encodeURIComponent(`[Portfolio Inquiry] ${subjectInput.value.trim()}`);
     const mailtoBody = encodeURIComponent(`Name: ${nameInput.value.trim()}\nEmail: ${emailInput.value.trim()}\n\nMessage:\n${messageInput.value.trim()}`);
     
-    window.location.href = `mailto:ingr.alexi@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+    window.location.href = `mailto:${destinationEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
     showToast("Opening email client... Thank you for reaching out!");
     form.reset();
   });
@@ -770,13 +1106,4 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 3500);
 }
-
-function escapeHtml(str) {
-  if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+window.showToast = showToast;

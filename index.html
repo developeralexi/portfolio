@@ -43,26 +43,17 @@
   <header class="navbar">
     <div class="container nav-container">
       <!-- Brand Logo -->
-      <a href="#hero" class="brand-logo" aria-label="Alexi Dhungel Home">
-        <div class="brand-symbol">AD</div>
-        <div class="brand-text">
-          <span class="brand-name">Alexi Dhungel, <span style="font-size: 0.85rem; color: var(--brand-cyan-light);">Er.</span></span>
-          <span class="brand-title">Code With Alexi</span>
+      <a href="#hero" class="brand-logo" id="nav-brand-logo" aria-label="Home">
+        <div class="brand-symbol" id="brand-symbol">AD</div>
+        <div class="brand-text" id="brand-text-container">
+          <span class="brand-name" id="brand-name-display">Alexi Dhungel, <span style="font-size: 0.85rem; color: var(--brand-cyan-light);">Er.</span></span>
+          <span class="brand-title" id="brand-title-display">Code With Alexi</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation Links -->
+      <!-- Desktop Navigation Links (Dynamically rendered & synchronized with section visibility) -->
       <nav id="nav-links" class="nav-links" aria-label="Main Navigation">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#videos" class="nav-link">Videos & Media</a>
-        <a href="#expertise" class="nav-link">What I Build</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#teaching" class="nav-link">Teaching</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#projects" class="nav-link">Solutions & Tech</a>
-        <a href="#articles" class="nav-link">Knowledge Hub</a>
-        <a href="#education" class="nav-link">Qualifications</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <!-- Rendered dynamically by app.js -->
       </nav>
 
       <!-- Action Buttons (Theme Toggle, Mobile Hamburger) -->
@@ -120,7 +111,7 @@
           </p>
 
           <div class="hero-cta-group">
-            <a href="#projects" class="btn btn-primary btn-lg">
+            <a href="#projects" class="btn btn-primary btn-lg" id="hero-cta-primary-btn">
               <span>View Solutions & Tech</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
@@ -134,8 +125,8 @@
             
             <div class="avatar-circle">
               <img src="assets/images/alexi-dhungel.jpg" alt="Alexi Dhungel, Er." class="avatar-photo" width="180" height="180" loading="eager" />
-              <div class="avatar-badge-tag">
-                <span class="status-live-dot"></span> Senior Engineer
+              <div class="avatar-badge-tag" id="hero-avatar-badge">
+                <span class="status-live-dot"></span> <span id="hero-avatar-badge-text">Senior Engineer</span>
               </div>
             </div>
 
@@ -144,13 +135,9 @@
               <p>Digital Banking & FinTech Professional</p>
             </div>
 
-            <!-- Tech Chips -->
-            <div class="floating-tech-nodes">
-              <span class="tech-node-pill">Java</span>
-              <span class="tech-node-pill">.NET / C#</span>
-              <span class="tech-node-pill">REST APIs</span>
-              <span class="tech-node-pill">SQL Server</span>
-              <span class="tech-node-pill">Banking Switches</span>
+            <!-- Dynamic Floating Tech Chips -->
+            <div class="floating-tech-nodes" id="hero-tech-nodes">
+              <!-- Rendered dynamically by app.js -->
             </div>
           </div>
         </div>
@@ -184,43 +171,8 @@
        ======================================================================== -->
   <section id="stats" class="stats-ribbon">
     <div class="container">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-          </div>
-          <div>
-            <div class="stat-value">8+ Years</div>
-            <div class="stat-label">Software Engineering</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 3l9 7H3z"/></svg>
-          </div>
-          <div>
-            <div class="stat-value">15+</div>
-            <div class="stat-label">Banking & Switch Integrations</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          </div>
-          <div>
-            <div class="stat-value">Specialized</div>
-            <div class="stat-label">Java & OOP Instruction</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div>
-            <div class="stat-value">Enterprise</div>
-            <div class="stat-label">Reliability & High Security</div>
-          </div>
-        </div>
+      <div id="stats-grid-container" class="stats-grid">
+        <!-- Rendered dynamically by app.js -->
       </div>
     </div>
   </section>
@@ -271,42 +223,8 @@
        6. ABOUT ME SECTION
        ======================================================================== -->
   <section id="about" class="section">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-text-content reveal">
-          <span class="section-tag">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Background & Philosophy
-          </span>
-          <h2 class="section-title">Senior Engineering with Financial Depth</h2>
-          <p>
-            I am a licensed <strong>Computer Engineer (Er.)</strong> with more than <strong>8 years of experience</strong> in software development, Java programming, digital financial services, enterprise banking systems, API integrations, automation, and academic instruction.
-          </p>
-          <p>
-            Throughout my career across premier commercial banking and enterprise software environments, I have spearheaded the design and implementation of mission-critical systems including Loan Management Systems, Automated Auditing engines, Dynamic QR settlement gateways, SSA payment switches, and multi-tier microfinance platforms.
-          </p>
-        </div>
-
-        <div class="about-profile-card-wrapper reveal reveal-delay-2">
-          <div class="about-profile-card">
-            <div class="about-photo-wrapper">
-              <img src="assets/images/alexi-dhungel.jpg" alt="Alexi Dhungel, Er." class="about-profile-img" loading="lazy" />
-            </div>
-            <div class="about-card-details">
-              <div class="about-spec-row">
-                <div class="spec-item">
-                  <span class="spec-label">Education</span>
-                  <span class="spec-val">B.E. Computer • MBA</span>
-                </div>
-                <div class="spec-item">
-                  <span class="spec-label">Experience</span>
-                  <span class="spec-val">8+ Years Enterprise</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="container" id="about-content-container">
+      <!-- Rendered dynamically by app.js -->
     </div>
   </section>
 
@@ -448,30 +366,8 @@
       </div>
 
       <div class="contact-grid">
-        <div class="contact-info-panel reveal">
-          <div class="contact-card-box">
-            <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--text-primary);">Contact Channels</h3>
-            
-            <div class="contact-method-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              </div>
-              <div class="contact-method-text">
-                <h4>Direct Email</h4>
-                <a href="mailto:ingr.alexi@gmail.com">ingr.alexi@gmail.com</a>
-              </div>
-            </div>
-
-            <div class="contact-method-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-              </div>
-              <div class="contact-method-text">
-                <h4>LinkedIn Profile</h4>
-                <a href="https://www.linkedin.com/in/alexi-dhungel-01b65b146/" target="_blank" rel="noopener">linkedin.com/in/alexi-dhungel</a>
-              </div>
-            </div>
-          </div>
+        <div class="contact-info-panel reveal" id="contact-info-container">
+          <!-- Rendered dynamically by app.js -->
         </div>
 
         <div class="contact-form-card reveal reveal-delay-2">
@@ -625,6 +521,15 @@
           <button class="cms-tab-btn active" data-tab="hero" onclick="CMS.switchTab('hero')">
             <span>🏠 Hero & Profile</span>
           </button>
+          <button class="cms-tab-btn" data-tab="navigation" onclick="CMS.switchTab('navigation')">
+            <span>🧭 Nav & Branding</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="about" onclick="CMS.switchTab('about')">
+            <span>👤 About Me Story</span>
+          </button>
+          <button class="cms-tab-btn" data-tab="assets" onclick="CMS.switchTab('assets')">
+            <span>🖼️ Media & Asset Hub</span>
+          </button>
           <button class="cms-tab-btn" data-tab="videos" onclick="CMS.switchTab('videos')">
             <span>🎬 YouTube & Videos</span>
           </button>
@@ -676,7 +581,7 @@
           <!-- PANEL 1: Hero & Profile Studio -->
           <div id="cms-panel-hero" class="cms-panel active">
             <h3 class="cms-panel-title">Hero Banner & Profile Studio</h3>
-            <p class="cms-panel-subtitle">Customize hero headline, banner cover photo, avatar upload, short bio, and CTAs.</p>
+            <p class="cms-panel-subtitle">Customize hero headline, banner cover photo, avatar upload, short bio, badges, and floating chips.</p>
             
             <div class="cms-form-grid">
               <div class="cms-form-group">
@@ -694,6 +599,14 @@
               <div class="cms-form-group">
                 <label class="cms-label">Brand Name</label>
                 <input type="text" id="cms-hero-brand-name" class="cms-input" placeholder="e.g. Code With Alexi" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Avatar Badge Tag</label>
+                <input type="text" id="cms-hero-avatar-badge" class="cms-input" placeholder="e.g. Senior Engineer" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Floating Tech Chips (comma-separated)</label>
+                <input type="text" id="cms-hero-floating-tech" class="cms-input" placeholder="e.g. Java, .NET / C#, REST APIs, SQL Server" />
               </div>
 
               <!-- Cover Image Drag & Drop -->
@@ -750,6 +663,89 @@
             </div>
 
             <button type="button" class="btn btn-primary btn-lg" onclick="CMS.saveHeroBanner()">💾 Save Profile & Banner Edits</button>
+          </div>
+
+          <!-- PANEL: Navigation & Branding Studio -->
+          <div id="cms-panel-navigation" class="cms-panel">
+            <h3 class="cms-panel-title">Navigation Menu & Brand Identity</h3>
+            <p class="cms-panel-subtitle">Customize top navbar brand initials, brand name, brand title, and manage menu items.</p>
+            
+            <div class="cms-form-grid" style="margin-bottom: 1.5rem;">
+              <div class="cms-form-group">
+                <label class="cms-label">Brand Logo Initials / Symbol</label>
+                <input type="text" id="cms-nav-brand-initials" class="cms-input" placeholder="e.g. AD" maxlength="4" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Navbar Brand Name</label>
+                <input type="text" id="cms-nav-brand-name" class="cms-input" placeholder="e.g. Alexi Dhungel, Er." />
+              </div>
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Navbar Brand Subtitle / Tagline</label>
+                <input type="text" id="cms-nav-brand-title" class="cms-input" placeholder="e.g. Code With Alexi" />
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+              <h4 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);">Navigation Menu Links</h4>
+              <button class="btn btn-secondary btn-sm" onclick="CMS.addNavLink()">+ Add Menu Link</button>
+            </div>
+            <div id="cms-nav-links-list" class="cms-items-list"></div>
+
+            <button type="button" class="btn btn-primary btn-lg" style="margin-top:1.5rem;" onclick="CMS.saveNavigation()">💾 Save Navigation & Branding</button>
+          </div>
+
+          <!-- PANEL: About Me Story & Specs -->
+          <div id="cms-panel-about" class="cms-panel">
+            <h3 class="cms-panel-title">About Me Story & Qualifications</h3>
+            <p class="cms-panel-subtitle">Edit your biography story, highlight specs, and profile card photo.</p>
+
+            <div class="cms-form-grid">
+              <div class="cms-form-group">
+                <label class="cms-label">Section Tag Badge</label>
+                <input type="text" id="cms-about-tag" class="cms-input" placeholder="e.g. Background & Philosophy" />
+              </div>
+              <div class="cms-form-group">
+                <label class="cms-label">Section Main Title</label>
+                <input type="text" id="cms-about-title" class="cms-input" placeholder="e.g. Senior Engineering with Financial Depth" />
+              </div>
+
+              <!-- About Photo Upload -->
+              <div class="cms-form-group full-width">
+                <label class="cms-label">About Card Profile Photo</label>
+                <div class="image-uploader-box" data-target-input="cms-about-photo-url" data-target-preview="cms-about-photo-preview">
+                  <div>Drag & Drop About Photo File Here, or Click to Browse</div>
+                  <input type="file" accept="image/*" style="display:none;" id="cms-about-file" onchange="CMS.handleFileUpload(this.files[0], 'cms-about-photo-url', 'cms-about-photo-preview')" />
+                  <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;" onclick="document.getElementById('cms-about-file').click()">📁 Choose About Photo</button>
+                  <div class="image-preview-wrapper">
+                    <img id="cms-about-photo-preview" class="image-preview-thumb" src="" alt="About Photo Preview" />
+                    <input type="text" id="cms-about-photo-url" class="cms-input" placeholder="Or paste photo URL here..." />
+                  </div>
+                </div>
+              </div>
+
+              <div class="cms-form-group full-width">
+                <label class="cms-label">Story Paragraphs (Separate each paragraph with an empty line)</label>
+                <textarea id="cms-about-paragraphs" class="cms-textarea" rows="6" placeholder="Enter paragraph 1...&#10;&#10;Enter paragraph 2..."></textarea>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin:1.5rem 0 1rem;">
+              <h4 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);">Key Qualification Highlight Chips</h4>
+              <button class="btn btn-secondary btn-sm" onclick="CMS.addAboutSpec()">+ Add Highlight Chip</button>
+            </div>
+            <div id="cms-about-specs-list" class="cms-items-list"></div>
+
+            <button type="button" class="btn btn-primary btn-lg" style="margin-top:1.5rem;" onclick="CMS.saveAbout()">💾 Save About Me Edits</button>
+          </div>
+
+          <!-- PANEL: Media & Asset Central Hub -->
+          <div id="cms-panel-assets" class="cms-panel">
+            <h3 class="cms-panel-title">Media & Asset Central Hub</h3>
+            <p class="cms-panel-subtitle">Manage, preview, and upload all website imagery, banners, avatars, and custom project thumbnails in one unified command center.</p>
+
+            <div id="cms-assets-hub-content" style="margin-top:1.5rem;">
+              <!-- Rendered dynamically by cms.js -->
+            </div>
           </div>
 
           <!-- PANEL 2: YouTube Videos Manager -->

@@ -192,7 +192,79 @@ const server = http.createServer((req, res) => {
     }
   }
 
-  // Static File Serving
+  // API ROUTE 3: Asset Upload Endpoint (/api/upload)
+  if (pathname === "/api/upload" && req.method === "POST") {
+    const authHeader = req.headers["authorization"] || "";
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+
+    if (!isValidToken(token)) {
+      res.writeHead(401, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify({
+        success: false,
+        error: "Unauthorized: Valid session token required."
+      }));
+    }
+
+    let body = "";
+    let exceededLimit = false;
+    const MAX_SIZE = 10 * 1024 * 1024; // 10MB limit
+
+    req.on("data", chunk => {
+      body += chunk;
+      if (body.length > MAX_SIZE) {
+        exceededLimit = true;
+        req.destroy();
+      }
+    });
+
+    req.on("end", () => {
+      if (exceededLimit) {
+        res.writeHead(413, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ success: false, error: "Upload exceeds 10MB limit" }));
+      }
+
+      try {
+        const parsed = JSON.parse(body);
+        const base64Data = parsed.data || "";
+        const filename = (parsed.filename || `asset_${Date.now()}.png`).replace(/[^a-zA-Z0-9_.-]/g, "_");
+
+        const matches = base64Data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        if (!matches || matches.length !== 3) {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          return res.end(JSON.stringify({ success: false, error: "Invalid Base64 image payload" }));
+        }
+
+        const buffer = Buffer.from(matches[2], "base64");
+        const uploadDir = path.join(BASE_DIR, "assets", "uploads");
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        const safeFilename = `${Date.now()}_${filename}`;
+        const targetPath = path.join(uploadDir, safeFilename);
+
+        fs.writeFile(targetPath, buffer, (writeErr) => {
+          if (writeErr) {
+            res.writeHead(500, { "Content-Type": "application/json" });
+            return res.end(JSON.stringify({ success: false, error: writeErr.message }));
+          }
+
+          const assetUrl = `assets/uploads/${safeFilename}`;
+          res.writeHead(200, { "Content-Type": "application/json" });
+          return res.end(JSON.stringify({
+            success: true,
+            url: assetUrl,
+            message: "Asset successfully uploaded and stored."
+          }));
+        });
+      } catch (e) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify({ success: false, error: "Malformed upload payload" }));
+      }
+    });
+    return;
+  }
+
   let filePath = path.normalize(path.join(BASE_DIR, pathname));
 
   // Security check: ensure filePath is within BASE_DIR

@@ -7,6 +7,24 @@ const portfolioData = {
   activeProfession: "engineer",
   themeColors: {},
 
+  navigation: {
+    brandInitials: "AD",
+    brandName: "Alexi Dhungel, Er.",
+    brandTitle: "Code With Alexi",
+    navLinks: [
+      { id: "nav-about", label: "About", href: "#about", sectionKey: "about", active: true },
+      { id: "nav-videos", label: "Videos & Media", href: "#videos", sectionKey: "videos", active: true },
+      { id: "nav-whatibuild", label: "What I Build", href: "#expertise", sectionKey: "whatIBuild", active: true },
+      { id: "nav-experience", label: "Experience", href: "#experience", sectionKey: "experience", active: true },
+      { id: "nav-teaching", label: "Teaching", href: "#teaching", sectionKey: "teaching", active: true },
+      { id: "nav-skills", label: "Skills", href: "#skills", sectionKey: "skills", active: true },
+      { id: "nav-projects", label: "Solutions & Tech", href: "#projects", sectionKey: "projects", active: true },
+      { id: "nav-articles", label: "Knowledge Hub", href: "#articles", sectionKey: "articles", active: true },
+      { id: "nav-education", label: "Qualifications", href: "#education", sectionKey: "education", active: true },
+      { id: "nav-contact", label: "Contact", href: "#contact", sectionKey: "contact", active: true }
+    ]
+  },
+
   heroBanner: {
     coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
     avatarPhoto: "assets/images/alexi-dhungel.jpg",
@@ -15,6 +33,8 @@ const portfolioData = {
     brandBadge: "⚡ Code With Alexi",
     name: "Alexi Dhungel, Er.",
     brandName: "Code With Alexi",
+    avatarBadge: "Senior Engineer",
+    floatingTech: ["Java", ".NET / C#", "REST APIs", "SQL Server", "Banking Switches"],
     titles: [
       "Computer Engineer",
       "Software Developer",
@@ -28,6 +48,31 @@ const portfolioData = {
     ctaPrimaryLink: "#projects",
     ctaSecondaryText: "Contact Me",
     ctaSecondaryLink: "#contact"
+  },
+
+  about: {
+    tag: "Background & Philosophy",
+    title: "Senior Engineering with Financial Depth",
+    paragraphs: [
+      "I am a licensed <strong>Computer Engineer (Er.)</strong> with more than <strong>8 years of experience</strong> in software development, Java programming, digital financial services, enterprise banking systems, API integrations, automation, and academic instruction.",
+      "Throughout my career across premier commercial banking and enterprise software environments, I have spearheaded the design and implementation of mission-critical systems including Loan Management Systems, Automated Auditing engines, Dynamic QR settlement gateways, SSA payment switches, and multi-tier microfinance platforms.",
+      "Operating at the intersection of high-security financial infrastructure and modern software engineering, I architect resilient, zero-discrepancy solutions while empowering engineers through structured instruction."
+    ],
+    photo: "assets/images/alexi-dhungel.jpg",
+    specs: [
+      { label: "Education", value: "B.E. Computer • MBA" },
+      { label: "Experience", value: "8+ Years Enterprise" },
+      { label: "Licensure", value: "NEC Registered (Er.)" },
+      { label: "Focus", value: "FinTech & Banking Rails" }
+    ],
+    active: true
+  },
+
+  footer: {
+    copyright: "© 2026 Alexi Dhungel, Er. • Universal Dynamic Content Management Platform",
+    brandName: "Alexi Dhungel, Er.",
+    brandTitle: "Code With Alexi",
+    tagline: "Architecting resilient systems & empowering software developers."
   },
 
   sectionVisibility: {
@@ -497,61 +542,133 @@ Never use GUIDs as clustered index keys on write-heavy tables. Prefer sequential
       name: "Computer Engineer & FinTech Lead",
       badge: "Er. Registered Computer Engineer (2017)",
       brandBadge: "⚡ Code With Alexi",
+      brandInitials: "AD",
       heroName: "Alexi Dhungel, Er.",
       brandName: "Code With Alexi",
+      brandTitle: "Code With Alexi",
+      avatarBadge: "Senior Engineer",
+      floatingTech: ["Java", ".NET / C#", "REST APIs", "SQL Server", "Banking Switches"],
       coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
       titles: ["Computer Engineer", "Software Developer", "Digital Banking & FinTech Professional", "Java Instructor"],
-      bioShort: "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge."
+      bioShort: "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge.",
+      aboutTitle: "Senior Engineering with Financial Depth",
+      aboutTag: "Background & Philosophy",
+      aboutSpecs: [
+        { label: "Education", value: "B.E. Computer • MBA" },
+        { label: "Experience", value: "8+ Years Enterprise" },
+        { label: "Licensure", value: "NEC Registered (Er.)" },
+        { label: "Focus", value: "FinTech & Banking Rails" }
+      ]
     },
     creator: {
       name: "Tech Content Creator & Educator",
       badge: "🎥 Tech Educator & Content Creator",
       brandBadge: "🚀 Code With Alexi YouTube",
+      brandInitials: "CA",
       heroName: "Alexi Dhungel",
-      brandName: "Code With Alexi Channel",
+      brandName: "Code With Alexi",
+      brandTitle: "Tech Creator & Channel",
+      avatarBadge: "Content Creator",
+      floatingTech: ["YouTube", "Video Tutorials", "Java Deep Dives", "Live Coding", "Community"],
       coverImage: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2070&auto=format&fit=crop",
       titles: ["Content Creator", "Tech YouTuber", "Software Instructor", "FinTech Educator"],
-      bioShort: "Empowering developers worldwide with high-impact software engineering tutorials, Java deep-dives, and real-world tech videos."
+      bioShort: "Empowering developers worldwide with high-impact software engineering tutorials, Java deep-dives, and real-world tech videos.",
+      aboutTitle: "Demystifying Code & Engineering for Everyone",
+      aboutTag: "Creator Mission",
+      aboutSpecs: [
+        { label: "Subscribers", value: "50K+ Community" },
+        { label: "Tutorials", value: "200+ Videos" },
+        { label: "Focus", value: "Java & Real-World Tech" },
+        { label: "Format", value: "4K Video & Live Demos" }
+      ]
     },
     developer: {
       name: "Full Stack Systems Architect",
       badge: "💻 Senior Systems Architect",
       brandBadge: "⚡ High-Performance Systems",
+      brandInitials: "AS",
       heroName: "Alexi Dhungel, B.E.",
       brandName: "Alexi Systems",
+      brandTitle: "Architecture & Microservices",
+      avatarBadge: "Lead Architect",
+      floatingTech: ["Microservices", ".NET Core", "Docker", "PostgreSQL", "Kafka"],
       coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
       titles: ["Full Stack Architect", ".NET & Java Engineer", "API Specialist", "Cloud Platform Engineer"],
-      bioShort: "Architecting resilient microservices, high-concurrency database platforms, and modern enterprise applications."
+      bioShort: "Architecting resilient microservices, high-concurrency database platforms, and modern enterprise applications.",
+      aboutTitle: "High-Concurrency Architectures & Scalable Platforms",
+      aboutTag: "System Architecture",
+      aboutSpecs: [
+        { label: "Latency", value: "Sub-50ms Microservices" },
+        { label: "Concurrency", value: "100K+ Req/sec" },
+        { label: "Stack", value: "C# • Java • Cloud" },
+        { label: "Delivery", value: "Zero-Downtime CI/CD" }
+      ]
     },
     consultant: {
       name: "Executive FinTech & Technology Consultant",
       badge: "👔 Executive FinTech Advisory",
       brandBadge: "🏛️ Enterprise Digital Transformation",
+      brandInitials: "DA",
       heroName: "Er. Alexi Dhungel, MBA",
       brandName: "Dhungel FinTech Advisory",
+      brandTitle: "Strategic Advisory & FinTech",
+      avatarBadge: "Principal Consultant",
+      floatingTech: ["Payment Strategy", "Central Banking", "ISO 20022", "Compliance", "Auditing"],
       coverImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
       titles: ["Executive Technology Consultant", "FinTech Adviser", "Digital Transformation Lead", "System Auditor"],
-      bioShort: "Advising financial institutions and corporate clients on payment switch architecture, regulatory compliance, and digital banking strategy."
+      bioShort: "Advising financial institutions and corporate clients on payment switch architecture, regulatory compliance, and digital banking strategy.",
+      aboutTitle: "Transforming Banking Architecture & Regulatory Compliance",
+      aboutTag: "Strategic Advisory",
+      aboutSpecs: [
+        { label: "Advisory", value: "Tier-1 Banks & Switch Networks" },
+        { label: "Compliance", value: "Central Bank Directives" },
+        { label: "Strategy", value: "Digital Financial Services" },
+        { label: "Credentials", value: "Licensed Er. • MBA" }
+      ]
     },
     designer: {
       name: "UI/UX & Design Systems Lead",
       badge: "🎨 Senior Product & UX Architect",
       brandBadge: "✨ Modern UI & Digital Products",
+      brandInitials: "AD",
       heroName: "Alexi Dhungel",
       brandName: "Alexi Product Studio",
+      brandTitle: "Design Systems & UI Engineering",
+      avatarBadge: "Design Systems Lead",
+      floatingTech: ["Figma", "Design Systems", "Tailwind / CSS", "User Journeys", "Micro-Interactions"],
       coverImage: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=2070&auto=format&fit=crop",
       titles: ["UI/UX Lead", "Design Systems Engineer", "Product Designer", "Frontend Specialist"],
-      bioShort: "Crafting beautiful, accessible, and intuitive digital interfaces for complex enterprise applications and financial portals."
+      bioShort: "Crafting beautiful, accessible, and intuitive digital interfaces for complex enterprise applications and financial portals.",
+      aboutTitle: "Pixel Perfection Meets Enterprise Usability",
+      aboutTag: "Design Craftsmanship",
+      aboutSpecs: [
+        { label: "Component Library", value: "Token-Driven System" },
+        { label: "Accessibility", value: "WCAG 2.1 AAA" },
+        { label: "Tools", value: "Figma • CSS3 • SVG" },
+        { label: "Focus", value: "FinTech & Enterprise UX" }
+      ]
     },
     doctor: {
       name: "Medical Doctor & HealthTech Specialist",
       badge: "🩺 Medical Doctor & Health Systems Specialist",
       brandBadge: "🏥 Health Tech & Clinical Innovation",
+      brandInitials: "MD",
       heroName: "Dr. Alexi Dhungel, MD",
       brandName: "Dr. Alexi Medical Hub",
+      brandTitle: "Clinical Practice & HealthTech",
+      avatarBadge: "Medical Specialist",
+      floatingTech: ["Clinical EHR", "Telemedicine", "HL7 / FHIR", "Diagnostic AI", "Patient Care"],
       coverImage: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop",
       titles: ["Medical Specialist", "Clinical Consultant", "HealthTech Innovator", "Medical Researcher"],
-      bioShort: "Combining clinical medicine expertise with modern healthcare technology systems to improve patient outcomes and medical workflows."
+      bioShort: "Combining clinical medicine expertise with modern healthcare technology systems to improve patient outcomes and medical workflows.",
+      aboutTitle: "Evidence-Based Clinical Medicine & Digital Healthcare",
+      aboutTag: "Clinical Innovation",
+      aboutSpecs: [
+        { label: "Degree", value: "MD Physician" },
+        { label: "Practice", value: "Clinical Diagnostics" },
+        { label: "Standards", value: "FHIR • HIPAA • ISO" },
+        { label: "Focus", value: "Patient Outcomes" }
+      ]
     }
   }
 };

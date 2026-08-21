@@ -1,6 +1,6 @@
 /**
  * DYNAMIC CONTENT MANAGEMENT SYSTEM (CMS STUDIO) ENGINE
- * Code With Alexi — Universal Profession Profile CMS
+ * Universal Profession Profile CMS — Full Dynamic Capabilities
  */
 
 const CMS = {
@@ -30,10 +30,10 @@ const CMS = {
     this.renderActiveVisibility();
     this.applyThemeColors();
     this.checkInitialHashTrigger();
-    console.log("⚡ Secure CMS Studio initialized.");
+    console.log("⚡ Secure Dynamic CMS Studio initialized.");
   },
 
-  // Check URL Hash for secret trigger (#admin or #cms)
+  // Check URL Hash for secret trigger (#admin or #cms or #studio)
   checkInitialHashTrigger() {
     const hash = window.location.hash.toLowerCase();
     if (hash === "#admin" || hash === "#cms" || hash === "#studio") {
@@ -47,12 +47,12 @@ const CMS = {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        return Object.assign({}, portfolioData, parsed);
+        return Object.assign({}, typeof portfolioData !== "undefined" ? portfolioData : {}, parsed);
       } catch (e) {
         console.warn("Failed to parse local storage data, using default portfolioData");
       }
     }
-    return JSON.parse(JSON.stringify(portfolioData));
+    return JSON.parse(JSON.stringify(typeof portfolioData !== "undefined" ? portfolioData : {}));
   },
 
   // Dual Persistence: LocalStorage + Server /api/cms endpoint with Bearer token header
@@ -81,17 +81,17 @@ const CMS = {
         if (res.success) {
           console.log("💾 CMS data securely persisted to disk server.");
         }
-      }).catch(err => {
+      }).catch(() => {
         // Quiet fallback for static hosts
       });
 
-    // Re-render UI
+    // Re-render all frontend UI components immediately
     if (window.renderAllComponents) {
       window.renderAllComponents();
     }
 
     if (typeof showToast === "function") {
-      showToast("✨ CMS changes saved successfully!");
+      showToast("✨ Changes saved & synced live!");
     }
   },
 
@@ -235,7 +235,7 @@ const CMS = {
         }
         if (cardEl) {
           cardEl.classList.remove("shake");
-          void cardEl.offsetWidth; // trigger reflow
+          void cardEl.offsetWidth;
           cardEl.classList.add("shake");
         }
       }
@@ -324,6 +324,11 @@ const CMS = {
     document.querySelectorAll(".cms-panel").forEach(panel => {
       panel.classList.toggle("active", panel.id === `cms-panel-${tabName}`);
     });
+
+    // If switching to assets hub, re-render it to ensure fresh data
+    if (tabName === "assets") {
+      this.renderAssetsHub();
+    }
   },
 
   populateForms() {
@@ -332,22 +337,33 @@ const CMS = {
 
     // 1. Hero & Profile Form
     if (data.heroBanner) {
-      this.setVal("cms-hero-name", data.heroBanner.name || data.personal.name);
+      this.setVal("cms-hero-name", data.heroBanner.name || (data.personal && data.personal.name) || "");
       this.setVal("cms-hero-badge", data.heroBanner.badgeText || "");
       this.setVal("cms-hero-brand-badge", data.heroBanner.brandBadge || "");
-      this.setVal("cms-hero-brand-name", data.heroBanner.brandName || data.personal.brandName);
-      this.setVal("cms-hero-titles", (data.heroBanner.titles || data.personal.titles || []).join("\n"));
-      this.setVal("cms-hero-bio-short", data.heroBanner.bioShort || data.personal.bioShort);
-      this.setVal("cms-hero-bio-long", data.heroBanner.bioLong || data.personal.bioLong);
+      this.setVal("cms-hero-brand-name", data.heroBanner.brandName || (data.personal && data.personal.brandName) || "");
+      this.setVal("cms-hero-avatar-badge", data.heroBanner.avatarBadge || "Senior Engineer");
+      this.setVal("cms-hero-floating-tech", (data.heroBanner.floatingTech || []).join(", "));
+      this.setVal("cms-hero-titles", (data.heroBanner.titles || (data.personal && data.personal.titles) || []).join("\n"));
+      this.setVal("cms-hero-bio-short", data.heroBanner.bioShort || (data.personal && data.personal.bioShort) || "");
+      this.setVal("cms-hero-bio-long", data.heroBanner.bioLong || (data.personal && data.personal.bioLong) || "");
       this.setVal("cms-hero-cover-url", data.heroBanner.coverImage || "");
       this.setVal("cms-hero-avatar-url", data.heroBanner.avatarPhoto || "");
-      this.setVal("cms-hero-cta-primary", data.heroBanner.ctaPrimaryText || "");
-      this.setVal("cms-hero-cta-secondary", data.heroBanner.ctaSecondaryText || "");
+      this.setVal("cms-hero-cta-primary", data.heroBanner.ctaPrimaryText || "View Solutions & Tech");
+      this.setVal("cms-hero-cta-secondary", data.heroBanner.ctaSecondaryText || "Contact Me");
       this.setSrc("cms-cover-preview", data.heroBanner.coverImage || "");
       this.setSrc("cms-avatar-preview", data.heroBanner.avatarPhoto || "assets/images/alexi-dhungel.jpg");
     }
 
-    // 2. Section Visibility Toggles
+    // 2. Navigation & Branding
+    this.populateNavigationForm();
+
+    // 3. About Me Story
+    this.populateAboutForm();
+
+    // 4. Media & Assets Central Hub
+    this.renderAssetsHub();
+
+    // 5. Section Visibility Toggles
     if (data.sectionVisibility) {
       Object.keys(data.sectionVisibility).forEach(secKey => {
         const checkbox = document.getElementById(`vis-toggle-${secKey}`);
@@ -355,40 +371,18 @@ const CMS = {
       });
     }
 
-    // 3. YouTube Videos Manager
+    // 6. Lists Managers
     this.renderYouTubeCMSList();
-
-    // 4. Articles / Blog CMS Manager
     this.renderArticlesCMSList();
-
-    // 5. Projects CMS Manager
     this.renderProjectsCMSList();
-
-    // 6. Experience & Services CMS
     this.renderExperienceCMSList();
-
-    // 7. Skills CMS
     this.renderSkillsCMSList();
-
-    // 8. Social Links CMS
     this.populateSocialForms();
-
-    // 9. Presets UI
     this.renderPresetsUI();
-
-    // 10. Stats CMS
     this.renderStatsCMSList();
-
-    // 11. What I Build CMS
     this.renderWhatIBuildCMSList();
-
-    // 12. Teaching CMS
     this.renderTeachingCMSList();
-
-    // 13. Education CMS
     this.renderEducationCMSList();
-
-    // 14. Theme Colors Panel
     this.renderThemeColorPanel();
   },
 
@@ -402,12 +396,16 @@ const CMS = {
     if (el) el.src = src;
   },
 
-  // Save Hero Banner Form
+  // ──────────────────────────────────────────────────────────────────────────
+  // 1. HERO & PROFILE SAVE
+  // ──────────────────────────────────────────────────────────────────────────
   saveHeroBanner() {
     const name = document.getElementById("cms-hero-name").value;
     const badgeText = document.getElementById("cms-hero-badge").value;
     const brandBadge = document.getElementById("cms-hero-brand-badge").value;
     const brandName = document.getElementById("cms-hero-brand-name").value;
+    const avatarBadge = document.getElementById("cms-hero-avatar-badge").value;
+    const floatingTechRaw = document.getElementById("cms-hero-floating-tech").value;
     const titlesRaw = document.getElementById("cms-hero-titles").value;
     const bioShort = document.getElementById("cms-hero-bio-short").value;
     const bioLong = document.getElementById("cms-hero-bio-long").value;
@@ -417,6 +415,7 @@ const CMS = {
     const ctaSecondaryText = document.getElementById("cms-hero-cta-secondary").value;
 
     const titles = titlesRaw.split("\n").map(t => t.trim()).filter(Boolean);
+    const floatingTech = floatingTechRaw.split(",").map(t => t.trim()).filter(Boolean);
 
     this.data.heroBanner = {
       coverImage: coverImage || "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
@@ -426,15 +425,18 @@ const CMS = {
       brandBadge,
       name,
       brandName,
+      avatarBadge: avatarBadge || "Senior Engineer",
+      floatingTech: floatingTech.length > 0 ? floatingTech : ["Java", ".NET / C#", "REST APIs", "SQL Server", "Banking Switches"],
       titles,
       bioShort,
       bioLong,
-      ctaPrimaryText,
+      ctaPrimaryText: ctaPrimaryText || "View Solutions & Tech",
       ctaPrimaryLink: "#projects",
-      ctaSecondaryText,
+      ctaSecondaryText: ctaSecondaryText || "Contact Me",
       ctaSecondaryLink: "#contact"
     };
 
+    if (!this.data.personal) this.data.personal = {};
     this.data.personal.name = name;
     this.data.personal.brandName = brandName;
     this.data.personal.titles = titles;
@@ -444,8 +446,325 @@ const CMS = {
     this.saveData();
   },
 
-  // File Upload Helper (converts image to Base64)
-  handleFileUpload(file, targetInputId, targetPreviewId) {
+  // ──────────────────────────────────────────────────────────────────────────
+  // 2. NAVIGATION & BRANDING STUDIO
+  // ──────────────────────────────────────────────────────────────────────────
+  populateNavigationForm() {
+    const nav = this.data.navigation || {};
+    const personal = this.data.personal || {};
+    const hero = this.data.heroBanner || {};
+
+    this.setVal("cms-nav-brand-initials", nav.brandInitials || personal.brandInitials || "AD");
+    this.setVal("cms-nav-brand-name", nav.brandName || hero.name || personal.name || "Alexi Dhungel, Er.");
+    this.setVal("cms-nav-brand-title", nav.brandTitle || hero.brandName || personal.brandName || "Code With Alexi");
+
+    this.renderNavLinksList();
+  },
+
+  renderNavLinksList() {
+    const container = document.getElementById("cms-nav-links-list");
+    if (!container) return;
+
+    if (!this.data.navigation) this.data.navigation = {};
+    if (!this.data.navigation.navLinks) {
+      this.data.navigation.navLinks = [
+        { id: "nav-about", label: "About", href: "#about", sectionKey: "about", active: true },
+        { id: "nav-videos", label: "Videos & Media", href: "#videos", sectionKey: "videos", active: true },
+        { id: "nav-whatibuild", label: "What I Build", href: "#expertise", sectionKey: "whatIBuild", active: true },
+        { id: "nav-experience", label: "Experience", href: "#experience", sectionKey: "experience", active: true },
+        { id: "nav-teaching", label: "Teaching", href: "#teaching", sectionKey: "teaching", active: true },
+        { id: "nav-skills", label: "Skills", href: "#skills", sectionKey: "skills", active: true },
+        { id: "nav-projects", label: "Solutions & Tech", href: "#projects", sectionKey: "projects", active: true },
+        { id: "nav-articles", label: "Knowledge Hub", href: "#articles", sectionKey: "articles", active: true },
+        { id: "nav-education", label: "Qualifications", href: "#education", sectionKey: "education", active: true },
+        { id: "nav-contact", label: "Contact", href: "#contact", sectionKey: "contact", active: true }
+      ];
+    }
+
+    const links = this.data.navigation.navLinks;
+    container.innerHTML = links.map((link, idx) => `
+      <div class="cms-item-card" style="padding: 0.6rem 1rem;">
+        <div class="cms-item-main">
+          <div>
+            <div class="cms-item-title" style="font-size: 0.95rem;">${this.escapeHtml(link.label)}</div>
+            <div class="cms-item-meta">Target: <code>${this.escapeHtml(link.href)}</code> ${link.sectionKey ? `• Section: ${link.sectionKey}` : ''}</div>
+          </div>
+        </div>
+        <div class="cms-item-actions">
+          <label class="switch"><input type="checkbox" ${link.active !== false ? 'checked' : ''} onchange="CMS.toggleNavLinkActive(${idx})"><span class="slider"></span></label>
+          <button class="btn btn-secondary btn-sm" onclick="CMS.toggleEditPanel('navlink-edit-${idx}')">✏️</button>
+          <button class="btn btn-secondary btn-sm" onclick="CMS.deleteNavLink(${idx})">🗑️</button>
+        </div>
+        <div id="navlink-edit-${idx}" class="cms-inline-edit" style="display:none;">
+          <div class="cms-form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="cms-form-group">
+              <label class="cms-label">Menu Label</label>
+              <input type="text" class="cms-input" id="navlink-lbl-${idx}" value="${this.escapeHtml(link.label)}" />
+            </div>
+            <div class="cms-form-group">
+              <label class="cms-label">Href Anchor / URL</label>
+              <input type="text" class="cms-input" id="navlink-href-${idx}" value="${this.escapeHtml(link.href)}" />
+            </div>
+            <div class="cms-form-group">
+              <label class="cms-label">Section Key (Sync)</label>
+              <input type="text" class="cms-input" id="navlink-sec-${idx}" value="${this.escapeHtml(link.sectionKey || '')}" placeholder="e.g. about, projects" />
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top: 0.5rem;" onclick="CMS.saveNavLinkItem(${idx})">💾 Save Menu Link</button>
+        </div>
+      </div>
+    `).join("");
+  },
+
+  toggleNavLinkActive(idx) {
+    if (this.data.navigation && this.data.navigation.navLinks && this.data.navigation.navLinks[idx]) {
+      const cur = this.data.navigation.navLinks[idx].active !== false;
+      this.data.navigation.navLinks[idx].active = !cur;
+      this.saveData();
+    }
+  },
+
+  saveNavLinkItem(idx) {
+    const links = this.data.navigation && this.data.navigation.navLinks;
+    if (!links || !links[idx]) return;
+
+    links[idx].label = document.getElementById(`navlink-lbl-${idx}`).value;
+    links[idx].href = document.getElementById(`navlink-href-${idx}`).value;
+    links[idx].sectionKey = document.getElementById(`navlink-sec-${idx}`).value;
+
+    this.saveData();
+    this.renderNavLinksList();
+  },
+
+  addNavLink() {
+    const label = prompt("Enter Navigation Menu Label (e.g. Services, Blog):");
+    if (!label) return;
+    const href = prompt("Enter Link Target (e.g. #expertise, #projects, https://...):", "#hero");
+    if (!href) return;
+
+    if (!this.data.navigation) this.data.navigation = {};
+    if (!this.data.navigation.navLinks) this.data.navigation.navLinks = [];
+
+    this.data.navigation.navLinks.push({
+      id: "nav-" + Date.now(),
+      label,
+      href,
+      sectionKey: href.replace("#", ""),
+      active: true
+    });
+
+    this.saveData();
+    this.renderNavLinksList();
+  },
+
+  deleteNavLink(idx) {
+    if (confirm("Delete this navigation link?")) {
+      if (this.data.navigation && this.data.navigation.navLinks) {
+        this.data.navigation.navLinks.splice(idx, 1);
+        this.saveData();
+        this.renderNavLinksList();
+      }
+    }
+  },
+
+  saveNavigation() {
+    if (!this.data.navigation) this.data.navigation = {};
+    this.data.navigation.brandInitials = document.getElementById("cms-nav-brand-initials").value;
+    this.data.navigation.brandName = document.getElementById("cms-nav-brand-name").value;
+    this.data.navigation.brandTitle = document.getElementById("cms-nav-brand-title").value;
+
+    this.saveData();
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // 3. ABOUT ME STORY & SPECS
+  // ──────────────────────────────────────────────────────────────────────────
+  populateAboutForm() {
+    const about = this.data.about || {};
+    const personal = this.data.personal || {};
+
+    this.setVal("cms-about-tag", about.tag || "Background & Philosophy");
+    this.setVal("cms-about-title", about.title || "Senior Engineering with Financial Depth");
+    this.setVal("cms-about-photo-url", about.photo || (this.data.heroBanner && this.data.heroBanner.avatarPhoto) || "assets/images/alexi-dhungel.jpg");
+    this.setSrc("cms-about-photo-preview", about.photo || (this.data.heroBanner && this.data.heroBanner.avatarPhoto) || "assets/images/alexi-dhungel.jpg");
+
+    let paragraphs = about.paragraphs;
+    if (!paragraphs || paragraphs.length === 0) {
+      paragraphs = [
+        personal.bioLong || "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge."
+      ];
+    }
+    this.setVal("cms-about-paragraphs", paragraphs.join("\n\n"));
+
+    this.renderAboutSpecsList();
+  },
+
+  renderAboutSpecsList() {
+    const container = document.getElementById("cms-about-specs-list");
+    if (!container) return;
+
+    if (!this.data.about) this.data.about = {};
+    if (!this.data.about.specs) {
+      this.data.about.specs = [
+        { label: "Education", value: "B.E. Computer • MBA" },
+        { label: "Experience", value: "8+ Years Enterprise" },
+        { label: "Licensure", value: "NEC Registered (Er.)" },
+        { label: "Focus", value: "FinTech & Banking Rails" }
+      ];
+    }
+
+    const specs = this.data.about.specs;
+    container.innerHTML = specs.map((s, idx) => `
+      <div class="cms-item-card" style="padding: 0.6rem 1rem;">
+        <div class="cms-item-main">
+          <div>
+            <div class="cms-item-title" style="font-size:0.95rem;">${this.escapeHtml(s.label)}: <strong>${this.escapeHtml(s.value)}</strong></div>
+          </div>
+        </div>
+        <div class="cms-item-actions">
+          <button class="btn btn-secondary btn-sm" onclick="CMS.toggleEditPanel('spec-edit-${idx}')">✏️</button>
+          <button class="btn btn-secondary btn-sm" onclick="CMS.deleteAboutSpec(${idx})">🗑️</button>
+        </div>
+        <div id="spec-edit-${idx}" class="cms-inline-edit" style="display:none;">
+          <div class="cms-form-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="cms-form-group">
+              <label class="cms-label">Chip Label</label>
+              <input type="text" class="cms-input" id="spec-lbl-${idx}" value="${this.escapeHtml(s.label)}" />
+            </div>
+            <div class="cms-form-group">
+              <label class="cms-label">Chip Value</label>
+              <input type="text" class="cms-input" id="spec-val-${idx}" value="${this.escapeHtml(s.value)}" />
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top:0.5rem;" onclick="CMS.saveAboutSpecItem(${idx})">💾 Save Chip</button>
+        </div>
+      </div>
+    `).join("");
+  },
+
+  addAboutSpec() {
+    const label = prompt("Enter Chip Label (e.g. Experience, Certification, Stack):");
+    if (!label) return;
+    const value = prompt("Enter Chip Value (e.g. 8+ Years, Certified Developer):");
+    if (!value) return;
+
+    if (!this.data.about) this.data.about = {};
+    if (!this.data.about.specs) this.data.about.specs = [];
+
+    this.data.about.specs.push({ label, value });
+    this.saveData();
+    this.renderAboutSpecsList();
+  },
+
+  deleteAboutSpec(idx) {
+    if (confirm("Delete this specification chip?")) {
+      if (this.data.about && this.data.about.specs) {
+        this.data.about.specs.splice(idx, 1);
+        this.saveData();
+        this.renderAboutSpecsList();
+      }
+    }
+  },
+
+  saveAboutSpecItem(idx) {
+    const specs = this.data.about && this.data.about.specs;
+    if (!specs || !specs[idx]) return;
+
+    specs[idx].label = document.getElementById(`spec-lbl-${idx}`).value;
+    specs[idx].value = document.getElementById(`spec-val-${idx}`).value;
+
+    this.saveData();
+    this.renderAboutSpecsList();
+  },
+
+  saveAbout() {
+    if (!this.data.about) this.data.about = {};
+    this.data.about.tag = document.getElementById("cms-about-tag").value;
+    this.data.about.title = document.getElementById("cms-about-title").value;
+    this.data.about.photo = document.getElementById("cms-about-photo-url").value;
+
+    const rawPara = document.getElementById("cms-about-paragraphs").value;
+    this.data.about.paragraphs = rawPara.split("\n\n").map(p => p.trim()).filter(Boolean);
+
+    this.saveData();
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // 4. MEDIA & ASSETS CENTRAL HUB
+  // ──────────────────────────────────────────────────────────────────────────
+  renderAssetsHub() {
+    const container = document.getElementById("cms-assets-hub-content");
+    if (!container) return;
+
+    const hero = this.data.heroBanner || {};
+    const about = this.data.about || {};
+    const projects = this.data.projects || [];
+    const articles = this.data.articles || [];
+    const videos = this.data.youtubeVideos || [];
+
+    container.innerHTML = `
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;">
+        
+        <!-- Asset 1: Hero Banner Cover -->
+        <div class="cms-item-card" style="display:flex; flex-direction:column; gap:0.75rem;">
+          <h4 style="font-size:1rem; font-weight:700; color:var(--text-primary);">🌅 Hero Banner Cover</h4>
+          <img id="hub-preview-cover" src="${hero.coverImage || ''}" style="width:100%; height:130px; object-fit:cover; border-radius:8px; border:1px solid var(--border-subtle);" alt="Banner Cover" />
+          <div class="image-uploader-box" data-target-input="hub-input-cover" data-target-preview="hub-preview-cover">
+            <input type="file" accept="image/*" id="hub-file-cover" style="display:none;" onchange="CMS.handleFileUpload(this.files[0], 'hub-input-cover', 'hub-preview-cover', (url) => { CMS.data.heroBanner.coverImage = url; CMS.saveData(); })" />
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('hub-file-cover').click()">📁 Upload Cover</button>
+            <input type="text" id="hub-input-cover" class="cms-input" style="font-size:0.8rem; margin-top:0.4rem;" value="${this.escapeHtml(hero.coverImage || '')}" onchange="CMS.data.heroBanner.coverImage = this.value; CMS.saveData();" placeholder="Or paste image URL" />
+          </div>
+        </div>
+
+        <!-- Asset 2: Profile Avatar -->
+        <div class="cms-item-card" style="display:flex; flex-direction:column; gap:0.75rem;">
+          <h4 style="font-size:1rem; font-weight:700; color:var(--text-primary);">👤 Profile Avatar Photo</h4>
+          <div style="display:flex; justify-content:center;">
+            <img id="hub-preview-avatar" src="${hero.avatarPhoto || 'assets/images/alexi-dhungel.jpg'}" style="width:110px; height:110px; object-fit:cover; border-radius:50%; border:2px solid var(--brand-cyan);" alt="Avatar" />
+          </div>
+          <div class="image-uploader-box" data-target-input="hub-input-avatar" data-target-preview="hub-preview-avatar">
+            <input type="file" accept="image/*" id="hub-file-avatar" style="display:none;" onchange="CMS.handleFileUpload(this.files[0], 'hub-input-avatar', 'hub-preview-avatar', (url) => { CMS.data.heroBanner.avatarPhoto = url; CMS.saveData(); })" />
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('hub-file-avatar').click()">📁 Upload Avatar</button>
+            <input type="text" id="hub-input-avatar" class="cms-input" style="font-size:0.8rem; margin-top:0.4rem;" value="${this.escapeHtml(hero.avatarPhoto || '')}" onchange="CMS.data.heroBanner.avatarPhoto = this.value; CMS.saveData();" placeholder="Or paste image URL" />
+          </div>
+        </div>
+
+        <!-- Asset 3: About Profile Photo -->
+        <div class="cms-item-card" style="display:flex; flex-direction:column; gap:0.75rem;">
+          <h4 style="font-size:1rem; font-weight:700; color:var(--text-primary);">🖼️ About Me Photo</h4>
+          <img id="hub-preview-about" src="${about.photo || hero.avatarPhoto || 'assets/images/alexi-dhungel.jpg'}" style="width:100%; height:130px; object-fit:cover; border-radius:8px; border:1px solid var(--border-subtle);" alt="About Photo" />
+          <div class="image-uploader-box" data-target-input="hub-input-about" data-target-preview="hub-preview-about">
+            <input type="file" accept="image/*" id="hub-file-about" style="display:none;" onchange="CMS.handleFileUpload(this.files[0], 'hub-input-about', 'hub-preview-about', (url) => { if (!CMS.data.about) CMS.data.about = {}; CMS.data.about.photo = url; CMS.saveData(); })" />
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('hub-file-about').click()">📁 Upload About Photo</button>
+            <input type="text" id="hub-input-about" class="cms-input" style="font-size:0.8rem; margin-top:0.4rem;" value="${this.escapeHtml(about.photo || '')}" onchange="if (!CMS.data.about) CMS.data.about = {}; CMS.data.about.photo = this.value; CMS.saveData();" placeholder="Or paste image URL" />
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <h4 style="font-size:1.15rem; font-weight:700; color:var(--text-primary); margin-bottom: 1rem;">📁 Project & Article Media Thumbnails</h4>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+          ${projects.map((p, idx) => `
+            <div class="cms-item-card" style="padding:0.75rem;">
+              <div style="font-size:0.85rem; font-weight:700; margin-bottom:0.4rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${this.escapeHtml(p.title)}</div>
+              <img id="hub-proj-preview-${idx}" src="${p.image || ''}" style="width:100%; height:90px; object-fit:cover; border-radius:6px; margin-bottom:0.5rem;" />
+              <input type="file" accept="image/*" id="hub-proj-file-${idx}" style="display:none;" onchange="CMS.handleFileUpload(this.files[0], 'hub-proj-input-${idx}', 'hub-proj-preview-${idx}', (url) => { CMS.data.projects[${idx}].image = url; CMS.saveData(); })" />
+              <div style="display:flex; gap:0.4rem;">
+                <button type="button" class="btn btn-secondary btn-sm" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="document.getElementById('hub-proj-file-${idx}').click()">📁 Upload</button>
+                <input type="text" id="hub-proj-input-${idx}" class="cms-input" style="font-size:0.75rem; padding:0.25rem 0.5rem;" value="${this.escapeHtml(p.image || '')}" onchange="CMS.data.projects[${idx}].image = this.value; CMS.saveData();" placeholder="Image URL" />
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // FILE UPLOAD HANDLER (Base64 + /api/upload Server Sync)
+  // ──────────────────────────────────────────────────────────────────────────
+  handleFileUpload(file, targetInputId, targetPreviewId, callback) {
     if (!file || !file.type.startsWith("image/")) {
       showToast("⚠️ Please select a valid image file.");
       return;
@@ -454,6 +773,7 @@ const CMS = {
     const reader = new FileReader();
     reader.onload = (e) => {
       const base64Url = e.target.result;
+
       if (targetInputId) {
         const inputEl = document.getElementById(targetInputId);
         if (inputEl) inputEl.value = base64Url;
@@ -462,12 +782,45 @@ const CMS = {
         const previewEl = document.getElementById(targetPreviewId);
         if (previewEl) previewEl.src = base64Url;
       }
-      showToast("🖼️ Image loaded successfully!");
+
+      // Try uploading to server disk endpoint if available
+      const token = this.getToken();
+      if (token) {
+        fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            data: base64Url,
+            filename: file.name
+          })
+        }).then(res => res.json())
+          .then(res => {
+            if (res.success && res.url) {
+              if (targetInputId) {
+                const inputEl = document.getElementById(targetInputId);
+                if (inputEl) inputEl.value = res.url;
+              }
+              if (callback) callback(res.url);
+              showToast("🖼️ Image stored to disk & synced!");
+            } else {
+              if (callback) callback(base64Url);
+              showToast("🖼️ Image loaded in memory!");
+            }
+          }).catch(() => {
+            if (callback) callback(base64Url);
+            showToast("🖼️ Image loaded in memory!");
+          });
+      } else {
+        if (callback) callback(base64Url);
+        showToast("🖼️ Image loaded successfully!");
+      }
     };
     reader.readAsDataURL(file);
   },
 
-  // Parse YouTube link to get ID
   parseYouTubeId(url) {
     if (!url) return "";
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -475,7 +828,9 @@ const CMS = {
     return (match && match[2].length === 11) ? match[2] : url;
   },
 
-  // 🎬 YouTube & Videos Management
+  // ──────────────────────────────────────────────────────────────────────────
+  // 5. YOUTUBE VIDEOS CMS
+  // ──────────────────────────────────────────────────────────────────────────
   renderYouTubeCMSList() {
     const container = document.getElementById("cms-youtube-list");
     if (!container) return;
@@ -515,7 +870,7 @@ const CMS = {
               <textarea class="cms-textarea" rows="2" id="vid-desc-${idx}">${this.escapeHtml(vid.description || '')}</textarea>
             </div>
             <div class="cms-form-group full-width">
-              <label class="cms-label">Custom Thumbnail URL (blank = YouTube auto)</label>
+              <label class="cms-label">Custom Thumbnail URL</label>
               <input type="text" class="cms-input" id="vid-thumb-${idx}" value="${this.escapeHtml(vid.customThumbnail || '')}" />
             </div>
           </div>
@@ -536,7 +891,6 @@ const CMS = {
     this.data.youtubeVideos[idx].customThumbnail = document.getElementById(`vid-thumb-${idx}`).value;
     this.saveData();
     this.renderYouTubeCMSList();
-    if (typeof showToast === 'function') showToast('✅ Video updated!');
   },
 
   addYouTubeVideo() {
@@ -565,7 +919,9 @@ const CMS = {
     this.renderYouTubeCMSList();
   },
 
-  // ✍️ Dynamic Articles / Blog Management
+  // ──────────────────────────────────────────────────────────────────────────
+  // 6. ARTICLES / BLOG CMS
+  // ──────────────────────────────────────────────────────────────────────────
   renderArticlesCMSList() {
     const container = document.getElementById("cms-articles-list");
     if (!container) return;
@@ -635,7 +991,9 @@ const CMS = {
     this.renderArticlesCMSList();
   },
 
-  // 📁 Projects Management
+  // ──────────────────────────────────────────────────────────────────────────
+  // 7. PROJECTS CMS
+  // ──────────────────────────────────────────────────────────────────────────
   renderProjectsCMSList() {
     const container = document.getElementById("cms-projects-list");
     if (!container) return;
@@ -713,7 +1071,6 @@ const CMS = {
     this.data.projects[idx].image = document.getElementById(`proj-img-${idx}`).value;
     this.saveData();
     this.renderProjectsCMSList();
-    if (typeof showToast === 'function') showToast('✅ Project updated!');
   },
 
   addProject() {
@@ -741,7 +1098,9 @@ const CMS = {
     this.renderProjectsCMSList();
   },
 
-  // 💼 Experience CMS List — Full Inline Edit
+  // ──────────────────────────────────────────────────────────────────────────
+  // 8. EXPERIENCE CMS
+  // ──────────────────────────────────────────────────────────────────────────
   renderExperienceCMSList() {
     const container = document.getElementById("cms-experience-list");
     if (!container) return;
@@ -759,6 +1118,7 @@ const CMS = {
           <span class="status-pill ${item.active !== false ? 'active-pill' : 'disabled-pill'}">${item.active !== false ? 'Active' : 'Disabled'}</span>
           <label class="switch"><input type="checkbox" ${item.active !== false ? 'checked' : ''} onchange="CMS.toggleItemActive('experience', ${idx})"><span class="slider"></span></label>
           <button class="btn btn-secondary btn-sm" onclick="CMS.toggleEditPanel('exp-edit-${idx}')">✏️ Edit</button>
+          <button class="btn btn-secondary btn-sm" onclick="CMS.deleteItem('experience', ${idx})">🗑️</button>
         </div>
         <div id="exp-edit-${idx}" class="cms-inline-edit" style="display:none;">
           <div class="cms-form-grid">
@@ -813,10 +1173,11 @@ const CMS = {
     this.data.experience[idx].tags = document.getElementById(`exp-tags-${idx}`).value.split(',').map(t => t.trim()).filter(Boolean);
     this.saveData();
     this.renderExperienceCMSList();
-    if (typeof showToast === 'function') showToast('✅ Experience updated!');
   },
 
-  // 🛠️ Skills CMS List — Full Edit + Add
+  // ──────────────────────────────────────────────────────────────────────────
+  // 9. SKILLS CMS
+  // ──────────────────────────────────────────────────────────────────────────
   renderSkillsCMSList() {
     const container = document.getElementById("cms-skills-list");
     if (!container) return;
@@ -868,7 +1229,6 @@ const CMS = {
     this.data.skills[idx].level = document.getElementById(`sk-level-${idx}`).value;
     this.saveData();
     this.renderSkillsCMSList();
-    if (typeof showToast === 'function') showToast('✅ Skill updated!');
   },
 
   addSkill() {
@@ -878,7 +1238,9 @@ const CMS = {
     this.renderSkillsCMSList();
   },
 
-  // 🌐 Social Links Form
+  // ──────────────────────────────────────────────────────────────────────────
+  // 10. SOCIAL & CONTACT
+  // ──────────────────────────────────────────────────────────────────────────
   populateSocialForms() {
     const p = this.data.personal || {};
     this.setVal("cms-social-email", p.email || "");
@@ -939,9 +1301,9 @@ const CMS = {
     this.renderActiveVisibility();
   },
 
-  // Hide or show sections on the live webpage
+  // Hide or show sections on the live webpage & sync navigation
   renderActiveVisibility() {
-    const vis = (this.data && this.data.sectionVisibility) ? this.data.sectionVisibility : portfolioData.sectionVisibility;
+    const vis = (this.data && this.data.sectionVisibility) ? this.data.sectionVisibility : (typeof portfolioData !== "undefined" ? portfolioData.sectionVisibility : {});
     if (!vis) return;
 
     Object.keys(vis).forEach(secKey => {
@@ -954,14 +1316,21 @@ const CMS = {
         }
       }
     });
+
+    // Keep top navbar links perfectly in sync with active visibility
+    if (typeof renderNavigation === "function") {
+      renderNavigation();
+    }
   },
 
-  // 🎭 Profession Preset Switcher
+  // ──────────────────────────────────────────────────────────────────────────
+  // 11. PROFESSION PRESETS
+  // ──────────────────────────────────────────────────────────────────────────
   renderPresetsUI() {
     const container = document.getElementById("cms-presets-grid");
     if (!container) return;
 
-    const presets = portfolioData.professionPresets || {};
+    const presets = (typeof portfolioData !== "undefined" && portfolioData.professionPresets) ? portfolioData.professionPresets : {};
     const activeKey = this.data.activeProfession || "engineer";
 
     container.innerHTML = Object.keys(presets).map(key => {
@@ -982,12 +1351,15 @@ const CMS = {
   },
 
   applyPreset(presetKey) {
-    const presets = portfolioData.professionPresets || {};
+    const presets = (typeof portfolioData !== "undefined" && portfolioData.professionPresets) ? portfolioData.professionPresets : {};
     const preset = presets[presetKey];
     if (!preset) return;
 
     if (confirm(`Switch profile to ${preset.name}?`)) {
       this.data.activeProfession = presetKey;
+      
+      // Hero Banner
+      if (!this.data.heroBanner) this.data.heroBanner = {};
       this.data.heroBanner.name = preset.heroName;
       this.data.heroBanner.badgeText = preset.badge;
       this.data.heroBanner.brandBadge = preset.brandBadge;
@@ -995,11 +1367,27 @@ const CMS = {
       this.data.heroBanner.coverImage = preset.coverImage;
       this.data.heroBanner.titles = preset.titles;
       this.data.heroBanner.bioShort = preset.bioShort;
+      this.data.heroBanner.avatarBadge = preset.avatarBadge || "Professional";
+      this.data.heroBanner.floatingTech = preset.floatingTech || ["Core Tech", "Architecture"];
 
+      // Navigation
+      if (!this.data.navigation) this.data.navigation = {};
+      this.data.navigation.brandInitials = preset.brandInitials || "AD";
+      this.data.navigation.brandName = preset.heroName;
+      this.data.navigation.brandTitle = preset.brandTitle || preset.brandName;
+
+      // Personal Info
+      if (!this.data.personal) this.data.personal = {};
       this.data.personal.name = preset.heroName;
       this.data.personal.brandName = preset.brandName;
       this.data.personal.titles = preset.titles;
       this.data.personal.bioShort = preset.bioShort;
+
+      // About Me
+      if (!this.data.about) this.data.about = {};
+      if (preset.aboutTitle) this.data.about.title = preset.aboutTitle;
+      if (preset.aboutTag) this.data.about.tag = preset.aboutTag;
+      if (preset.aboutSpecs) this.data.about.specs = preset.aboutSpecs;
 
       this.saveData();
       this.populateForms();
@@ -1043,7 +1431,7 @@ const CMS = {
   resetToDefault() {
     if (confirm("Are you sure you want to reset all CMS changes to the default benchmark data?")) {
       localStorage.removeItem("cms_portfolio_data");
-      this.data = JSON.parse(JSON.stringify(portfolioData));
+      this.data = JSON.parse(JSON.stringify(typeof portfolioData !== "undefined" ? portfolioData : {}));
       this.saveData();
       this.populateForms();
       showToast("🔄 Reset to default data successfully.");
@@ -1060,14 +1448,15 @@ const CMS = {
       .replace(/'/g, "&#039;");
   },
 
-  // ─── UTILITY: Toggle inline edit panel ────────────────────────────────────
   toggleEditPanel(panelId) {
     const panel = document.getElementById(panelId);
     if (!panel) return;
     panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
   },
 
-  // ─── STATS CRUD ────────────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────────────────
+  // 12. STATS CRUD
+  // ──────────────────────────────────────────────────────────────────────────
   renderStatsCMSList() {
     const container = document.getElementById("cms-stats-list");
     if (!container) return;
@@ -1110,7 +1499,6 @@ const CMS = {
     this.data.stats[idx].label = document.getElementById(`stat-lbl-${idx}`).value;
     this.saveData();
     this.renderStatsCMSList();
-    if (typeof showToast === 'function') showToast('✅ Stat updated!');
   },
 
   addStat() {
@@ -1120,7 +1508,9 @@ const CMS = {
     this.renderStatsCMSList();
   },
 
-  // ─── WHAT I BUILD CRUD ────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────────────────
+  // 13. WHAT I BUILD CRUD
+  // ──────────────────────────────────────────────────────────────────────────
   renderWhatIBuildCMSList() {
     const container = document.getElementById("cms-whatibuild-list");
     if (!container) return;
@@ -1168,7 +1558,6 @@ const CMS = {
     this.data.whatIBuild[idx].tags = document.getElementById(`wib-tags-${idx}`).value.split(',').map(t => t.trim()).filter(Boolean);
     this.saveData();
     this.renderWhatIBuildCMSList();
-    if (typeof showToast === 'function') showToast('✅ Service card updated!');
   },
 
   addWhatIBuildItem() {
@@ -1178,7 +1567,9 @@ const CMS = {
     this.renderWhatIBuildCMSList();
   },
 
-  // ─── TEACHING CRUD ────────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────────────────
+  // 14. TEACHING CRUD
+  // ──────────────────────────────────────────────────────────────────────────
   renderTeachingCMSList() {
     const container = document.getElementById("cms-teaching-list");
     if (!container) return;
@@ -1236,7 +1627,6 @@ const CMS = {
     this.data.teaching[idx].topics = document.getElementById(`teach-topics-${idx}`).value.split('\n').map(t => t.trim()).filter(Boolean);
     this.saveData();
     this.renderTeachingCMSList();
-    if (typeof showToast === 'function') showToast('✅ Teaching card updated!');
   },
 
   addTeachingItem() {
@@ -1246,7 +1636,9 @@ const CMS = {
     this.renderTeachingCMSList();
   },
 
-  // ─── EDUCATION CRUD ───────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────────────────
+  // 15. EDUCATION CRUD
+  // ──────────────────────────────────────────────────────────────────────────
   renderEducationCMSList() {
     const container = document.getElementById("cms-education-list");
     if (!container) return;
@@ -1304,7 +1696,6 @@ const CMS = {
     this.data.education[idx].description = document.getElementById(`edu-desc-${idx}`).value;
     this.saveData();
     this.renderEducationCMSList();
-    if (typeof showToast === 'function') showToast('✅ Education entry updated!');
   },
 
   addEducationItem() {
@@ -1314,7 +1705,9 @@ const CMS = {
     this.renderEducationCMSList();
   },
 
-  // ─── THEME & BRAND COLORS ─────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────────────────
+  // 16. THEME COLORS PANEL
+  // ──────────────────────────────────────────────────────────────────────────
   renderThemeColorPanel() {
     const container = document.getElementById("cms-theme-panel-content");
     if (!container) return;
@@ -1374,7 +1767,6 @@ const CMS = {
     });
     this.applyThemeColors();
     this.saveData();
-    if (typeof showToast === 'function') showToast('🎨 Theme colors applied!');
   },
 
   applyThemeColors() {
@@ -1400,3 +1792,5 @@ const CMS = {
 document.addEventListener("DOMContentLoaded", () => {
   CMS.init();
 });
+
+window.CMS = CMS;
