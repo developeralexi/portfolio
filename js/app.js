@@ -40,14 +40,29 @@ window.escapeHtml = escapeHTML;
 
 // Helper to retrieve active state data (from CMS or portfolioData default)
 function getActiveData() {
+  let data = null;
   if (window.CMS && window.CMS.data) {
-    return window.CMS.data;
+    data = window.CMS.data;
+  } else {
+    const saved = localStorage.getItem("cms_portfolio_data");
+    if (saved) {
+      try { data = JSON.parse(saved); } catch (e) {}
+    }
   }
-  const saved = localStorage.getItem("cms_portfolio_data");
-  if (saved) {
-    try { return JSON.parse(saved); } catch (e) {}
+  if (!data) {
+    data = typeof portfolioData !== "undefined" ? portfolioData : {};
   }
-  return typeof portfolioData !== "undefined" ? portfolioData : {};
+
+  // Ensure official contact values are always guaranteed
+  if (!data.personal) data.personal = {};
+  if (!data.personal.phone || data.personal.phone.includes("9800000000")) {
+    data.personal.phone = "+9779740832433";
+  }
+  if (!data.personal.whatsapp || data.personal.whatsapp.includes("9800000000")) {
+    data.personal.whatsapp = "+9779740832433";
+  }
+
+  return data;
 }
 window.getActiveData = getActiveData;
 
@@ -71,6 +86,13 @@ window.renderAllComponents = function() {
   if (window.CMS && window.CMS.renderActiveVisibility) {
     window.CMS.renderActiveVisibility();
   }
+
+  // Re-bind interactive animation effects
+  if (typeof initCardSpotlights === "function") initCardSpotlights();
+  if (typeof initCard3DTilt === "function") initCard3DTilt();
+  if (typeof initAnimatedCounters === "function") initAnimatedCounters();
+  if (typeof initCyberTextScramble === "function") initCyberTextScramble();
+  if (typeof initTimelineSignalEffect === "function") initTimelineSignalEffect();
 };
 
 /* ==========================================================================
@@ -823,17 +845,47 @@ function renderContact() {
   const personal = data.personal || {};
 
   const email = personal.email || "ingr.alexi@gmail.com";
+  const rawPhone = personal.phone || "+9779740832433";
+  const phone = (rawPhone && !rawPhone.includes("9800000000")) ? rawPhone : "+9779740832433";
+  const rawWhatsapp = personal.whatsapp || "+9779740832433";
+  const whatsapp = (rawWhatsapp && !rawWhatsapp.includes("9800000000")) ? rawWhatsapp : "+9779740832433";
   const linkedin = personal.linkedin || "https://www.linkedin.com/in/alexi-dhungel-01b65b146/";
-  const github = personal.github || "";
+  const github = personal.github || "https://github.com/alexidhungel";
   const youtube = personal.youtube || "";
-  const twitter = personal.twitter || "";
   const location = personal.location || "Kathmandu, Nepal";
-  const whatsapp = personal.whatsapp || "";
+
+  const cleanPhoneDigits = phone.replace(/[^0-9]/g, '');
+  const cleanWhatsappDigits = whatsapp.replace(/[^0-9]/g, '');
 
   container.innerHTML = `
     <div class="contact-card-box">
-      <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--text-primary);">Contact Channels</h3>
+      <h3 style="font-size: 1.35rem; margin-bottom: 1.6rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+        <span class="status-live-dot"></span> Official Contact Channels
+      </h3>
       
+      <div class="contact-method-item">
+        <div class="contact-icon-box" style="color: var(--brand-cyan);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        </div>
+        <div class="contact-method-text">
+          <h4>Phone / Mobile</h4>
+          <a href="tel:+${escapeHTML(cleanPhoneDigits)}" style="font-family: var(--font-mono); font-weight: 700;">+977 9740832433</a>
+        </div>
+      </div>
+
+      <div class="contact-method-item">
+        <div class="contact-icon-box" style="background: rgba(37, 211, 102, 0.15); border-color: rgba(37, 211, 102, 0.4); color: #25D366; box-shadow: 0 0 16px rgba(37, 211, 102, 0.25);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        </div>
+        <div class="contact-method-text">
+          <h4 style="color: #34D399;">WhatsApp Instant Chat</h4>
+          <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+            <a href="https://wa.me/${escapeHTML(cleanWhatsappDigits)}" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-weight: 700; color: #25D366;">+977 9740832433</a>
+            <a href="https://wa.me/${escapeHTML(cleanWhatsappDigits)}" target="_blank" rel="noopener" class="mini-tag" style="background: rgba(37, 211, 102, 0.18); border-color: rgba(37, 211, 102, 0.4); color: #25D366; cursor: pointer;">⚡ Open WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
       ${email ? `
         <div class="contact-method-item">
           <div class="contact-icon-box">
@@ -864,32 +916,8 @@ function renderContact() {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
           </div>
           <div class="contact-method-text">
-            <h4>GitHub</h4>
+            <h4>GitHub Profile</h4>
             <a href="${escapeHTML(github)}" target="_blank" rel="noopener">${escapeHTML(github.replace('https://github.com/', 'github.com/'))}</a>
-          </div>
-        </div>
-      ` : ''}
-
-      ${youtube ? `
-        <div class="contact-method-item">
-          <div class="contact-icon-box">
-            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-          </div>
-          <div class="contact-method-text">
-            <h4>YouTube Channel</h4>
-            <a href="${escapeHTML(youtube)}" target="_blank" rel="noopener">YouTube Channel</a>
-          </div>
-        </div>
-      ` : ''}
-
-      ${whatsapp ? `
-        <div class="contact-method-item">
-          <div class="contact-icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-          </div>
-          <div class="contact-method-text">
-            <h4>WhatsApp / Mobile</h4>
-            <a href="https://wa.me/${escapeHTML(whatsapp.replace(/[^0-9]/g, ''))}" target="_blank" rel="noopener">${escapeHTML(whatsapp)}</a>
           </div>
         </div>
       ` : ''}

@@ -68,6 +68,16 @@ const portfolioData = {
     active: true
   },
 
+  personal: {
+    name: "Alexi Dhungel, Er.",
+    email: "ingr.alexi@gmail.com",
+    phone: "+9779740832433",
+    whatsapp: "+9779740832433",
+    location: "Kathmandu, Nepal",
+    linkedin: "https://www.linkedin.com/in/alexi-dhungel-01b65b146/",
+    github: "https://github.com/alexidhungel"
+  },
+
   footer: {
     copyright: "© 2026 Alexi Dhungel, Er. • Universal Dynamic Content Management Platform",
     brandName: "Alexi Dhungel, Er.",
@@ -141,7 +151,8 @@ const portfolioData = {
     twitter: "https://x.com/",
     instagram: "https://instagram.com/",
     facebook: "https://facebook.com/",
-    whatsapp: "+9779800000000",
+    phone: "+9779740832433",
+    whatsapp: "+9779740832433",
     location: "Kathmandu, Nepal",
     bioShort: "Building reliable software, digital banking solutions, APIs, integrations and practical technology knowledge.",
     bioLong: "Alexi Dhungel is an experienced Computer Engineer with more than 8 years of hands-on expertise in software development, Java programming, digital financial services, enterprise banking systems, API integrations, automation, and academic instruction. Operating at the nexus of high-security banking infrastructure and modern software engineering, he architects resilient systems while empowering the next generation of engineers through rigorous mentorship."

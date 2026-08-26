@@ -250,6 +250,18 @@
     padding: 1.5rem 1.25rem;
   }
 
+  .floating-syntax-chip {
+    display: none;
+  }
+
+  .nav-whatsapp-pill span {
+    display: none;
+  }
+
+  .nav-whatsapp-pill {
+    padding: 0.45rem;
+  }
+
   .toast-container {
     bottom: 1rem;
     right: 1rem;
