@@ -34,11 +34,12 @@ const portfolioData = {
     name: "Alexi Dhungel, Er.",
     brandName: "Code With Alexi",
     avatarBadge: "Senior Engineer",
-    floatingTech: ["Java", ".NET / C#", "REST APIs", "SQL Server", "Banking Switches"],
+    floatingTech: ["Java", ".NET / C#", "AI & LLMs", "REST APIs", "SQL Server", "Banking Switches"],
     titles: [
       "Computer Engineer",
       "Software Developer",
       "Digital Banking & FinTech Professional",
+      "AI & Intelligent Systems Architect",
       "Java Instructor",
       "API & System Integration Developer"
     ],
@@ -237,6 +238,22 @@ const portfolioData = {
       icon: "book-open",
       tags: ["OOP", "Mentoring", "Clean Code", "Workshops"],
       active: true
+    },
+    {
+      id: "ai-agents-llm",
+      title: "AI Agents & LLM Engineering",
+      description: "Designing production-grade RAG pipelines, autonomous agentic workflows, and secure LLM integrations tailored for enterprise software.",
+      icon: "cpu",
+      tags: ["LLM & RAG", "AI Agents", "Prompt Engineering", "Vector DBs"],
+      active: true
+    },
+    {
+      id: "ai-fintech-analytics",
+      title: "AI-Powered FinTech & Risk Intelligence",
+      description: "Embedding machine learning anomaly detection, intelligent credit appraisal, and automated document verification into banking platforms.",
+      icon: "layers",
+      tags: ["Fraud Detection", "Predictive Risk", "Document AI", "FinTech AI"],
+      active: true
     }
   ],
 
@@ -385,7 +402,11 @@ const portfolioData = {
     { id: "sk-10", name: "Banking System Integration", category: "enterprise", level: "Specialist", icon: "landmark", active: true },
     { id: "sk-11", name: "Payment Switch & Dynamic QR", category: "enterprise", level: "Specialist", icon: "qr-code", active: true },
     { id: "sk-12", name: "Git Version Control", category: "practices", level: "Proficient", icon: "git-branch", active: true },
-    { id: "sk-13", name: "Agile & Scrum Methodology", category: "practices", level: "Team Lead", icon: "users", active: true }
+    { id: "sk-13", name: "Agile & Scrum Methodology", category: "practices", level: "Team Lead", icon: "users", active: true },
+    { id: "sk-14", name: "LLM & RAG Architecture", category: "ai", level: "Specialist", icon: "cpu", active: true },
+    { id: "sk-15", name: "AI Agents & Workflow Automation", category: "ai", level: "Advanced", icon: "network", active: true },
+    { id: "sk-16", name: "OpenAI / Gemini API Integration", category: "ai", level: "Proficient", icon: "code", active: true },
+    { id: "sk-17", name: "AI Fraud & Anomaly Detection", category: "ai", level: "FinTech AI", icon: "layers", active: true }
   ],
 
   projects: [
@@ -452,6 +473,22 @@ const portfolioData = {
         "Automated discrepancy exception routing and compliance audit trails"
       ],
       active: true
+    },
+    {
+      id: "sol-ai-fintech",
+      title: "AI Financial Intelligence & Agentic Automation Platform",
+      category: "ai",
+      domain: "AI & Intelligent FinTech",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
+      shortDesc: "Enterprise RAG knowledge engine, real-time transaction anomaly scoring, and autonomous AI copilot workflows for banking operations.",
+      fullDesc: "A secure AI orchestration layer engineered for financial institutions. Combines retrieval-augmented generation (RAG) over regulatory directives, real-time ML anomaly detection on payment switch streams, and human-in-the-loop agentic workflows for credit & compliance teams.",
+      technologies: ["LLM & RAG", "AI Agents", "Python", ".NET Core", "Vector Search", "Anomaly Detection", "REST APIs"],
+      highlights: [
+        "Real-time transaction velocity & fraud anomaly scoring with sub-50ms inference",
+        "Private enterprise RAG assistant grounded in central bank compliance policies",
+        "Automated KYC document extraction and intelligent exception triage"
+      ],
+      active: true
     }
   ],
 
@@ -514,6 +551,24 @@ Financial ledgers grow by millions of rows monthly. Without careful indexing and
 
 #### Non-Clustered Index Strategy
 Never use GUIDs as clustered index keys on write-heavy tables. Prefer sequential IDENTITY keys with Non-Clustered INCLUDE indexes.`,
+      active: true
+    },
+    {
+      id: "art-ai-banking-rag",
+      title: "Designing Production RAG & Agentic AI Workflows for Enterprise Banking",
+      category: "AI & FinTech",
+      readTime: "9 min read",
+      date: "2026-03-10",
+      coverImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1200&auto=format&fit=crop",
+      summary: "How to architect auditable, zero-hallucination Retrieval-Augmented Generation (RAG) and AI agent pipelines inside regulated financial systems.",
+      content: `### Bringing Generative AI Safely into Core Banking
+
+Regulated financial environments demand deterministic auditability, data privacy, and zero-trust guardrails before deploying Large Language Models.
+
+#### Architectural Pillars:
+1. **Grounded Retrieval (RAG)**: Indexing internal policy manuals and compliance circulars into hybrid vector + keyword stores with strict citation requirements.
+2. **Deterministic Tool Calling**: Separating LLM reasoning from transactional execution via strongly typed, permission-checked APIs.
+3. **Human-in-the-Loop Governance**: Logging every prompt, retrieved context, and agent decision for complete regulatory traceability.`,
       active: true
     }
   ],

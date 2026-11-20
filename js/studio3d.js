@@ -46,6 +46,12 @@
       // Animated 3D references
       this.chairGroup = null;
       this.holoGroup = null;
+      this.neuralGroup = null;
+      this.synapsePulses = [];
+      this.aiDroneGroup = null;
+      this.deskHoloCube = null;
+      this.deskHoloRing = null;
+      this.conduitPackets = [];
       this.serverLeds = [];
       this.steamParticles = [];
       this.keycapGlowMesh = null;
@@ -102,6 +108,10 @@
         this._buildErgonomicChair();
         this._buildFinTechServerRack();
         this._buildHologramCluster();
+        this._buildNeuralNetworkBrain();
+        this._buildAICompanionDrone();
+        this._buildDeskHologramPad();
+        this._buildFiberOpticConduits();
         this._buildAmbientParticles();
         this._setupCameraCurves();
         this._mountHUD();
@@ -646,6 +656,278 @@
     }
 
     /* ========================================================================
+       6B. 3D MULTI-LAYER AI NEURAL NETWORK BRAIN WITH FIRING SYNAPSES
+       ======================================================================== */
+    _buildNeuralNetworkBrain() {
+      const THREE = this.THREE;
+      const neural = new THREE.Group();
+      neural.position.set(-2.35, 1.98, -0.78);
+      neural.rotation.y = 0.35;
+
+      const layers = [
+        { x: -0.58, count: 4, radius: 0.38, color: 0x00c2ff },
+        { x: 0.0,   count: 6, radius: 0.50, color: 0x00f5ff },
+        { x: 0.58,  count: 4, radius: 0.38, color: 0x8b5cf6 }
+      ];
+
+      const layerNodes = [];
+      const nodeGeo = new THREE.SphereGeometry(0.042, 14, 14);
+
+      layers.forEach(layer => {
+        const nodes = [];
+        const mat = new THREE.MeshStandardMaterial({
+          color: layer.color,
+          emissive: layer.color,
+          emissiveIntensity: 0.85,
+          roughness: 0.2,
+          metalness: 0.3
+        });
+
+        for (let i = 0; i < layer.count; i++) {
+          const angle = (i / layer.count) * Math.PI * 2 + 0.3;
+          const pos = new THREE.Vector3(
+            layer.x,
+            Math.sin(angle) * layer.radius,
+            Math.cos(angle) * layer.radius
+          );
+          const mesh = new THREE.Mesh(nodeGeo, mat);
+          mesh.position.copy(pos);
+          neural.add(mesh);
+          nodes.push(pos);
+        }
+        layerNodes.push(nodes);
+      });
+
+      // Connect adjacent layers with translucent synaptic lines + firing pulses
+      const linePositions = [];
+      const synapsePairs = [];
+      for (let l = 0; l < layerNodes.length - 1; l++) {
+        const fromLayer = layerNodes[l];
+        const toLayer = layerNodes[l + 1];
+        for (let i = 0; i < fromLayer.length; i++) {
+          for (let j = 0; j < toLayer.length; j++) {
+            const a = fromLayer[i];
+            const b = toLayer[j];
+            linePositions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+            if ((i + j) % 2 === 0) {
+              synapsePairs.push({ a, b });
+            }
+          }
+        }
+      }
+
+      const lineGeo = new THREE.BufferGeometry();
+      lineGeo.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
+      const lineMat = new THREE.LineBasicMaterial({
+        color: 0x00c2ff,
+        transparent: true,
+        opacity: 0.24
+      });
+      neural.add(new THREE.LineSegments(lineGeo, lineMat));
+
+      // Glowing 3D synaptic firing pulses traveling between neurons
+      const pulseGeo = new THREE.SphereGeometry(0.022, 8, 8);
+      for (let i = 0; i < Math.min(18, synapsePairs.length); i++) {
+        const pair = synapsePairs[i];
+        const pulseMat = new THREE.MeshBasicMaterial({
+          color: i % 2 === 0 ? 0x00f5ff : 0xc084fc
+        });
+        const pulse = new THREE.Mesh(pulseGeo, pulseMat);
+        pulse.userData = {
+          a: pair.a,
+          b: pair.b,
+          speed: 0.45 + (i % 5) * 0.14,
+          offset: (i * 0.23) % 1
+        };
+        neural.add(pulse);
+        this.synapsePulses.push(pulse);
+      }
+
+      // Outer orbiting AI tensor halo ring
+      const tensorRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.84, 0.008, 12, 64),
+        new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.45 })
+      );
+      tensorRing.rotation.x = Math.PI / 2.3;
+      neural.add(tensorRing);
+
+      this.neuralGroup = neural;
+      this.scene.add(neural);
+    }
+
+    /* ========================================================================
+       6C. 3D HOVERING AI COMPANION DRONE / ASSISTANT ORB
+       ======================================================================== */
+    _buildAICompanionDrone() {
+      const THREE = this.THREE;
+      const drone = new THREE.Group();
+      drone.position.set(1.18, 1.88, 0.18);
+
+      // Sleek metallic white/silver chassis sphere
+      const body = new THREE.Mesh(
+        new THREE.SphereGeometry(0.14, 24, 24),
+        new THREE.MeshStandardMaterial({
+          color: 0xe2e8f0,
+          roughness: 0.22,
+          metalness: 0.65
+        })
+      );
+      body.castShadow = true;
+      drone.add(body);
+
+      // Dark obsidian visor band
+      const visor = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.143, 0.143, 0.075, 24),
+        new THREE.MeshStandardMaterial({ color: 0x060b18, roughness: 0.15, metalness: 0.85 })
+      );
+      drone.add(visor);
+
+      // Glowing cyan AI optical eye
+      const eye = new THREE.Mesh(
+        new THREE.SphereGeometry(0.036, 14, 14),
+        new THREE.MeshBasicMaterial({ color: 0x00f5ff })
+      );
+      eye.position.set(0, 0, 0.128);
+      drone.add(eye);
+
+      // Rotating anti-gravity hover halo
+      const halo = new THREE.Mesh(
+        new THREE.TorusGeometry(0.21, 0.007, 10, 48),
+        new THREE.MeshBasicMaterial({ color: 0x00c2ff, transparent: true, opacity: 0.78 })
+      );
+      halo.rotation.x = Math.PI / 2.2;
+      drone.add(halo);
+
+      // Subtle cyan point light emitted by the AI drone
+      const droneLight = new THREE.PointLight(0x00f5ff, 0.8, 3.2, 1.8);
+      droneLight.position.set(0, 0, 0.2);
+      drone.add(droneLight);
+
+      this.aiDroneGroup = drone;
+      this.aiDroneHalo = halo;
+      this.scene.add(drone);
+    }
+
+    /* ========================================================================
+       6D. 3D DESK HOLOGRAPHIC PROJECTION PAD & ROTATING AI DATA CUBE
+       ======================================================================== */
+    _buildDeskHologramPad() {
+      const THREE = this.THREE;
+      const padGroup = new THREE.Group();
+      padGroup.position.set(-0.92, 0.975, -0.14);
+
+      // Brushed metal emitter puck on desk
+      const puck = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.11, 0.125, 0.022, 24),
+        new THREE.MeshStandardMaterial({ color: 0x111a2e, roughness: 0.35, metalness: 0.8 })
+      );
+      padGroup.add(puck);
+
+      // Glowing cyan emitter ring
+      const emitterRing = new THREE.Mesh(
+        new THREE.RingGeometry(0.065, 0.095, 28),
+        new THREE.MeshBasicMaterial({ color: 0x00f5ff, side: THREE.DoubleSide })
+      );
+      emitterRing.rotation.x = -Math.PI / 2;
+      emitterRing.position.y = 0.013;
+      padGroup.add(emitterRing);
+
+      // Translucent upward volumetric hologram beam cone
+      const beam = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.17, 0.065, 0.34, 24, 1, true),
+        new THREE.MeshBasicMaterial({
+          color: 0x00c2ff,
+          transparent: true,
+          opacity: 0.11,
+          side: THREE.DoubleSide,
+          depthWrite: false
+        })
+      );
+      beam.position.y = 0.18;
+      padGroup.add(beam);
+
+      // Rotating 3D AI Tesseract (nested translucent + wireframe cubes)
+      const cubeGroup = new THREE.Group();
+      cubeGroup.position.y = 0.26;
+
+      const outerCube = new THREE.Mesh(
+        new THREE.BoxGeometry(0.13, 0.13, 0.13),
+        new THREE.MeshBasicMaterial({ color: 0x00f5ff, wireframe: true, transparent: true, opacity: 0.82 })
+      );
+      cubeGroup.add(outerCube);
+
+      const innerCube = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.058, 0),
+        new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.72 })
+      );
+      cubeGroup.add(innerCube);
+
+      const holoRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.135, 0.005, 8, 40),
+        new THREE.MeshBasicMaterial({ color: 0x00c2ff, transparent: true, opacity: 0.65 })
+      );
+      holoRing.rotation.x = Math.PI / 2.3;
+      cubeGroup.add(holoRing);
+
+      padGroup.add(cubeGroup);
+      this.deskHoloCube = cubeGroup;
+      this.deskHoloRing = holoRing;
+      this.scene.add(padGroup);
+    }
+
+    /* ========================================================================
+       6E. 3D CURVED FIBER-OPTIC DATA CONDUITS & RACING PHOTON PACKETS
+       ======================================================================== */
+    _buildFiberOpticConduits() {
+      const THREE = this.THREE;
+      const curves = [
+        // AI Neural Brain -> Desk Monitors
+        new THREE.CatmullRomCurve3([
+          new THREE.Vector3(-2.1, 1.55, -0.82),
+          new THREE.Vector3(-1.55, 0.95, -1.15),
+          new THREE.Vector3(-0.65, 1.02, -1.05),
+          new THREE.Vector3(0.0, 1.25, -0.95)
+        ]),
+        // Desk Monitors -> FinTech Server Rack
+        new THREE.CatmullRomCurve3([
+          new THREE.Vector3(0.35, 1.15, -0.98),
+          new THREE.Vector3(1.45, 0.75, -1.25),
+          new THREE.Vector3(2.4, 0.85, -1.3),
+          new THREE.Vector3(3.0, 1.45, -1.25)
+        ])
+      ];
+
+      const packetGeo = new THREE.SphereGeometry(0.028, 10, 10);
+
+      curves.forEach((curve, idx) => {
+        const tube = new THREE.Mesh(
+          new THREE.TubeGeometry(curve, 36, 0.011, 8, false),
+          new THREE.MeshBasicMaterial({
+            color: idx === 0 ? 0x8b5cf6 : 0x00c2ff,
+            transparent: true,
+            opacity: 0.35
+          })
+        );
+        this.scene.add(tube);
+
+        // 4 glowing data packets per conduit
+        for (let p = 0; p < 4; p++) {
+          const packet = new THREE.Mesh(
+            packetGeo,
+            new THREE.MeshBasicMaterial({ color: idx === 0 ? 0xc084fc : 0x00f5ff })
+          );
+          packet.userData = {
+            curve,
+            speed: 0.28 + idx * 0.07,
+            offset: p * 0.25
+          };
+          this.scene.add(packet);
+          this.conduitPackets.push(packet);
+        }
+      });
+    }
+
+    /* ========================================================================
        7. AMBIENT 3D FLOATING STUDIO PARTICLES
        ======================================================================== */
     _buildAmbientParticles() {
@@ -966,6 +1248,45 @@
         this.holoGroup.position.y = 2.05 + Math.sin(elapsed * 1.6) * 0.08;
         if (this.holoRing1) this.holoRing1.rotation.z = elapsed * 0.9;
         if (this.holoRing2) this.holoRing2.rotation.z = -elapsed * 0.7;
+      }
+
+      // Animate 3D AI Neural Network Brain & firing synaptic pulses
+      if (this.neuralGroup) {
+        this.neuralGroup.rotation.y = 0.35 + Math.sin(elapsed * 0.42) * 0.28;
+        this.neuralGroup.position.y = 1.98 + Math.sin(elapsed * 1.3 + 1.0) * 0.06;
+        for (let i = 0; i < this.synapsePulses.length; i++) {
+          const p = this.synapsePulses[i];
+          const progress = (elapsed * p.userData.speed + p.userData.offset) % 1;
+          p.position.lerpVectors(p.userData.a, p.userData.b, progress);
+        }
+      }
+
+      // Animate 3D Hovering AI Companion Drone
+      if (this.aiDroneGroup) {
+        this.aiDroneGroup.position.y = 1.88 + Math.sin(elapsed * 2.1) * 0.075;
+        this.aiDroneGroup.position.x = 1.18 + Math.cos(elapsed * 0.9) * 0.06;
+        if (this.aiDroneHalo) this.aiDroneHalo.rotation.z = elapsed * 1.6;
+        // Turn drone visor gently toward the camera or active monitor
+        if (isCodingZone) {
+          this.aiDroneGroup.lookAt(0.08, 1.48, -0.92);
+        } else {
+          this.aiDroneGroup.lookAt(this.camera.position.x, 1.85, this.camera.position.z);
+        }
+      }
+
+      // Animate 3D Desk Hologram Data Cube
+      if (this.deskHoloCube) {
+        this.deskHoloCube.rotation.y = elapsed * 1.15;
+        this.deskHoloCube.rotation.x = Math.sin(elapsed * 0.8) * 0.35;
+        this.deskHoloCube.position.y = 0.26 + Math.sin(elapsed * 2.4) * 0.02;
+        if (this.deskHoloRing) this.deskHoloRing.rotation.z = -elapsed * 1.4;
+      }
+
+      // Animate Fiber-Optic Data Conduit Photon Packets
+      for (let i = 0; i < this.conduitPackets.length; i++) {
+        const pkt = this.conduitPackets[i];
+        const u = (elapsed * pkt.userData.speed + pkt.userData.offset) % 1;
+        pkt.userData.curve.getPointAt(u, pkt.position);
       }
 
       // Animate Server Rack LEDs
