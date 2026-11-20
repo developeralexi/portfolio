@@ -34,6 +34,22 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/cms.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/preloader.css" />
+  <link rel="stylesheet" href="css/studio3d.css" />
+
+  <!-- Zero-FOUC Preloader Guard (runs before first paint) -->
+  <script>
+    (function () {
+      try {
+        var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var hash = (window.location.hash || "").toLowerCase();
+        var isAdminHash = hash === "#admin" || hash === "#cms" || hash === "#studio";
+        if (!reduced && !isAdminHash) {
+          document.documentElement.classList.add("preloader-active");
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -1076,6 +1092,9 @@
   </div>
 
   <!-- JavaScript Modules -->
+  <script src="js/preloader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" defer></script>
+  <script src="js/studio3d.js" defer></script>
   <script src="js/data.js"></script>
   <script src="js/terminal.js"></script>
   <script src="js/modal.js"></script>

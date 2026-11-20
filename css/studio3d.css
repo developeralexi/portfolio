@@ -1,0 +1,407 @@
+/* ==========================================================================
+   FULL-PAGE 3D DEVELOPER STUDIO WORLD & CAMERA CHAPTER HUD
+   Alexi Dhungel, Er. — Interactive 3D Scroll-Driven Portfolio Experience
+   ========================================================================== */
+
+/* Fixed Full-Viewport 3D WebGL Canvas Layer */
+#studio-3d-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.studio3d-ready #studio-3d-canvas {
+  opacity: 1;
+}
+
+/* Allow pointer interaction with 3D canvas when in Free Explore / Cinema Mode */
+html.studio3d-explore #studio-3d-canvas {
+  pointer-events: auto;
+  cursor: grab;
+}
+
+html.studio3d-explore #studio-3d-canvas:active {
+  cursor: grabbing;
+}
+
+/* Ensure page content sits cleanly above the 3D canvas with translucent depth */
+html.studio3d-ready body {
+  background-color: #050816;
+}
+
+html.studio3d-ready body::before,
+html.studio3d-ready body::after {
+  opacity: 0.22;
+}
+
+/* Make section backgrounds translucent glass so the 3D room is visible throughout scroll
+   while guaranteeing crystal-clear text legibility in BOTH Dark and Light themes */
+html.studio3d-ready .hero-section,
+html.studio3d-ready .stats-ribbon,
+html.studio3d-ready .section,
+html.studio3d-ready .footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* --- DARK MODE READABILITY & GLASS DEPTH --- */
+html.studio3d-ready .section {
+  background: rgba(5, 8, 22, 0.36);
+}
+
+html.studio3d-ready .section[style*="background"],
+html.studio3d-ready .stats-ribbon {
+  background: rgba(5, 8, 22, 0.56) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+html.studio3d-ready .hero-section {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 8, 22, 0.48) 0%,
+    rgba(5, 8, 22, 0.34) 50%,
+    rgba(5, 8, 22, 0.62) 100%
+  );
+}
+
+html.studio3d-ready .hero-banner-backdrop {
+  opacity: 0.12 !important;
+}
+
+html.studio3d-ready .hero-content {
+  background: rgba(6, 10, 24, 0.62);
+  border: 1px solid rgba(0, 194, 255, 0.16);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.38);
+}
+
+html.studio3d-ready .section-header {
+  background: rgba(6, 10, 24, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.5rem 2rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+html.studio3d-ready .hero-desc,
+html.studio3d-ready .section-subtitle,
+html.studio3d-ready p {
+  color: #CBD5E1;
+}
+
+html.studio3d-ready .about-text-content {
+  background: rgba(6, 10, 24, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 2rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+html.studio3d-ready .footer {
+  background: rgba(5, 8, 22, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* --- LIGHT MODE READABILITY & FROSTED GLASS CONTRAST --- */
+html.studio3d-ready[data-theme="light"] .section {
+  background: rgba(244, 247, 251, 0.58);
+}
+
+html.studio3d-ready[data-theme="light"] .section[style*="background"],
+html.studio3d-ready[data-theme="light"] .stats-ribbon {
+  background: rgba(244, 247, 251, 0.72) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+html.studio3d-ready[data-theme="light"] .hero-section {
+  background: linear-gradient(
+    180deg,
+    rgba(244, 247, 251, 0.62) 0%,
+    rgba(244, 247, 251, 0.48) 55%,
+    rgba(244, 247, 251, 0.74) 100%
+  );
+}
+
+html.studio3d-ready[data-theme="light"] .hero-content {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+}
+
+html.studio3d-ready[data-theme="light"] .section-header {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+html.studio3d-ready[data-theme="light"] .hero-desc,
+html.studio3d-ready[data-theme="light"] .section-subtitle,
+html.studio3d-ready[data-theme="light"] p {
+  color: #334155;
+}
+
+html.studio3d-ready[data-theme="light"] .about-text-content,
+html.studio3d-ready[data-theme="light"] .about-profile-card,
+html.studio3d-ready[data-theme="light"] .skills-filter-container,
+html.studio3d-ready[data-theme="light"] .projects-filter-tabs {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+html.studio3d-ready[data-theme="light"] .footer {
+  background: rgba(244, 247, 251, 0.9);
+  color: #0F172A;
+}
+
+/* High-contrast glass cards over the 3D scene */
+html.studio3d-ready .stat-card,
+html.studio3d-ready .expertise-card,
+html.studio3d-ready .project-card,
+html.studio3d-ready .timeline-card,
+html.studio3d-ready .teaching-card,
+html.studio3d-ready .article-card,
+html.studio3d-ready .skill-card,
+html.studio3d-ready .education-card,
+html.studio3d-ready .contact-card-box,
+html.studio3d-ready .contact-form-card,
+html.studio3d-ready .avatar-card-wrapper,
+html.studio3d-ready .video-card,
+html.studio3d-ready .about-profile-card {
+  background: rgba(10, 16, 32, 0.84);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+html.studio3d-ready[data-theme="light"] .stat-card,
+html.studio3d-ready[data-theme="light"] .expertise-card,
+html.studio3d-ready[data-theme="light"] .project-card,
+html.studio3d-ready[data-theme="light"] .timeline-card,
+html.studio3d-ready[data-theme="light"] .teaching-card,
+html.studio3d-ready[data-theme="light"] .article-card,
+html.studio3d-ready[data-theme="light"] .skill-card,
+html.studio3d-ready[data-theme="light"] .education-card,
+html.studio3d-ready[data-theme="light"] .contact-card-box,
+html.studio3d-ready[data-theme="light"] .contact-form-card,
+html.studio3d-ready[data-theme="light"] .avatar-card-wrapper,
+html.studio3d-ready[data-theme="light"] .video-card,
+html.studio3d-ready[data-theme="light"] .about-profile-card {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 640px) {
+  html.studio3d-ready .hero-content,
+  html.studio3d-ready .section-header {
+    padding: 1.25rem;
+  }
+}
+
+/* ==========================================================================
+   FREE EXPLORE / CINEMA MODE (HIDE CONTENT TO INSPECT 3D ROOM FREELY)
+   ========================================================================== */
+html.studio3d-explore .navbar,
+html.studio3d-explore section,
+html.studio3d-explore .footer {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.studio3d-ready .navbar,
+html.studio3d-ready section,
+html.studio3d-ready .footer {
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   3D CAMERA CHAPTER HUD & INTERACTIVE CONTROLS
+   ========================================================================== */
+.studio3d-hud {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.7rem 0.5rem 0.9rem;
+  border-radius: 9999px;
+  background: rgba(5, 8, 22, 0.82);
+  border: 1px solid rgba(0, 194, 255, 0.32);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.48),
+    0 0 18px rgba(0, 194, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #F8FAFC;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease;
+}
+
+html.studio3d-ready:not(.preloader-active) .studio3d-hud {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.studio3d-hud-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00F5FF;
+  box-shadow: 0 0 10px #00F5FF;
+  flex-shrink: 0;
+  animation: s3dPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes s3dPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.studio3d-chapter-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 148px;
+}
+
+.studio3d-chapter-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #E2E8F0;
+  white-space: nowrap;
+}
+
+.studio3d-chapter-label span {
+  color: #00F5FF;
+  margin-right: 0.35rem;
+}
+
+.studio3d-progress-track {
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.studio3d-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00C2FF, #00F5FF, #8B5CF6);
+  transition: width 0.1s linear;
+}
+
+.studio3d-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.36rem 0.72rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 245, 255, 0.35);
+  background: rgba(0, 194, 255, 0.12);
+  color: #00F5FF;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.studio3d-btn:hover {
+  background: rgba(0, 245, 255, 0.22);
+  border-color: #00F5FF;
+  box-shadow: 0 0 14px rgba(0, 245, 255, 0.32);
+}
+
+.studio3d-btn.is-active {
+  background: linear-gradient(135deg, #00C2FF, #8B5CF6);
+  color: #050816;
+  border-color: transparent;
+}
+
+/* Explore Mode Helper Hint Banner */
+.studio3d-explore-hint {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px);
+  z-index: 900;
+  padding: 0.55rem 1.1rem;
+  border-radius: 9999px;
+  background: rgba(5, 8, 22, 0.86);
+  border: 1px solid rgba(0, 245, 255, 0.4);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #E2E8F0;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.studio3d-explore .studio3d-explore-hint {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive HUD */
+@media (max-width: 640px) {
+  .studio3d-hud {
+    bottom: 0.85rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    justify-content: space-between;
+    padding: 0.45rem 0.65rem;
+  }
+
+  .studio3d-chapter-info {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .studio3d-explore-hint {
+    font-size: 0.64rem;
+    width: calc(100% - 2rem);
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #studio-3d-canvas,
+  .studio3d-hud,
+  .studio3d-explore-hint {
+    display: none !important;
+  }
+}

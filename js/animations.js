@@ -207,11 +207,19 @@ function initCyberTextScramble() {
     });
   });
 
-  // Run initial brief scramble on hero badges
-  setTimeout(() => {
+  // Run initial brief scramble on hero badges after preloader reveals (or 500ms if bypassed)
+  const triggerHeroScramble = () => {
     const heroBadges = document.querySelectorAll(".engineer-badge, .brand-tag-badge");
     heroBadges.forEach(badge => scrambleText(badge));
-  }, 500);
+  };
+
+  if (document.documentElement.classList.contains("preloader-active")) {
+    window.addEventListener("preloader:complete", () => {
+      setTimeout(triggerHeroScramble, 350);
+    }, { once: true });
+  } else {
+    setTimeout(triggerHeroScramble, 500);
+  }
 }
 window.initCyberTextScramble = initCyberTextScramble;
 
